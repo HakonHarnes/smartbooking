@@ -1,3 +1,3 @@
 <template>
-    RESERVATIONS
+    401 NOT AUTHORIZED
 </template>

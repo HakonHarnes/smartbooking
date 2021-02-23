@@ -1,3 +1,3 @@
 <template>
-    RESERVATIONS
+    DASHBOARD
 </template>

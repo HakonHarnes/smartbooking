@@ -1,3 +1,3 @@
 <template>
-    RESERVATIONS
+    USER DATA
 </template>

@@ -2,23 +2,22 @@
     <div class="container">
         <section>
             <img src="../assets/logo.png" alt="" class="logo" />
-            <h1 class="title">Innlogging</h1>
-            <login-form @submit-form="login"></login-form>
+            <h1 class="title">Glemt passord</h1>
+            <forgot-password-form @submit-form="forgotPassword"></forgot-password-form>
         </section>
     </div>
 </template>
 
 <script>
-import LoginForm from '../components/forms/LoginForm.vue';
+import ForgotPasswordForm from '../components/forms/ForgotPasswordForm.vue';
 export default {
     components: {
-        LoginForm
+        ForgotPasswordForm
     },
     methods: {
-        login() {
-            //TODO: Get data from form
-            this.$store.dispatch('login');
-            this.$router.push('/');
+        forgotPassword() {
+            alert('Link for tilbakestilling av passord er send til din e-post!');
+            this.$router.push('/login');
         }
     }
 };
@@ -32,6 +31,11 @@ export default {
     width: 100vw;
     height: 100vh;
 }
+
+a {
+    text-decoration: none;
+}
+
 section {
     display: grid;
     grid-template-areas:
