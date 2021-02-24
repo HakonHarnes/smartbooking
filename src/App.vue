@@ -42,7 +42,7 @@ body {
         'header     header'
         'sidebar    content';
     grid-template-rows: auto 1fr;
-    grid-template-columns: 18em 1fr;
+    grid-template-columns: 15em 1fr;
     min-height: 100vh;
 }
 

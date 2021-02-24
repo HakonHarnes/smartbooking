@@ -74,7 +74,6 @@ section {
         'log-buttons';
     grid-template-rows: auto 1fr auto;
     padding: 1rem 0rem 1rem 0rem;
-    font-size: 1.1em;
     background-color: #ededed;
 }
 
@@ -94,7 +93,6 @@ ul {
 .nav-butttons {
     grid-area: nav-buttons;
     justify-self: top;
-    font-size: 1.1em;
 }
 
 .log-buttons {
