@@ -1,4 +1,5 @@
 <template>
+    <test-component></test-component>
     <the-header class="header" v-if="isAuthenticated"></the-header>
     <the-sidebar class="sidebar" v-if="isAuthenticated"></the-sidebar>
     <router-view></router-view>
@@ -7,11 +8,13 @@
 <script>
 import TheHeader from './components/layout/TheHeader.vue';
 import TheSidebar from './components/layout/TheSidebar.vue';
+import TestComponent from './services/TestComponent.vue';
 
 export default {
     components: {
         TheHeader,
-        TheSidebar
+        TheSidebar,
+        TestComponent
     },
     computed: {
         isAuthenticated() {
