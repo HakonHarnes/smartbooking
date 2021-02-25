@@ -33,7 +33,7 @@ export default {
 button,
 a {
     text-decoration: none;
-    padding: 1rem 1.5rem;
+    padding: 0.4rem 1.5rem;
     border: 0px;
     font: inherit;
     background-color: #386881;
@@ -56,7 +56,7 @@ button:active {
     width: 100%;
     text-align: left;
     color: black;
-    padding: 1.5rem 2rem;
+    padding: 1rem 2rem;
     margin: 0.5px 0px;
 }
 

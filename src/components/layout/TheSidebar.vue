@@ -4,26 +4,46 @@
         <nav class="nav-buttons">
             <ul>
                 <li v-if="admin || customer || user">
-                    <base-button link mode="sidebar" to="/">Dashboard</base-button>
+                    <base-button class="flex" link mode="sidebar" to="/">
+                        <base-icon name="laptop"></base-icon>
+                        <div>Dashboard</div>
+                    </base-button>
                 </li>
-
                 <li v-if="admin">
-                    <base-button link mode="sidebar" to="/kunder">Kunder</base-button>
+                    <base-button link mode="sidebar" to="/kunder">
+                        <base-icon name="people"></base-icon>
+                        <div>Kunder</div>
+                    </base-button>
                 </li>
                 <li v-if="customer">
-                    <base-button link mode="sidebar" to="/brukerdata">Brukerdata</base-button>
+                    <base-button class="flex" link mode="sidebar" to="/brukerdata">
+                        <base-icon name="person"></base-icon>
+                        <div>Brukerdata</div>
+                    </base-button>
                 </li>
                 <li v-if="user || customer">
-                    <base-button link mode="sidebar" to="/rom">Rom</base-button>
+                    <base-button class="flex" link mode="sidebar" to="/rom">
+                        <base-icon name="domain"></base-icon>
+                        <div>Rom og arealer</div>
+                    </base-button>
                 </li>
                 <li v-if="user">
-                    <base-button link mode="sidebar" to="/reservasjoner">Reservasjoner</base-button>
+                    <base-button class="flex" link mode="sidebar" to="/reservasjoner">
+                        <base-icon name="event_note"></base-icon>
+                        <div>Reservasjoner</div>
+                    </base-button>
                 </li>
                 <li v-if="admin || customer">
-                    <base-button link mode="sidebar" to="/statistikk">Statistikk</base-button>
+                    <base-button class="flex" link mode="sidebar" to="/statistikk">
+                        <base-icon name="poll"></base-icon>
+                        <div>Statistikk</div>
+                    </base-button>
                 </li>
                 <li v-if="admin || customer || user">
-                    <base-button link mode="sidebar" to="/innstillinger">Innstillinger</base-button>
+                    <base-button class="flex" link mode="sidebar" to="/innstillinger">
+                        <base-icon name="settings"></base-icon>
+                        <div>Innstillinger</div>
+                    </base-button>
                 </li>
             </ul>
         </nav>
@@ -108,5 +128,10 @@ ul {
 
 .log-buttons button {
     width: 100%;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
 }
 </style>
