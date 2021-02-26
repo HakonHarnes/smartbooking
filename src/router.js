@@ -12,6 +12,8 @@ import SettingsPage from './pages/SettingsPage.vue';
 import ForgotPassword from './pages/ForgotPassword.vue';
 import NotAuthorizedPage from './pages/NotAuthorizedPage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
+import ExistingUsers from './components/user/UserData/ExistingUsers.vue';
+import NewUser from './components/user/UserData/NewUser.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -37,9 +39,13 @@ const router = createRouter({
             meta: { requiresAuth: true, roles: ['admin'] }
         },
         {
-            path: '/brukerdata',
+            path: '/brukere',
             component: UserDataPage,
-            meta: { requiresAuth: true, roles: ['customer'] }
+            meta: { requiresAuth: true, roles: ['customer'] },
+            children: [
+                { path: '', component: ExistingUsers },
+                { path: 'ny', component: NewUser }
+            ]
         },
         {
             path: '/rom',

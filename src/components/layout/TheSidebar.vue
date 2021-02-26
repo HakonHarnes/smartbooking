@@ -16,9 +16,9 @@
                     </base-button>
                 </li>
                 <li v-if="customer">
-                    <base-button class="flex" link mode="sidebar" to="/brukerdata">
+                    <base-button class="flex" link mode="sidebar" to="/brukere">
                         <base-icon name="person"></base-icon>
-                        <div>Brukerdata</div>
+                        <div>Brukere</div>
                     </base-button>
                 </li>
                 <li v-if="user || customer">
