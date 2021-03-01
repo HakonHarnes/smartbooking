@@ -18,6 +18,8 @@ export default {
                 case '/kunder':
                     return 'Kunder';
                 case '/brukere':
+                case '/brukere/':
+                case '/brukere/ny':
                     return 'Brukere';
                 case '/rom':
                     return 'Rom';

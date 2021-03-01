@@ -22,7 +22,7 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 @import '~material-design-icons/iconfont/material-icons.css';
 
 * {
@@ -30,7 +30,7 @@ export default {
 }
 
 html {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Montserrat', sans-serif;
 }
 
 body {
@@ -43,7 +43,7 @@ body {
         'header     header'
         'sidebar    content';
     grid-template-rows: auto 1fr;
-    grid-template-columns: 15em 1fr;
+    grid-template-columns: 16em 1fr;
     min-height: 100vh;
 }
 
@@ -53,5 +53,10 @@ body {
 
 .sidebar {
     grid-area: sidebar;
+}
+
+input[type='text'],
+input[type='button'] {
+    font-family: 'Montserrat';
 }
 </style>

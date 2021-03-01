@@ -56,7 +56,7 @@ button:active {
     width: 100%;
     text-align: left;
     color: black;
-    padding: 1rem 2rem;
+    padding: 0.9rem 1.5rem;
     margin: 0.5px 0px;
 }
 

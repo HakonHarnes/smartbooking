@@ -42,7 +42,7 @@ export default {
     left: 0;
     margin: 0 auto;
     width: 100%;
-    background-color: rgb(44, 44, 107);
+    background-color: #386881;
     content: '';
     transition: all 0.8s ease;
 }
