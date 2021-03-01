@@ -5,7 +5,7 @@ import LoginPage from './pages/LoginPage.vue';
 import DashboardPage from './pages/DashboardPage.vue';
 import CustomersPage from './pages/CustomersPage.vue';
 import UserDataPage from './pages/UserDataPage.vue';
-import RoomPage from './pages/RoomPage.vue';
+//import RoomPage from './pages/RoomPage.vue';
 import ReservationsPage from './pages/ReservetationsPage.vue';
 import StatisticsPage from './pages/StatisticsPage.vue';
 import SettingsPage from './pages/SettingsPage.vue';
@@ -14,6 +14,9 @@ import NotAuthorizedPage from './pages/NotAuthorizedPage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
 import ExistingUsers from './components/user/UserData/ExistingUsers.vue';
 import NewUser from './components/user/UserData/NewUser.vue';
+import AdminRoomPage from './pages/AdminRoomPage.vue';
+import ExistingRooms from './components/rooms/ExistingRooms.vue';
+import NewRoom from './components/rooms/NewRoom.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -49,8 +52,12 @@ const router = createRouter({
         },
         {
             path: '/rom',
-            component: RoomPage,
-            meta: { requiresAuth: true, roles: ['user', 'customer'] }
+            component: AdminRoomPage,
+            meta: { requiresAuth: true, roles: ['user', 'customer'] },
+            children: [
+                { path: '', component: ExistingRooms },
+                { path: 'nytt', component: NewRoom }
+            ]
         },
         {
             path: '/reservasjoner',

@@ -1,0 +1,3 @@
+<template>
+    NEW ROOM
+</template>
