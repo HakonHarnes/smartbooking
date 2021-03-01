@@ -51,6 +51,11 @@ button:active {
     color: white;
 }
 
+button,
+a {
+    -webkit-user-drag: none;
+}
+
 .sidebar {
     background-color: transparent;
     width: 100%;
