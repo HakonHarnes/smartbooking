@@ -3,24 +3,25 @@
     <base-card>
         <ul>
             <base-list-description :columns="columns"></base-list-description>
-            <base-list-item
+            <user-list-item
                 v-for="user in filteredUsers"
-                :key="user.name"
+                :key="user.id"
                 :name="user.name"
                 :email="user.email"
                 :active="user.active"
-            >
-            </base-list-item>
+            ></user-list-item>
         </ul>
     </base-card>
 </template>
 
 <script>
+import UserListItem from './UserListItem.vue';
+
 export default {
+    components: { UserListItem },
     data() {
         return {
             searchKeyword: '',
-            columns: ['Navn', 'E-post', 'Status'],
             users: [
                 { name: 'Steig', email: 'steig@live.no', active: true },
                 { name: 'Gaute', email: 'gaute@live.no', active: true },
@@ -35,6 +36,9 @@ export default {
             return this.users.filter(user => {
                 return user.name.toLowerCase().includes(this.searchKeyword);
             });
+        },
+        columns() {
+            return ['Navn', 'E-post', 'Status'];
         }
     },
     methods: {

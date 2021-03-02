@@ -2,24 +2,21 @@
     <li>
         <div>{{ name }}</div>
         <div>{{ email }}</div>
-        <div :style="activeStyling">{{ isActive }}</div>
+        <base-active-attribute :active="active" :text="text"></base-active-attribute>
     </li>
 </template>
 
 <script>
 export default {
     props: {
-        id: String,
+        id: Number,
         name: String,
         email: String,
         active: Boolean
     },
     computed: {
-        isActive() {
-            return this.active ? 'Aktiv' : 'Inaktiv';
-        },
-        activeStyling() {
-            return { fontWeight: 500, color: this.active ? 'green' : 'red' };
+        text() {
+            return { true: 'Aktiv', false: 'Inaktiv' };
         }
     }
 };
@@ -28,14 +25,14 @@ export default {
 <style scoped>
 li {
     list-style: none;
-    margin: 1.2rem 0;
+    margin: 1rem 0;
     display: flex;
     width: 100%;
     justify-content: space-between;
 }
 
 li div {
-    text-align: start;
+    text-align: center;
     flex: 1;
 }
 </style>

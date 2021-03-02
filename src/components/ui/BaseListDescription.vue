@@ -22,7 +22,7 @@ li {
 }
 
 li div {
-    text-align: start;
+    text-align: center;
     flex: 1;
     text-transform: uppercase;
     font-weight: 500;
