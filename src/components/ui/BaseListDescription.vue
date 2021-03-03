@@ -26,5 +26,6 @@ li div {
     flex: 1;
     text-transform: uppercase;
     font-weight: 500;
+    font-size: 0.8rem;
 }
 </style>

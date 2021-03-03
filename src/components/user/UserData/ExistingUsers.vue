@@ -21,17 +21,13 @@ export default {
     components: { UserListItem },
     data() {
         return {
-            searchKeyword: '',
-            users: [
-                { name: 'Steig', email: 'steig@live.no', active: true },
-                { name: 'Gaute', email: 'gaute@live.no', active: true },
-                { name: 'Vetle', email: 'vetle@live.no', active: false },
-                { name: 'Vetle', email: 'vetle@live.no', active: false },
-                { name: 'Vetle', email: 'vetle@live.no', active: false }
-            ]
+            searchKeyword: ''
         };
     },
     computed: {
+        users() {
+            return this.$store.getters['users/users'];
+        },
         filteredUsers() {
             return this.users.filter(user => {
                 return user.name.toLowerCase().includes(this.searchKeyword);

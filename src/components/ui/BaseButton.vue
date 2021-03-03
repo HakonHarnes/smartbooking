@@ -41,6 +41,7 @@ a {
     cursor: pointer;
     text-align: center;
     display: inline-block;
+    border: 1px solid transparent;
 }
 
 a:hover,
@@ -69,5 +70,15 @@ a {
 .sidebar.router-link-active {
     background-color: #386881;
     color: white;
+}
+
+.outlined {
+    background-color: transparent;
+    border: 1px solid #386881;
+    color: #222;
+}
+
+.outlined:hover {
+    background-color: #222;
 }
 </style>
