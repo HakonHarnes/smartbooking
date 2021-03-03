@@ -1,9 +1,14 @@
 export default {
-    addUser(context, payload) {
+    addUser({ commit }, payload) {
         const newUser = {
+            id: new Date().toISOString(),
             ...payload,
             active: true
         };
-        context.commit('addUser', newUser);
+        commit('addUser', newUser);
+    },
+    deleteUser({ commit }, payload) {
+        const id = payload.userId;
+        commit('deleteUser', { id });
     }
 };

@@ -6,6 +6,7 @@
             <user-list-item
                 v-for="user in filteredUsers"
                 :key="user.id"
+                :id="user.id"
                 :name="user.name"
                 :email="user.email"
                 :active="user.active"
@@ -34,7 +35,7 @@ export default {
             });
         },
         columns() {
-            return ['Navn', 'E-post', 'Status'];
+            return ['Navn', 'E-post', 'Status', 'Rediger'];
         }
     },
     methods: {

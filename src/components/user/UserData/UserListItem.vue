@@ -3,6 +3,7 @@
         <div>{{ name }}</div>
         <div>{{ email }}</div>
         <base-active-attribute :active="active" :text="text"></base-active-attribute>
+        <div @click="deleteUser">Fjern</div>
     </li>
 </template>
 
@@ -17,6 +18,11 @@ export default {
     computed: {
         text() {
             return { true: 'Aktiv', false: 'Inaktiv' };
+        }
+    },
+    methods: {
+        deleteUser() {
+            this.$store.dispatch('users/deleteUser', { userId: this.id });
         }
     }
 };
