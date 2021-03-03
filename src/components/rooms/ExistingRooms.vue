@@ -6,7 +6,7 @@
             <room-list-item
                 v-for="room in rooms"
                 :key="room.id"
-                :name="room.id"
+                :name="room.roomName"
                 :seats="room.seats"
                 :description="room.description"
                 :building="room.building"
@@ -23,14 +23,16 @@ export default {
     components: { RoomListItem },
     data() {
         return {
-            searchKeyword: '',
-            rooms: [{ id: 1, name: '301', seats: 8, description: 'Møterom', building: 'Bygg 3D', active: true }]
+            searchKeyword: ''
         };
     },
     computed: {
+        rooms() {
+            return this.$store.getters['rooms/rooms'];
+        },
         filteredUsers() {
-            return this.users.filter(user => {
-                return user.name.toLowerCase().includes(this.searchKeyword);
+            return this.rooms.filter(room => {
+                return room.roomName.toLowerCase().includes(this.searchKeyword);
             });
         },
         columns() {
