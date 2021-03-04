@@ -3,7 +3,9 @@
         <div>{{ name }}</div>
         <div>{{ email }}</div>
         <base-active-attribute :active="active" :text="text"></base-active-attribute>
-        <div @click="deleteUser">Fjern</div>
+        <div>
+            <base-icon name="edit" class="edit"></base-icon>
+        </div>
     </li>
 </template>
 
@@ -40,5 +42,14 @@ li {
 li div {
     text-align: center;
     flex: 1;
+}
+
+.edit {
+    color: #333;
+    cursor: pointer;
+}
+
+.edit:hover {
+    color: #888;
 }
 </style>
