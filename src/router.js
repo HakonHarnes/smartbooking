@@ -5,7 +5,6 @@ import LoginPage from './pages/LoginPage.vue';
 import DashboardPage from './pages/DashboardPage.vue';
 import CustomersPage from './pages/CustomersPage.vue';
 import UserDataPage from './pages/UserDataPage.vue';
-//import RoomPage from './pages/RoomPage.vue';
 import ReservationsPage from './pages/ReservetationsPage.vue';
 import StatisticsPage from './pages/StatisticsPage.vue';
 import SettingsPage from './pages/SettingsPage.vue';
@@ -13,10 +12,13 @@ import ForgotPassword from './pages/ForgotPassword.vue';
 import NotAuthorizedPage from './pages/NotAuthorizedPage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
 import ExistingUsers from './components/user/UserData/ExistingUsers.vue';
-import NewUser from './components/user/UserData/NewUser.vue';
-import AdminRoomPage from './pages/AdminRoomPage.vue';
 import ExistingRooms from './components/rooms/ExistingRooms.vue';
+import NewUser from './components/user/UserData/NewUser.vue';
 import NewRoom from './components/rooms/NewRoom.vue';
+import UserRoomPage from './pages/UserRoomPage.vue';
+import CustomerRoomPage from './pages/CustomerRoomPage.vue';
+import ChooseRoom from './components/rooms/ChooseRoom.vue';
+import FindRoom from './components/rooms/FindRoom.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -52,11 +54,20 @@ const router = createRouter({
         },
         {
             path: '/rom',
-            component: AdminRoomPage,
-            meta: { requiresAuth: true, roles: ['user', 'customer'] },
+            component: CustomerRoomPage,
+            meta: { requiresAuth: true, roles: ['customer'] },
             children: [
                 { path: '', component: ExistingRooms },
                 { path: 'nytt', component: NewRoom }
+            ]
+        },
+        {
+            path: '/finn-rom',
+            component: UserRoomPage,
+            meta: { requiresAuth: true, roles: ['user'] },
+            children: [
+                { path: '', component: FindRoom },
+                { path: 'velg', component: ChooseRoom }
             ]
         },
         {

@@ -13,7 +13,7 @@
 
 <script>
 import Switches from 'vue-switches';
-import NewRoomForm from '../forms/NewRoomForm.vue';
+import NewRoomForm from '../forms/rooms/NewRoomForm.vue';
 import ImportRooms from './ImportRooms.vue';
 
 export default {

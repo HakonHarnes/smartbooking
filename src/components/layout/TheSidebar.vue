@@ -22,9 +22,9 @@
                     </base-button>
                 </li>
                 <li v-if="user || customer">
-                    <base-button class="flex" link mode="sidebar" to="/rom">
+                    <base-button class="flex" link mode="sidebar" :to="roomLink">
                         <base-icon name="domain"></base-icon>
-                        <div>Rom og arealer</div>
+                        <div>{{ roomsText }}</div>
                     </base-button>
                 </li>
                 <li v-if="user">
@@ -74,6 +74,12 @@ export default {
         },
         user() {
             return this.role === 'user';
+        },
+        roomsText() {
+            return this.customer ? 'Rom og arealer' : 'Finn rom';
+        },
+        roomLink() {
+            return this.user ? '/finn-rom' : '/rom';
         }
     },
     methods: {

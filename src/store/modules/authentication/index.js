@@ -6,7 +6,7 @@ export default {
     state() {
         return {
             isAuthenticated: true,
-            role: 'customer'
+            role: 'user'
         };
     },
     mutations,

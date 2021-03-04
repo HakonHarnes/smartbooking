@@ -13,7 +13,7 @@
 
 <script>
 import Switches from 'vue-switches';
-import NewUserForm from '../../forms/NewUserForm.vue';
+import NewUserForm from '../../forms/users/NewUserForm.vue';
 import ImportUsers from './ImportUsers.vue';
 
 export default {
