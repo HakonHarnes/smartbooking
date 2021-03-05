@@ -12,12 +12,11 @@
 </template>
 
 <script>
-import Switches from 'vue-switches';
 import NewUserForm from '../../forms/users/NewUserForm.vue';
 import ImportUsers from './ImportUsers.vue';
 
 export default {
-    components: { ImportUsers, NewUserForm, Switches },
+    components: { ImportUsers, NewUserForm },
     data() {
         return {
             enabled: false

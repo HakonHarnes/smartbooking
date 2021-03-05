@@ -1,4 +1,7 @@
 <template>
+    <base-modal v-if="showModal" @close="toggleModal" title="Rediger bruker">
+        <template #body><edit-user @close-modal="toggleModal" :id="userId"></edit-user></template>
+    </base-modal>
     <base-search @search="search"></base-search>
     <base-card>
         <ul>
@@ -10,19 +13,23 @@
                 :name="user.name"
                 :email="user.email"
                 :active="user.active"
+                @edit-user="editUser"
             ></user-list-item>
         </ul>
     </base-card>
 </template>
 
 <script>
+import EditUser from '../../forms/users/EditUser.vue';
 import UserListItem from './UserListItem.vue';
 
 export default {
-    components: { UserListItem },
+    components: { EditUser, UserListItem },
     data() {
         return {
-            searchKeyword: ''
+            searchKeyword: '',
+            showModal: false,
+            userId: null
         };
     },
     computed: {
@@ -41,6 +48,13 @@ export default {
     methods: {
         search(keyword) {
             this.searchKeyword = keyword;
+        },
+        toggleModal() {
+            this.showModal = !this.showModal;
+        },
+        editUser(id) {
+            this.toggleModal();
+            this.userId = id;
         }
     }
 };

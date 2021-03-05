@@ -4,7 +4,7 @@
         <div>{{ email }}</div>
         <base-active-attribute :active="active" :text="text"></base-active-attribute>
         <div>
-            <base-icon name="edit" class="edit"></base-icon>
+            <base-icon @click="editUser" name="edit" class="edit"></base-icon>
         </div>
     </li>
 </template>
@@ -17,6 +17,7 @@ export default {
         email: String,
         active: Boolean
     },
+    emits: ['edit-user'],
     computed: {
         text() {
             return { true: 'Aktiv', false: 'Inaktiv' };
@@ -25,6 +26,9 @@ export default {
     methods: {
         deleteUser() {
             this.$store.dispatch('users/deleteUser', { userId: this.id });
+        },
+        editUser() {
+            this.$emit('edit-user', this.id);
         }
     }
 };
@@ -37,6 +41,7 @@ li {
     display: flex;
     width: 100%;
     justify-content: space-between;
+    align-items: center;
 }
 
 li div {
@@ -45,11 +50,11 @@ li div {
 }
 
 .edit {
-    color: #333;
+    color: #386881;
     cursor: pointer;
 }
 
 .edit:hover {
-    color: #888;
+    color: #aaa;
 }
 </style>
