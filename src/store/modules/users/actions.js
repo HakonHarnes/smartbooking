@@ -10,5 +10,9 @@ export default {
     deleteUser({ commit }, payload) {
         const id = payload.userId;
         commit('deleteUser', { id });
+    },
+    updateUser({ commit }, payload) {
+        const user = payload.user;
+        commit('updateUser', { user });
     }
 };

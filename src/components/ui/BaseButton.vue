@@ -1,5 +1,5 @@
 <template>
-    <button v-if="!link" :class="mode">
+    <button v-if="!link" :class="mode" :type="type">
         <slot></slot>
     </button>
     <router-link v-else :to="to" :class="mode">
@@ -24,6 +24,10 @@ export default {
             type: String,
             required: false,
             default: '/'
+        },
+        type: {
+            type: String,
+            required: false
         }
     }
 };
@@ -80,5 +84,16 @@ a {
 
 .outlined:hover {
     background-color: #222;
+}
+
+.delete {
+    background-color: rgb(207, 63, 63);
+    font-size: 0.7rem;
+    padding: 0.3rem 0.7rem;
+    box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.2);
+}
+
+.delete:hover {
+    background-color: rgb(155, 22, 22);
 }
 </style>

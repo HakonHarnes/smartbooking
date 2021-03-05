@@ -1,5 +1,5 @@
 <template>
-    <base-modal v-if="showModal" @close="toggleModal" title="Rediger bruker">
+    <base-modal v-if="showModal" @close="toggleModal">
         <template #body><edit-user @close-modal="toggleModal" :id="userId"></edit-user></template>
     </base-modal>
     <base-search @search="search"></base-search>

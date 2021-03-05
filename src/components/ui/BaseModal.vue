@@ -1,7 +1,7 @@
 <template>
     <div class="backdrop" @mousedown.self="close">
         <div class="modal">
-            <header>
+            <header v-if="!!title">
                 <slot name="header">
                     <h3>{{ title }}</h3>
                 </slot>
@@ -66,7 +66,7 @@ footer {
 
 section {
     position: relative;
-    padding: 20px 10px;
+    padding: 10px;
 }
 
 .close {
