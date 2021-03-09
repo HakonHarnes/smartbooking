@@ -10,6 +10,8 @@
 
 <script>
 import LoginForm from '../components/forms/users/LoginForm.vue';
+import userService from '../services/UserService';
+
 export default {
     components: {
         LoginForm
@@ -17,6 +19,7 @@ export default {
     methods: {
         login() {
             //TODO: Get data from form
+            userService.login('svein@svein.steig', 'jaeller');
             this.$store.dispatch('login');
             this.$router.push('/');
         }
