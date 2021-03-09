@@ -1,17 +1,24 @@
 import axios from './axios';
+import User from '../classes/User';
 
 class UserService {
-    getUsers = async token => {
-        const response = await axios.get('/users', {
-            headers: { Authorization: `Bearer ${token}` }
+    login = async (email, password) => {
+        const user = new User(email, password);
+
+        const response = await axios.post('/users/login', {
+            data: user
         });
+
         return response;
     };
 
-    getUser = async token => {
-        const response = await axios.get('/users/:id', {
-            headers: { Authorization: `Bearer ${token}` }
+    register = async (email, password, firstName, lastName, isActive, role) => {
+        const user = new User(email, password, firstName, lastName, isActive, role);
+
+        const response = await axios.post('/users', {
+            data: user
         });
+
         return response;
     };
 }

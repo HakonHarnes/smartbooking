@@ -8,7 +8,7 @@ import userService from './UserService.js';
 export default {};
 
 userService
-    .test()
+    .register('svein@svein.steig', 'jaeller', 'Svein', 'Homo', '1', 'user')
     .then(result => console.log(result))
     .catch(error => console.error(error));
 </script>
