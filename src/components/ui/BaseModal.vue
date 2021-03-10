@@ -1,7 +1,7 @@
 <template>
     <div class="backdrop" @mousedown.self="close">
         <div class="modal">
-            <header v-if="!!title">
+            <header v-if="title">
                 <slot name="header">
                     <h3>{{ title }}</h3>
                 </slot>

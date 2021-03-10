@@ -10,6 +10,7 @@
                 <input type="time" />
             </div>
             <div class="form-control">
+                <label>Til kl.</label>
                 <input type="time" />
             </div>
             <div class="form-control">
