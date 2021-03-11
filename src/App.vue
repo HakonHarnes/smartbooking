@@ -13,6 +13,11 @@ export default {
         TheHeader,
         TheSidebar
     },
+    data() {
+        return {
+            loading: true
+        };
+    },
     computed: {
         isAuthenticated() {
             return this.$store.getters.isAuthenticated;

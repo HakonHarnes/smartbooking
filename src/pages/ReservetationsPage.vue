@@ -16,11 +16,13 @@
                     :key="res.id"
                     :id="res.id"
                     :roomName="res.roomName"
+                    :building="res.building"
                     :seats="res.seats"
                     :description="res.description"
                     :start="res.start"
                     :end="res.end"
-                    @delete-reservation="deleteReservation"
+                    :type="'delete'"
+                    @handle-action="deleteReservation"
                 ></reservation-list-item>
             </ul>
         </base-card>
@@ -40,7 +42,7 @@ export default {
     },
     computed: {
         columns() {
-            return ['Rom', 'Plasser', 'Romtype', 'Start', 'Slutt', 'Slett'];
+            return ['Rom', 'Bygg', 'Plasser', 'Romtype', 'Start', 'Slutt', 'Slett'];
         },
         reservations() {
             return this.$store.getters['reservations/reservations'];

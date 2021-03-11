@@ -11,6 +11,7 @@ import BaseIcon from './components/ui/BaseIcon.vue';
 import BaseListDescription from './components/ui/BaseListDescription.vue';
 import BaseModal from './components/ui/BaseModal.vue';
 import BaseSearch from './components/ui/BaseSearch.vue';
+import BaseSpinner from './components/ui/BaseSpinner.vue';
 import Switches from 'vue-switches';
 
 const app = createApp(App);
@@ -25,6 +26,7 @@ app.component('base-icon', BaseIcon);
 app.component('base-list-description', BaseListDescription);
 app.component('base-modal', BaseModal);
 app.component('base-search', BaseSearch);
+app.component('base-spinner', BaseSpinner);
 app.component('switches', Switches);
 
 app.mount('#app');

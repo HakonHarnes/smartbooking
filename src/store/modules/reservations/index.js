@@ -7,9 +7,33 @@ export default {
     state() {
         return {
             reservations: [
-                { id: 0, roomName: '201', seats: 6, description: 'Grupperom', start: new Date(), end: new Date() },
-                { id: 1, roomName: '301', seats: 8, description: 'Møterom', start: new Date(), end: new Date() },
-                { id: 2, roomName: '402', seats: 12, description: 'Grupperom', start: new Date(), end: new Date() }
+                {
+                    id: 0,
+                    roomName: '201',
+                    building: 'Dokken',
+                    seats: 6,
+                    description: 'Grupperom',
+                    start: new Date(),
+                    end: new Date()
+                },
+                {
+                    id: 1,
+                    roomName: '301',
+                    building: 'Dokken',
+                    seats: 8,
+                    description: 'Møterom',
+                    start: new Date(),
+                    end: new Date()
+                },
+                {
+                    id: 2,
+                    roomName: '402',
+                    building: 'Dokken',
+                    seats: 12,
+                    description: 'Grupperom',
+                    start: new Date(),
+                    end: new Date()
+                }
             ]
         };
     },

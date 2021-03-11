@@ -3,19 +3,21 @@
         <form @submit.prevent="search">
             <div class="form-control">
                 <label>Dato</label>
-                <input type="date" />
+                <input type="date" :min="today" v-model="date.val" />
             </div>
             <div class="form-control">
                 <label>Fra kl.</label>
-                <input type="time" />
+                <input type="time" required v-model="times.from" />
             </div>
             <div class="form-control">
                 <label>Til kl.</label>
-                <input type="time" />
+                <input type="time" required v-model="times.to" />
             </div>
             <div class="form-control">
                 <label>Bygg</label>
-                <select></select>
+                <select>
+                    <option>Alle bygg</option>
+                </select>
             </div>
             <div class="form-control">
                 <base-button>Søk</base-button>
@@ -23,6 +25,65 @@
         </form>
     </base-card>
 </template>
+
+<script>
+export default {
+    emits: ['find-rooms'],
+    data() {
+        return {
+            date: {
+                val: new Date().toISOString().slice(0, 10),
+                valid: false
+            },
+            times: {
+                from: '',
+                to: '',
+                valid: false
+            },
+            formValid: false
+        };
+    },
+    computed: {
+        today() {
+            return new Date().toISOString().slice(0, 10);
+        }
+    },
+    methods: {
+        search() {
+            this.validateForm();
+            if (this.formValid) {
+                this.$emit('find-rooms', {});
+            }
+        },
+        validateDate() {
+            const now = new Date().setHours(0, 0, 0);
+            const start = new Date(this.date.val);
+            if (start <= now || this.date.val.length !== 10) {
+                this.date.valid = false;
+            }
+            this.date.valid = true;
+        },
+        validateTimes() {
+            const replaceDot = time => time.replace(':', '');
+            const from = replaceDot(this.times.from);
+            const to = replaceDot(this.times.to);
+            if (to - from <= 0) {
+                return (this.times.valid = false);
+            }
+            this.times.valid = true;
+        },
+        validateForm() {
+            this.validateDate();
+            this.validateTimes();
+
+            if (!this.date.valid || !this.times.valid) {
+                return (this.formValid = false);
+            }
+            this.formValid = true;
+        }
+    }
+};
+</script>
 
 <style scoped>
 .card {

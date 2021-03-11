@@ -1,6 +1,7 @@
 <template>
     <li>
         <div>{{ roomName }}</div>
+        <div>{{ building }}</div>
         <div>{{ seats }}</div>
         <div>{{ description }}</div>
         <div>
@@ -8,7 +9,7 @@
         </div>
         <div>{{ endString }}</div>
         <div>
-            <base-icon @click="deleteReservation" name="delete" class="delete"></base-icon>
+            <base-icon @click="handleAction" :name="type" :class="type"></base-icon>
         </div>
     </li>
 </template>
@@ -18,18 +19,20 @@ export default {
     props: {
         id: Number,
         roomName: String,
+        building: String,
         seats: Number,
         description: String,
         start: Date,
-        end: Date
+        end: Date,
+        type: String
     },
-    emits: ['delete-reservation'],
+    emits: ['handle-action'],
     methods: {
         /* deleteUser() {
             this.$store.dispatch('reservations/deleteReservation', { reservationId: this.id });
         }, */
-        deleteReservation() {
-            this.$emit('delete-reservation', this.id);
+        handleAction() {
+            this.$emit('handle-action', this.id);
         },
         convertDate(date) {
             return date
@@ -64,12 +67,14 @@ li div {
     flex: 1;
 }
 
-.delete {
+.delete,
+.add {
     color: #386881;
     cursor: pointer;
 }
 
-.delete:hover {
+.delete:hover,
+.add:hover {
     color: #aaa;
 }
 </style>
