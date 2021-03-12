@@ -24,7 +24,8 @@ export default {
         description: String,
         start: Date,
         end: Date,
-        type: String
+        type: String,
+        dateSubstringChars: Array
     },
     emits: ['handle-action'],
     methods: {
@@ -37,7 +38,7 @@ export default {
         convertDate(date) {
             return date
                 .toLocaleString()
-                .slice(0, -3)
+                .slice(this.dateSubstringChars[0], this.dateSubstringChars[1])
                 .replace(',', '');
         }
     },

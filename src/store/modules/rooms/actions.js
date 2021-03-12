@@ -6,7 +6,9 @@ export default {
         };
         commit('addRoom', newRoom);
     },
-    findRooms({ commit }) {
+    async findRooms({ commit }) {
         commit('setLoading', true, { root: true });
+        const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+        return res.json();
     }
 };

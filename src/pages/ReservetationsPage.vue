@@ -22,6 +22,7 @@
                     :start="res.start"
                     :end="res.end"
                     :type="'delete'"
+                    :dateSubstringChars="[0, -3]"
                     @handle-action="deleteReservation"
                 ></reservation-list-item>
             </ul>
