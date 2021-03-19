@@ -5,9 +5,9 @@
             <div>{{ date }}</div>
         </div>
         <div class="hours">
-            <div class="hour" v-for="(hour, index) in hours" :key="index" :style="hour ? busy : null">
-                <div v-if="hour">{{ hour }}</div>
-                <div v-else @click="book(index)" class="available"></div>
+            <div class="hour" v-for="(status, index) in hours" :key="index" :style="status === 'Opptatt' ? busy : null">
+                <div v-if="status === 'Opptatt'">{{ status }}</div>
+                <div v-else @click="book(index)" class="available">{{ status }}</div>
             </div>
         </div>
     </div>
@@ -19,17 +19,18 @@ export default {
         day: String,
         date: String,
         reservations: Array,
-        startTime: Number,
-        endTime: Number
+        startTime: Date,
+        endTime: Date
     },
+    emits: ['bookRoom'],
     data() {
         return {
-            hours: [...Array((this.endTime - this.startTime) * 2)]
+            hours: [...Array(this.calcNumHalfHours(this.startTime, this.endTime))]
         };
     },
     computed: {
         numHours() {
-            return this.endTime - this.startTime;
+            return Math.abs(this.endTime - this.startTime) / 3.6e5;
         },
         busy() {
             return { backgroundColor: '#c0392b', color: '#e9a29b' };
@@ -39,14 +40,32 @@ export default {
         calcNumHalfHours(start, end) {
             return Math.abs(end - start) / 1.8e6;
         },
-        book(idx) {
-            alert(idx);
+        calcStartIndex(start) {
+            console.log(start.getUTCHours());
+            const startIndex = (start.getUTCHours() - this.startTime.getUTCHours()) * 2;
+            return start.getUTCMinutes() === 0 ? startIndex : startIndex + 1;
+        },
+        book(index) {
+            this.$emit('bookRoom', this.date, index);
+        },
+        formatTime(hours, minutes) {
+            return `${hours > 9 ? hours : `0${hours}`}:${minutes === 0 ? `${minutes}0` : minutes}`;
+        },
+        getDisplayHour(index) {
+            return this.startTime.getUTCHours() + Math.floor(index / 2);
+        },
+        getDisplayMinutes(index) {
+            return this.startTime.getMinutes() + (30 - ((index + 1) % 2) * 30);
         }
     },
     created() {
+        this.hours = this.hours.map((hour, index) => {
+            return this.formatTime(this.getDisplayHour(index), this.getDisplayMinutes(index));
+        });
+
         this.reservations.forEach(res => {
             [...Array(this.calcNumHalfHours(res.start, res.end))].forEach((_, idx) => {
-                this.hours[(res.start.getUTCHours() - this.startTime) * 2 + idx] = 'Opptatt';
+                this.hours[this.calcStartIndex(res.start) + idx] = 'Opptatt';
             });
         });
     },
