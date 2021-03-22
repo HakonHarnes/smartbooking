@@ -12,9 +12,8 @@ class UserService {
         return response;
     };
 
-    getById = async (id) => {
-
-        const response = await axios.get('/users/'+id);
+    getById = async id => {
+        const response = await axios.get('/users/' + id);
 
         return response;
     };

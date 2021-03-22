@@ -3,7 +3,7 @@ import axios from './axios';
 class timesService {
     getById = async id => {
         const response = await axios.get('/times/' + id);
-        return response;
+        return response.data;
     };
 
     register = async (
@@ -42,7 +42,7 @@ class timesService {
                 id
             }
         });
-        return response;
+        return response.data;
     };
 
     update = async (
@@ -81,12 +81,12 @@ class timesService {
                 id
             }
         });
-        return response;
+        return response.data;
     };
 
     delete = async id => {
         const response = await axios.delete('/times/' + id);
-        return response;
+        return response.data;
     };
 }
 

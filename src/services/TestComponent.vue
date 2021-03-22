@@ -8,7 +8,7 @@ import reservationService from './reservationService.js';
 export default {};
 
 reservationService
-    .getReservationUser(2)
+    .delete(1)
     .then(result => console.log(result))
     .catch(error => console.error(error));
 </script>
