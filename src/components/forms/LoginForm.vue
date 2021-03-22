@@ -1,8 +1,8 @@
 <template>
     <form @submit.prevent="submitForm">
         <section class="inputs">
-            <input type="email" placeholder="e-post" />
-            <input type="password" placeholder="passord" />
+            <input type="email" placeholder="e-post" v-model="email" />
+            <input type="password" placeholder="passord" v-model="password" />
         </section>
         <p>Glemt passord? Tilbakestill <router-link to="/glemt">her</router-link></p>
         <base-button>Logg inn</base-button>
@@ -12,9 +12,25 @@
 <script>
 export default {
     emits: ['submit-form'],
+    data() {
+        return {
+            email: '',
+            password: ''
+        };
+    },
     methods: {
         submitForm() {
-            this.$emit('submit-form');
+            const validInput = this.validateInput();
+            if (!validInput) {
+                return alert('Invalid input!');
+            }
+
+            this.$emit('submit-form', { email: this.email, password: this.password });
+        },
+
+        // TODO: Validate input
+        validateInput() {
+            return true;
         }
     }
 };

@@ -10,13 +10,23 @@
 
 <script>
 import LoginForm from '../components/forms/LoginForm.vue';
+import userService from '../services/UserService';
+
 export default {
     components: {
         LoginForm
     },
     methods: {
-        login() {
-            //TODO: Get data from form
+        async login(data) {
+            // Attempts to log in the user
+            const response = await userService.login(data.email, data.password);
+
+            // Displays error if there is one
+            if (response.error) {
+                return alert(response.error);
+            }
+
+            // Forwards the user to the home page
             this.$store.dispatch('login');
             this.$router.push('/');
         }
