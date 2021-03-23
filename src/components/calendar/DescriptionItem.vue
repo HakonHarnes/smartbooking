@@ -10,12 +10,15 @@
 <script>
 export default {
     props: {
-        startTime: Number,
-        endTime: Number
+        startTime: Date,
+        endTime: Date
     },
     computed: {
         hours() {
-            return [...Array(this.endTime - this.startTime)].map((_, idx) => this.formatHour(this.startTime + idx));
+            return '';
+        },
+        numHours() {
+            return Math.abs(this.endTime - this.startTime) / 3.6e5;
         }
     },
     methods: {

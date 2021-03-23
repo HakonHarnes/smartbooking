@@ -29,11 +29,8 @@ export default {
     },
     emits: ['handle-action'],
     methods: {
-        /* deleteUser() {
-            this.$store.dispatch('reservations/deleteReservation', { reservationId: this.id });
-        }, */
         handleAction() {
-            this.$emit('handle-action', this.id);
+            this.$emit('handle-action', this.id ? this.id : this.roomName);
         },
         convertDate(date) {
             return date

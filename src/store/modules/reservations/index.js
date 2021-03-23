@@ -19,7 +19,7 @@ export default {
                 {
                     id: 1,
                     roomName: '301',
-                    building: 'Dokken',
+                    building: 'Ivar Aasens',
                     seats: 8,
                     description: 'Møterom',
                     start: new Date(),

@@ -45,7 +45,7 @@ export default {
 }
 
 .modal {
-    padding: 0.4rem 1.6rem;
+    padding: 0.2rem 1.6rem 1rem;
     overflow: hidden;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
     background-color: #fff;
@@ -62,6 +62,7 @@ header {
 footer {
     border-top: 1px solid #eeeeee;
     justify-content: flex-end;
+    align-self: center;
 }
 
 section {

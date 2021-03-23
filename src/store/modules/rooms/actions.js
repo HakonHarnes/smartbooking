@@ -8,7 +8,27 @@ export default {
     },
     async findRooms({ commit }) {
         commit('setLoading', true, { root: true });
-        const res = await fetch('https://jsonplaceholder.typicode.com/posts');
-        return res.json();
+        const res = [
+            {
+                id: 0,
+                roomName: '201',
+                building: 'Dokken',
+                seats: 6,
+                description: 'Grupperom',
+                start: new Date(),
+                end: new Date()
+            },
+            {
+                id: 1,
+                roomName: '301',
+                building: 'Ivar Aasens',
+                seats: 8,
+                description: 'Møterom',
+                start: new Date(),
+                end: new Date()
+            }
+        ];
+        commit('setLoading', false, { root: true });
+        return res;
     }
 };
