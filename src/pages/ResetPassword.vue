@@ -2,32 +2,32 @@
     <div class="container">
         <section>
             <img src="../assets/logo.png" alt="" class="logo" />
-            <h1 class="title">Glemt passord</h1>
-            <forgot-password-form @submit-form="forgotPassword"></forgot-password-form>
+            <h1 class="title">Reset passord</h1>
+            <reset-password-form @submit-form="resetPassword"></reset-password-form>
         </section>
     </div>
 </template>
 
 <script>
-import ForgotPasswordForm from '../components/forms/ForgotPasswordForm.vue';
+import ResetPasswordForm from '../components/forms/ResetPasswordForm.vue';
 import userService from '../services/UserService';
 
 export default {
     components: {
-        ForgotPasswordForm
+        ResetPasswordForm
     },
     methods: {
-        async forgotPassword(data) {
-            alert('Dersom det er en konto knyttet til denne eposten, er tilbakestillingslenke sendt.');
+        async resetPassword(data) {
+            // Resets the password
+            const token = this.$route.params.token;
+            const response = await userService.resetPassword(data.password, token);
 
-            // Attempts to log in the user
-            const response = await userService.forgotPassword(data.email);
-            console.log(response);
-
-            // Displays error if there is one (dev)
+            // Displays error if there is one
             if (response.error) {
-                console.log('DEVLOG - ' + response.error);
+                return alert(response.error);
             }
+
+            alert('Password was changed!');
 
             // Forwards the user to the login page
             this.$router.push('/login');

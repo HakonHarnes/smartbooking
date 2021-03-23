@@ -12,6 +12,7 @@ import SettingsPage from './pages/SettingsPage.vue';
 import ForgotPassword from './pages/ForgotPassword.vue';
 import NotAuthorizedPage from './pages/NotAuthorizedPage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
+import ResetPassword from './pages/ResetPassword.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -29,6 +30,11 @@ const router = createRouter({
         {
             path: '/glemt',
             component: ForgotPassword,
+            meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
+        },
+        {
+            path: '/reset/:token',
+            component: ResetPassword,
             meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
         },
         {

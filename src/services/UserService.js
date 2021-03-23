@@ -35,6 +35,22 @@ class UserService {
 
         return response;
     });
+
+    forgotPassword = catchAsync(async email => {
+        const response = await axios.post('/users/forgotPassword', {
+            data: { email }
+        });
+
+        return response;
+    });
+
+    resetPassword = catchAsync(async (password, token) => {
+        const response = await axios.patch(`/users/resetPassword/${token}`, {
+            data: { password }
+        });
+
+        return response;
+    });
 }
 
 export default new UserService();

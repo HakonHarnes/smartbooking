@@ -1,11 +1,10 @@
 <template>
     <form @submit.prevent="submitForm">
         <section class="inputs">
-            <input type="email" placeholder="e-post" v-model="email" />
-            <input type="email" placeholder="gjenta e-post" v-model="confirmEmail" />
+            <input type="password" placeholder="nytt passord" v-model="password" />
+            <input type="password" placeholder="gjenta nytt passord" v-model="confirmPassword" />
         </section>
-        <p>Gå tilbake til <router-link to="/login">innlogging</router-link></p>
-        <base-button>Be om nytt passord</base-button>
+        <base-button>Reset passord</base-button>
     </form>
 </template>
 
@@ -14,8 +13,8 @@ export default {
     emits: ['submit-form'],
     data() {
         return {
-            email: '',
-            confirmEmail: ''
+            password: '',
+            confirmPassword: ''
         };
     },
     methods: {
@@ -25,12 +24,12 @@ export default {
                 return alert('Invalid input!');
             }
 
-            this.$emit('submit-form', { email: this.email });
+            this.$emit('submit-form', { password: this.password });
         },
 
         // Validates the input
         validateInput() {
-            return this.email === this.confirmEmail;
+            return this.password === this.confirmPassword && this.password.length > 0;
         }
     }
 };
