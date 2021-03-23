@@ -3,11 +3,25 @@ import catchAsync from '../utils/catchAsync';
 
 class UserService {
     login = catchAsync(async (email, password) => {
-        const user = { email, password };
+        const response = await axios.post(
+            '/users/login',
+            {
+                data: { email, password }
+            },
+            { withCredentials: true }
+        );
 
-        const response = await axios.post('/users/login', {
-            data: user
-        });
+        return response;
+    });
+
+    logout = catchAsync(async () => {
+        const response = await axios.get('/users/logout', { withCredentials: true });
+
+        return response;
+    });
+
+    getLoggedInUser = catchAsync(async () => {
+        const response = await axios.get('/users/loggedin', { withCredentials: true });
 
         return response;
     });

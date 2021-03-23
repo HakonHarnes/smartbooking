@@ -70,12 +70,12 @@ const router = createRouter({
             path: '/404',
             name: 'Not found',
             component: NotFoundPage,
-            meta: { requiresAuth: false, roles: ['user', 'admin', 'customer'] }
+            meta: { requiresAuth: true, roles: ['user', 'admin', 'customer'] }
         },
         {
             path: '/:notFound(.*)',
             redirect: { name: 'Not found' },
-            meta: { requiresAuth: false, roles: ['user', 'admin', 'customer'] }
+            meta: { requiresAuth: true, roles: ['user', 'admin', 'customer'] }
         }
     ]
 });

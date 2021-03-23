@@ -6,21 +6,28 @@
 </template>
 
 <script>
+// import userService from './services/UserService';
 import TheHeader from './components/layout/TheHeader.vue';
 import TheSidebar from './components/layout/TheSidebar.vue';
-// import TestComponent from './services/TestComponent.vue';
 
 export default {
     components: {
         TheHeader,
         TheSidebar
-        // TestComponent
     },
     computed: {
         isAuthenticated() {
             return this.$store.getters.isAuthenticated;
         }
     }
+    // async beforeCreate() {
+    //     const response = await userService.getLoggedInUser();
+    //     if (response.data) {
+    //         this.$store.dispatch('login', { role: response.data.user.role });
+    //     }
+
+    //     this.$store.dispatch('setInitialized', { isInitialized: true });
+    // }
 };
 </script>
 

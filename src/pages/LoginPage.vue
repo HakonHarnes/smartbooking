@@ -27,7 +27,7 @@ export default {
             }
 
             // Forwards the user to the home page
-            this.$store.dispatch('login');
+            this.$store.dispatch('login', { role: response.data.data.role });
             this.$router.push('/');
         }
     }

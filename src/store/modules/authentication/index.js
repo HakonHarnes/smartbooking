@@ -5,8 +5,9 @@ import getters from './getters.js';
 export default {
     state() {
         return {
-            isAuthenticated: true,
-            role: 'customer'
+            isInitialized: false,
+            isAuthenticated: false,
+            role: ''
         };
     },
     mutations,
