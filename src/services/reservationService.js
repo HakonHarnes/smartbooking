@@ -1,39 +1,40 @@
 import axios from './axios';
+import catchAsync from '../utils/catchAsync';
 
 class reservationService {
-    getById = async id => {
+    getById = catchAsync(async id => {
         const response = await axios.get('/reservations/' + id);
         return response.data;
-    };
+    });
 
-    getReservationUser = async id => {
+    getReservationUser = catchAsync(async id => {
         const response = await axios.get('/reservations?userId=' + id);
         return response.data;
-    };
+    });
 
-    getReservationRoom = async id => {
+    getReservationRoom = catchAsync(async id => {
         const response = await axios.get('/reservations?roomId=' + id);
         return response.data;
-    };
+    });
 
-    create = async (startTime, endTime, roomId, userId) => {
+    create = catchAsync(async (startTime, endTime, roomId, userId) => {
         const response = await axios.post('/reservations', {
             data: { startTime, endTime, userId, roomId }
         });
         return response.data;
-    };
+    });
 
-    update = async (startTime, endTime, roomId, userId, resId) => {
+    update = catchAsync(async (startTime, endTime, roomId, userId, resId) => {
         const response = await axios.put('/reservations', {
             data: { startTime, endTime, userId, roomId, resId }
         });
         return response.data;
-    };
+    });
 
-    delete = async id => {
+    delete = catchAsync(async id => {
         const response = await axios.delete('/reservations/' + id);
         return response.data;
-    };
+    });
 }
 
 export default new reservationService();
