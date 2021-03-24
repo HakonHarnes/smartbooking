@@ -3,12 +3,12 @@
 </template>
 
 <script>
-import userService from './UserService.js';
+import reservationService from './reservationService.js';
 
 export default {};
 
-userService
-    .register('svein@svein.steig', 'jaeller', 'Svein', 'Homo', '1', 'user')
+reservationService
+    .getById(2)
     .then(result => console.log(result))
     .catch(error => console.error(error));
 </script>
