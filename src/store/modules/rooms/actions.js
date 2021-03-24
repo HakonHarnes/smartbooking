@@ -6,7 +6,7 @@ export default {
         };
         commit('addRoom', newRoom);
     },
-    async findRooms({ commit }) {
+    async findAvailableRooms({ commit }) {
         commit('setLoading', true, { root: true });
         const res = [
             {

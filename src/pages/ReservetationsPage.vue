@@ -54,7 +54,6 @@ export default {
             this.showModal = !this.showModal;
         },
         deleteReservation(resId) {
-            console.log(resId);
             this.resId = resId;
             this.toggleModal();
         },

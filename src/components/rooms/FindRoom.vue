@@ -1,7 +1,7 @@
 <template>
     <base-modal title="Reserver rom" v-if="showModal" @close="closeModal">
         <template #body><reservation-preview :reservation="newReservation"></reservation-preview></template>
-        <template #footer><base-button>Reserver</base-button></template>
+        <template #footer><base-button @click="bookRoom">Reserver</base-button></template>
     </base-modal>
     <find-room-search @find-rooms="findRooms"></find-room-search>
     <base-card v-if="results.length || loading">
@@ -57,15 +57,17 @@ export default {
             this.newReservation = null;
             this.showModal = false;
         },
-        previewReservation(room) {
+        previewReservation(id) {
             this.showModal = true;
-            console.log(room);
-            console.log(this.results);
-            this.newReservation = { ...this.results.find(res => res.roomName === room) };
+            this.newReservation = { ...this.results.find(res => res.id === id) };
         },
-        createReservation() {},
+        bookRoom() {
+            this.$store.dispatch('reservations/createReservation', { reservation: { ...this.newReservation } });
+            this.closeModal();
+            this.$router.replace('/reservasjoner');
+        },
         async findRooms() {
-            const results = await this.$store.dispatch('rooms/findRooms');
+            const results = await this.$store.dispatch('rooms/findAvailableRooms');
             this.results = results;
         }
     }

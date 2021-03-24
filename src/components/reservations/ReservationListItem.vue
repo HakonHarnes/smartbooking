@@ -30,7 +30,7 @@ export default {
     emits: ['handle-action'],
     methods: {
         handleAction() {
-            this.$emit('handle-action', this.id ? this.id : this.roomName);
+            this.$emit('handle-action', this.id);
         },
         convertDate(date) {
             return date
