@@ -23,6 +23,7 @@
                 <base-button>Søk</base-button>
             </div>
         </form>
+        <div class="error">{{ error }}</div>
     </base-card>
 </template>
 
@@ -40,7 +41,8 @@ export default {
                 to: '',
                 valid: false
             },
-            formValid: false
+            formValid: false,
+            error: null
         };
     },
     computed: {
@@ -50,6 +52,7 @@ export default {
     },
     methods: {
         search() {
+            this.error = null;
             this.validateForm();
             if (this.formValid) {
                 this.$emit('find-rooms', {});
@@ -68,6 +71,7 @@ export default {
             const from = replaceDot(this.times.from);
             const to = replaceDot(this.times.to);
             if (to - from <= 0) {
+                this.error = '"FRA KL." må være før "TIL KL."';
                 return (this.times.valid = false);
             }
             this.times.valid = true;
@@ -89,6 +93,13 @@ export default {
 .card {
     margin: 2rem 0 1rem;
     width: min-content;
+}
+
+.error {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(182, 23, 23, 0.933);
 }
 
 form {
@@ -123,5 +134,9 @@ label {
 }
 .form-control {
     margin: 0 1rem;
+}
+
+input[type='time']:nth-child(3n) {
+    display: none;
 }
 </style>

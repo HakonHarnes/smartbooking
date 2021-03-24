@@ -7,5 +7,8 @@ export default {
     deleteReservation(state, resId) {
         const index = state.reservations.map(({ id }) => id).indexOf(resId);
         state.reservations.splice(index, 1);
+    },
+    setReservations(state, reservations) {
+        state.reservations = [...reservations];
     }
 };

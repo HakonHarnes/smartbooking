@@ -1,7 +1,7 @@
 import axios from './axios';
 import catchAsync from '../utils/catchAsync';
 
-class policyService {
+class PolicyService {
     getById = catchAsync(async id => {
         const response = await axios.get('/policies/' + id);
         return response.data;
@@ -31,4 +31,4 @@ class policyService {
     });
 }
 
-export default new policyService();
+export default new PolicyService();

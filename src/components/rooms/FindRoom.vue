@@ -15,7 +15,6 @@
                 :room-name="res.roomName"
                 :building="res.building"
                 :seats="res.seats"
-                :description="res.description"
                 :start="res.start"
                 :end="res.end"
                 :type="'add'"
@@ -43,7 +42,7 @@ export default {
     },
     computed: {
         columns() {
-            return ['Rom', 'Bygg', 'Plasser', 'Romtype', 'Start', 'Slutt', 'Reserver'];
+            return ['Rom', 'Bygg', 'Plasser', 'Start', 'Slutt', 'Reserver'];
         },
         reservations() {
             return this.$store.getters['reservations/reservations'];
@@ -67,7 +66,7 @@ export default {
             this.$router.replace('/reservasjoner');
         },
         async findRooms() {
-            const results = await this.$store.dispatch('rooms/findAvailableRooms');
+            const results = await this.$store.dispatch('rooms/findAvailableRooms', {});
             this.results = results;
         }
     }

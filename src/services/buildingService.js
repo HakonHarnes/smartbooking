@@ -1,7 +1,7 @@
 import axios from './axios';
 import catchAsync from '../utils/catchAsync';
 
-class buildingsService {
+class BuildingsService {
     getById = catchAsync(async id => {
         const response = await axios.get('/buildings/' + id);
         return response.data;
@@ -27,4 +27,4 @@ class buildingsService {
     });
 }
 
-export default new buildingsService();
+export default new BuildingsService();

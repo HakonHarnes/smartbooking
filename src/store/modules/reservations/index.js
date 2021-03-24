@@ -6,35 +6,7 @@ export default {
     namespaced: true,
     state() {
         return {
-            reservations: [
-                {
-                    id: 0,
-                    roomName: '201',
-                    building: 'Dokken',
-                    seats: 6,
-                    description: 'Grupperom',
-                    start: new Date(),
-                    end: new Date()
-                },
-                {
-                    id: 1,
-                    roomName: '301',
-                    building: 'Ivar Aasens',
-                    seats: 8,
-                    description: 'Møterom',
-                    start: new Date(),
-                    end: new Date()
-                },
-                {
-                    id: 2,
-                    roomName: '402',
-                    building: 'Dokken',
-                    seats: 12,
-                    description: 'Grupperom',
-                    start: new Date(),
-                    end: new Date()
-                }
-            ]
+            reservations: []
         };
     },
     mutations,

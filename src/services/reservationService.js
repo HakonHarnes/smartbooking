@@ -1,18 +1,19 @@
 import axios from './axios';
 import catchAsync from '../utils/catchAsync';
 
-class reservationService {
+class ReservationService {
     getById = catchAsync(async id => {
         const response = await axios.get('/reservations/' + id);
         return response.data;
     });
 
-    getReservationUser = catchAsync(async id => {
+    getUserReservations = catchAsync(async id => {
         const response = await axios.get('/reservations?userId=' + id);
+        console.log(response);
         return response.data;
     });
 
-    getReservationRoom = catchAsync(async id => {
+    getRoomReservations = catchAsync(async id => {
         const response = await axios.get('/reservations?roomId=' + id);
         return response.data;
     });
@@ -37,4 +38,4 @@ class reservationService {
     });
 }
 
-export default new reservationService();
+export default new ReservationService();

@@ -1,7 +1,7 @@
 import axios from './axios';
 import catchAsync from '../utils/catchAsync';
 
-class timesService {
+class TimesService {
     getById = catchAsync(async id => {
         const response = await axios.get('/times/' + id);
         return response.data;
@@ -95,4 +95,4 @@ class timesService {
     });
 }
 
-export default new timesService();
+export default new TimesService();

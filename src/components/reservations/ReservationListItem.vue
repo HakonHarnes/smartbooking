@@ -3,7 +3,6 @@
         <div>{{ roomName }}</div>
         <div>{{ building }}</div>
         <div>{{ seats }}</div>
-        <div>{{ description }}</div>
         <div>
             {{ startString }}
         </div>
@@ -21,7 +20,6 @@ export default {
         roomName: String,
         building: String,
         seats: Number,
-        description: String,
         start: Date,
         end: Date,
         type: String,

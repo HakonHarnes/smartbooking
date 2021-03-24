@@ -9,16 +9,17 @@
     <div class="root">
         <h2>Dine reservasjoner</h2>
         <base-card>
-            <ul>
+            <base-spinner v-if="loading"></base-spinner>
+            <div v-else-if="!loading && !reservations.length">Fant ingen reservasjoner</div>
+            <ul v-else-if="!loading && reservations.length">
                 <base-list-description :columns="columns"></base-list-description>
                 <reservation-list-item
                     v-for="res in reservations"
-                    :key="res.id"
-                    :id="res.id"
-                    :roomName="res.roomName"
-                    :building="res.building"
+                    :key="res.res_id"
+                    :id="res.res_id"
+                    :roomName="res.room_name"
+                    :building="'Dokken'"
                     :seats="res.seats"
-                    :description="res.description"
                     :start="res.start"
                     :end="res.end"
                     :type="'delete'"
@@ -43,7 +44,10 @@ export default {
     },
     computed: {
         columns() {
-            return ['Rom', 'Bygg', 'Plasser', 'Romtype', 'Start', 'Slutt', 'Slett'];
+            return ['Rom', 'Bygg', 'Plasser', 'Start', 'Slutt', 'Slett'];
+        },
+        loading() {
+            return this.$store.getters.loading;
         },
         reservations() {
             return this.$store.getters['reservations/reservations'];
@@ -62,6 +66,9 @@ export default {
             this.resId = null;
             this.toggleModal();
         }
+    },
+    created() {
+        this.$store.dispatch('reservations/getMyReservations');
     }
 };
 </script>
