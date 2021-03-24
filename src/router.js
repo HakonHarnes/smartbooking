@@ -13,6 +13,7 @@ import ForgotPassword from './pages/ForgotPassword.vue';
 import NotAuthorizedPage from './pages/NotAuthorizedPage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
 import ResetPassword from './pages/ResetPassword.vue';
+import SetPassword from './pages/SetPassword.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -35,6 +36,11 @@ const router = createRouter({
         {
             path: '/reset/:token',
             component: ResetPassword,
+            meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
+        },
+        {
+            path: '/registrer/:token',
+            component: SetPassword,
             meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
         },
         {
