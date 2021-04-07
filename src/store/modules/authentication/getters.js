@@ -5,10 +5,13 @@ export default {
     role(state) {
         return state.role;
     },
-    isUser(state, getters) {
+    isUser(_, getters) {
         return getters.role === 'user';
     },
-    isCustomer(state, getters) {
+    isCustomer(_, getters) {
         return getters.role === 'customer';
+    },
+    customerId(state) {
+        return state.customerId;
     }
 };

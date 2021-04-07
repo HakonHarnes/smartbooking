@@ -1,11 +1,14 @@
 <template>
     <base-card class="card">
-        <form @submit.prevent="search">
+        <base-spinner v-if="loading"></base-spinner>
+        <form v-else-if="!loading && buildings" @submit.prevent="go">
             <div class="form-control">
                 <label>Bygg</label>
                 <select name="building" @change="handleChange">
                     <option :value="null">Velg bygg</option>
-                    <option v-for="b in buildings" :key="b.id" :value="b.id">{{ b.name }}</option>
+                    <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{
+                        b.building_name
+                    }}</option>
                 </select>
             </div>
             <div class="form-control">
@@ -24,31 +27,51 @@
 
 <script>
 export default {
+    emits: ['load-room'],
     data() {
         return {
             buildingId: null,
             roomId: null,
             buildings: [
-                { id: 0, name: 'A-Bygget' },
-                { id: 1, name: 'B-Bygget' }
+                { building_id: 0, building_name: 'A-Bygget' },
+                { building_id: 1, building_name: 'B-Bygget' }
             ],
             rooms: [
                 { id: 0, buildingId: 0, name: '301', seats: 8 },
                 { id: 1, buildingId: 0, name: '302', seats: 6 },
                 { id: 2, buildingId: 1, name: 'B-02', seats: 6 }
             ]
+            // Remove comments to enable API
+            /* buildings: null,
+            rooms: [] */
         };
     },
     computed: {
         filteredRooms() {
             return this.rooms.filter(({ buildingId }) => (this.buildingId ? buildingId === +this.buildingId : false));
+        },
+        loading() {
+            return this.$store.getters.loading;
         }
     },
     methods: {
-        go() {},
+        go() {
+            if (this.roomId) {
+                this.$emit('load-room', this.roomId);
+            }
+        },
         handleChange({ target }) {
             this[`${target.name}Id`] = target.value;
+        },
+        async getBuildings() {
+            const buildings = await this.$store.dispatch('buildings/getBuildings');
+            this.buildings = [...buildings];
+            console.log(buildings);
         }
+    },
+    mounted() {
+        // Remove comments to enable API
+        // this.getBuildings();
     }
 };
 </script>

@@ -3,12 +3,9 @@ import actions from './actions.js';
 import getters from './getters.js';
 
 export default {
+    namespaced: true,
     state() {
-        return {
-            customerId: '2',
-            isAuthenticated: true,
-            role: 'user'
-        };
+        return {};
     },
     mutations,
     actions,

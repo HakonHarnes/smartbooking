@@ -18,7 +18,7 @@
                 :start="res.start"
                 :end="res.end"
                 :type="'add'"
-                :dateSubstringChars="[11, -3]"
+                :dateSubstringChars="[10, -3]"
                 @handle-action="previewReservation"
             >
             </reservation-list-item>

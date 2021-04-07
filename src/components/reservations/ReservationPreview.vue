@@ -30,7 +30,7 @@ export default {
     },
     computed: {
         date() {
-            return new Date().toLocaleString().substring(11, 16);
+            return new Date().toLocaleString().substring(10, 15);
         }
     }
 };

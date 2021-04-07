@@ -97,7 +97,6 @@ export default {
             });
         }
     },
-    // TODO: FIX TO RE-DO ON RERENDER
     created() {
         this.hours = this.hours.map((hour, index) => {
             return {
