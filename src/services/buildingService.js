@@ -1,9 +1,13 @@
 import axios from './axios';
 import catchAsync from '../utils/catchAsync';
 
+import { BUILDINGS } from '../data/dummy-data';
+
 class BuildingsService {
-    getById = catchAsync(async id => {
-        const response = await axios.get('/buildings/' + id);
+    getBuilding = catchAsync(async id => {
+        //const response = await axios.get(`/buildings/${id}`);
+        console.log(id);
+        const response = { data: BUILDINGS };
         return response.data;
     });
 

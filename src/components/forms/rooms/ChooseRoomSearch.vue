@@ -1,10 +1,10 @@
 <template>
     <base-card class="card">
         <base-spinner v-if="loading"></base-spinner>
-        <form v-else-if="!loading && buildings" @submit.prevent="go">
+        <form v-else-if="!loading" @submit.prevent="go">
             <div class="form-control">
                 <label>Bygg</label>
-                <select name="building" @change="handleChange">
+                <select name="building" @change="handleBuildingChange" required>
                     <option :value="null">Velg bygg</option>
                     <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{
                         b.building_name
@@ -13,15 +13,22 @@
             </div>
             <div class="form-control">
                 <label>Rom</label>
-                <select name="room" @change="handleChange" :disabled="!buildingId">
-                    <option :value="null">Velg rom</option>
-                    <option v-for="room in filteredRooms" :key="room.id" :value="room.id">{{ room.name }}</option>
+                <select name="room" @change="handleChange" :disabled="!filteredRooms.length" required>
+                    <option :value="null">{{
+                        filteredRooms.length || !buildingId ? 'Velg rom' : 'Fant ingen rom'
+                    }}</option>
+                    <option v-for="room in filteredRooms" :key="room.room_id" :value="room.room_id">{{
+                        room.room_name
+                    }}</option>
                 </select>
             </div>
             <div class="form-control">
                 <base-button>Gå</base-button>
             </div>
         </form>
+        <div class="error">
+            {{ error }}
+        </div>
     </base-card>
 </template>
 
@@ -32,23 +39,14 @@ export default {
         return {
             buildingId: null,
             roomId: null,
-            buildings: [
-                { building_id: 0, building_name: 'A-Bygget' },
-                { building_id: 1, building_name: 'B-Bygget' }
-            ],
-            rooms: [
-                { id: 0, buildingId: 0, name: '301', seats: 8 },
-                { id: 1, buildingId: 0, name: '302', seats: 6 },
-                { id: 2, buildingId: 1, name: 'B-02', seats: 6 }
-            ]
-            // Remove comments to enable API
-            /* buildings: null,
-            rooms: [] */
+            buildings: null,
+            rooms: [],
+            error: null
         };
     },
     computed: {
         filteredRooms() {
-            return this.rooms.filter(({ buildingId }) => (this.buildingId ? buildingId === +this.buildingId : false));
+            return this.rooms.filter(({ building_id }) => (this.buildingId ? building_id === +this.buildingId : false));
         },
         loading() {
             return this.$store.getters.loading;
@@ -57,21 +55,32 @@ export default {
     methods: {
         go() {
             if (this.roomId) {
+                this.error = null;
                 this.$emit('load-room', this.roomId);
+            } else {
+                this.error = 'Vennligst velg en bygning og et rom!';
             }
+        },
+        handleBuildingChange({ target }) {
+            this.buildingId = target.value;
+            this.getRoomsOnBuilding();
         },
         handleChange({ target }) {
             this[`${target.name}Id`] = target.value;
         },
+        async getRoomsOnBuilding() {
+            if (this.buildingId) {
+                this.rooms = await this.$store.dispatch('rooms/getRoomsInBuilding', this.buildingId);
+            } else {
+                this.rooms = [];
+            }
+        },
         async getBuildings() {
-            const buildings = await this.$store.dispatch('buildings/getBuildings');
-            this.buildings = [...buildings];
-            console.log(buildings);
+            this.buildings = await this.$store.dispatch('buildings/getBuildings');
         }
     },
     mounted() {
-        // Remove comments to enable API
-        // this.getBuildings();
+        this.getBuildings();
     }
 };
 </script>
@@ -109,5 +118,10 @@ label {
 }
 .form-control {
     margin: 0 1rem;
+}
+
+.error {
+    margin: 0.8rem 0 0;
+    color: rgb(197, 32, 32);
 }
 </style>

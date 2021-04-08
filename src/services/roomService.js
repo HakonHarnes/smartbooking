@@ -1,6 +1,8 @@
 import axios from './axios';
 import catchAsync from '../utils/catchAsync';
 
+import { ROOMS } from '../data/dummy-data';
+
 class RoomService {
     getById = catchAsync(async id => {
         const response = await axios.get('/rooms/' + id);
@@ -19,6 +21,13 @@ class RoomService {
 
     getRoomsCustomer = catchAsync(async id => {
         const response = await axios.get('/rooms?customerId=' + id);
+        return response.data;
+    });
+
+    getRoomsInBuilding = catchAsync(async id => {
+        console.log(id);
+        //const response = await axios.get(`/rooms?buildingId=${id}`);
+        const response = { data: ROOMS };
         return response.data;
     });
 

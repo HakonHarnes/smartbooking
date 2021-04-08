@@ -1,6 +1,11 @@
 <template>
     <choose-room-search @load-room="loadRoom"></choose-room-search>
-    <room-calendar v-if="roomId && days.length" :days="days" @book-room="bookRoom"></room-calendar>
+    <room-calendar
+        v-if="roomId && currentDays.length"
+        :days="currentDays"
+        :perPage="3"
+        @book-room="bookRoom"
+    ></room-calendar>
 </template>
 
 <script>
@@ -13,12 +18,14 @@ export default {
     data() {
         return {
             roomId: '',
-            days: []
+            currentDays: []
         };
     },
     methods: {
         async loadRoom(roomId) {
-            const response = await this.$store.dispatch('reservations/getReservations', roomId);
+            this.initialiseCalendar();
+            this.roomId = roomId;
+            /* const response = await this.$store.dispatch('reservations/getReservations', roomId);
             const days = [];
             response.data.forEach(reservation => {
                 const currDates = days.map(day => day.date);
@@ -33,15 +40,26 @@ export default {
                 }
             });
             this.days = days;
-            this.roomId = '1';
+            this.roomId = '1'; */
         },
         bookRoom(date, from, to) {
-            const index = this.days.map(day => day.date).indexOf(date);
+            const index = this.currentDays.map(day => day.date).indexOf(date);
             const dateString = getDateString(date, false);
-            this.days[index].reservations.push({
+            this.currentDays[index].reservations.push({
                 start: new Date(`${dateString}T${from}:00.000Z`),
                 end: new Date(`${dateString}T${to}:00.000Z`)
             });
+        },
+        initialiseCalendar() {
+            const today = new Date();
+            const first = today.getDate() - today.getDay() + 1;
+            this.currentDays = new Array(7).fill(0).map((_, idx) => {
+                return {
+                    date: new Date(new Date(today).setDate(first + idx)),
+                    reservations: []
+                };
+            });
+            console.log(this.currentDays);
         }
     }
 };

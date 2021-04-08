@@ -9,9 +9,9 @@ export const dayOfWeekMapper = {
 };
 
 export const getDateString = (date, norwegian = true) => {
-    const vars = { month: date.getMonth(), day: date.getDate() };
-    const month = vars.month + 1 > 9 ? vars.month : `0${vars.month}`;
-    const day = vars.day + 1 > 9 ? vars.day : `0${vars.day}`;
+    const vars = { month: date.getMonth() + 1, day: date.getDate() };
+    const month = vars.month > 9 ? vars.month : `0${vars.month}`;
+    const day = vars.day > 9 ? vars.day : `0${vars.day}`;
 
     return norwegian ? `${day}.${month}.${date.getFullYear()}` : `${date.getFullYear()}-${month}-${day}`;
 };

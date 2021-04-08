@@ -1,3 +1,5 @@
+import RoomService from '../../../services/RoomService';
+
 export default {
     addRoom({ commit }, payload) {
         const newRoom = {
@@ -8,27 +10,12 @@ export default {
     },
     async findAvailableRooms({ commit }) {
         commit('setLoading', true, { root: true });
-        const res = [
-            {
-                id: 0,
-                roomName: '201',
-                building: 'Dokken',
-                seats: 6,
-                description: 'Grupperom',
-                start: new Date(),
-                end: new Date()
-            },
-            {
-                id: 1,
-                roomName: '301',
-                building: 'Ivar Aasens',
-                seats: 8,
-                description: 'Møterom',
-                start: new Date(),
-                end: new Date()
-            }
-        ];
+        const response = RoomService.getAvaliableRooms();
         commit('setLoading', false, { root: true });
-        return res;
+        return response;
+    },
+    async getRoomsInBuilding(_, payload) {
+        const rooms = RoomService.getRoomsInBuilding(payload);
+        return rooms;
     }
 };

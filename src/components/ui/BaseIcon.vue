@@ -1,5 +1,5 @@
 <template>
-    <i class="material-icons">{{ name }}</i>
+    <i class="material-icons" :style="{ fontSize: size || '26px' }">{{ name }}</i>
 </template>
 
 <script>
@@ -8,6 +8,10 @@ export default {
         name: {
             type: String,
             required: true
+        },
+        size: {
+            type: String,
+            required: false
         }
     }
 };
