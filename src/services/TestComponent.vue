@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import reservationService from './reservationService.js';
+import reservationService from './ReservationService.js';
 
 export default {};
 
