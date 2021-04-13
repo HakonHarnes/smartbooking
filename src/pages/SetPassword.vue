@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import SetPasswordForm from '../components/forms/SetPasswordForm.vue';
+import SetPasswordForm from '../components/forms/users/SetPasswordForm.vue';
 import userService from '../services/UserService';
 
 export default {

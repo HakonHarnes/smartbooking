@@ -1,22 +1,12 @@
 <template>
     <div class="root">
         <div class="actions">
-            <base-button link to="/brukere/">Eksisterende brukere</base-button>
-            <base-button link to="/brukere/ny">Ny bruker</base-button>
+            <base-button link to="/finn-rom/">Finn ledig rom</base-button>
+            <base-button link to="/finn-rom/velg">Velg rom</base-button>
         </div>
         <router-view></router-view>
     </div>
 </template>
-
-<script>
-export default {
-    /* methods: {
-        changeTab(path) {
-            this.$router.push(`/brukere${path}`);
-        }
-    } */
-};
-</script>
 
 <style scoped>
 .actions {

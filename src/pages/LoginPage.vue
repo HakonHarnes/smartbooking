@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import LoginForm from '../components/forms/LoginForm.vue';
+import LoginForm from '../components/forms/users/LoginForm.vue';
 import userService from '../services/UserService';
 
 export default {

@@ -1,3 +1,3 @@
 <template>
-    ROOM
+    Finn rom
 </template>

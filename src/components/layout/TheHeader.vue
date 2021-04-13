@@ -17,8 +17,10 @@ export default {
                     return 'Dashboard';
                 case '/kunder':
                     return 'Kunder';
-                case '/brukerdata':
-                    return 'Brukerdata';
+                case '/brukere':
+                case '/brukere/':
+                case '/brukere/ny':
+                    return 'Brukere';
                 case '/rom':
                     return 'Rom';
                 case '/reservasjoner':

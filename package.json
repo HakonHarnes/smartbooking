@@ -2,7 +2,6 @@
     "name": "smartbooking",
     "version": "0.1.0",
     "private": true,
-    "type": "module",
     "scripts": {
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
@@ -10,9 +9,12 @@
     },
     "dependencies": {
         "axios": "^0.21.1",
+        "bcrypt": "^5.0.1",
         "core-js": "^3.6.5",
+        "material-design-icons": "^3.0.1",
         "vue": "^3.0.0",
         "vue-router": "^4.0.4",
+        "vue-switches": "^2.0.1",
         "vuex": "^4.0.0"
     },
     "devDependencies": {

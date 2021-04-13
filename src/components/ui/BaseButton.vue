@@ -1,5 +1,5 @@
 <template>
-    <button v-if="!link" :class="mode">
+    <button v-if="!link" :class="mode" :type="type">
         <slot></slot>
     </button>
     <router-link v-else :to="to" :class="mode">
@@ -24,6 +24,10 @@ export default {
             type: String,
             required: false,
             default: '/'
+        },
+        type: {
+            type: String,
+            required: false
         }
     }
 };
@@ -33,7 +37,7 @@ export default {
 button,
 a {
     text-decoration: none;
-    padding: 1rem 1.5rem;
+    padding: 0.8rem 1.5rem;
     border: 0px;
     font: inherit;
     background-color: #386881;
@@ -41,6 +45,7 @@ a {
     cursor: pointer;
     text-align: center;
     display: inline-block;
+    border: 1px solid transparent;
 }
 
 a:hover,
@@ -51,12 +56,17 @@ button:active {
     color: white;
 }
 
+button,
+a {
+    -webkit-user-drag: none;
+}
+
 .sidebar {
     background-color: transparent;
     width: 100%;
     text-align: left;
     color: black;
-    padding: 1.5rem 2rem;
+    padding: 0.9rem 1.5rem;
     margin: 0.5px 0px;
 }
 
@@ -64,5 +74,26 @@ button:active {
 .sidebar.router-link-active {
     background-color: #386881;
     color: white;
+}
+
+.outlined {
+    background-color: transparent;
+    border: 1px solid #386881;
+    color: #222;
+}
+
+.outlined:hover {
+    background-color: #222;
+}
+
+.delete {
+    background-color: rgb(207, 63, 63);
+    font-size: 0.7rem;
+    padding: 0.3rem 0.7rem;
+    box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.2);
+}
+
+.delete:hover {
+    background-color: rgb(155, 22, 22);
 }
 </style>

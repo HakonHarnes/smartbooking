@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import ForgotPasswordForm from '../components/forms/ForgotPasswordForm.vue';
+import ForgotPasswordForm from '../components/forms/users/ForgotPasswordForm.vue';
 import userService from '../services/UserService';
 
 export default {
