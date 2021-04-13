@@ -12,11 +12,9 @@
                 v-for="res in results"
                 :key="res.id"
                 :id="res.id"
-                :room-name="res.roomName"
+                :room-name="res.room_name"
                 :building="res.building"
-                :seats="res.seats"
-                :start="res.start"
-                :end="res.end"
+                :seats="res.size"
                 :type="'add'"
                 :dateSubstringChars="[10, -3]"
                 @handle-action="previewReservation"
@@ -67,8 +65,12 @@ export default {
         },
         async findRooms() {
             const results = await this.$store.dispatch('rooms/findAvailableRooms', {});
+            console.log(results);
             this.results = results;
         }
+    },
+    mounted() {
+        this.$store.dispatch('buildings/getBuildings');
     }
 };
 </script>

@@ -8,7 +8,7 @@ export default {
         commit('addUser', newUser);
     },
     deleteUser({ commit }, payload) {
-        const id = payload.userId;
+        const id = payload.user_id;
         commit('deleteUser', id);
     },
     updateUser({ commit }, payload) {

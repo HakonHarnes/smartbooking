@@ -11,7 +11,10 @@ export default {
     isCustomer(_, getters) {
         return getters.role === 'customer';
     },
-    customerId(state) {
-        return state.customerId;
+    customer_id(state) {
+        return state.customer_id;
+    },
+    user_id(state) {
+        return state.user_id;
     }
 };

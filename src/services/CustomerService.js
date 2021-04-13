@@ -7,16 +7,16 @@ class CustomerService {
         return response.data;
     });
 
-    create = catchAsync(async (customerId, orgName, orgNumber, contactName, orgAdd, postalCode, postalZone) => {
+    create = catchAsync(async (customer_id, orgName, orgNumber, contactName, orgAdd, postalCode, postalZone) => {
         const response = await axios.post('/customers', {
-            data: { customerId, orgName, orgNumber, contactName, orgAdd, postalCode, postalZone }
+            data: { customer_id, orgName, orgNumber, contactName, orgAdd, postalCode, postalZone }
         });
         return response.data;
     });
 
-    update = catchAsync(async (customerId, orgName, orgNumber, contactName, orgAdd, postalCode, postalZone) => {
+    update = catchAsync(async (customer_id, orgName, orgNumber, contactName, orgAdd, postalCode, postalZone) => {
         const response = await axios.put('/customers', {
-            data: { customerId, orgName, orgNumber, contactName, orgAdd, postalCode, postalZone }
+            data: { customer_id, orgName, orgNumber, contactName, orgAdd, postalCode, postalZone }
         });
         return response.data;
     });

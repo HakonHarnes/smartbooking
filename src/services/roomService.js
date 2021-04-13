@@ -10,37 +10,39 @@ class RoomService {
     });
 
     getAvaliableRooms = catchAsync(async (start, end) => {
-        const response = await axios.get('/rooms/search?start=' + start + '&end=' + end);
+        const response = await axios.get(`/rooms/search?start=${start}&end=${end}`);
         return response.data;
     });
 
-    getAvaliableRoomsGivenBuilding = catchAsync(async (start, end, buildingId) => {
-        const response = await axios.get('/rooms/search?start=' + start + '&end=' + end + '&buildingId=' + buildingId);
+    getAvaliableRoomsGivenBuilding = catchAsync(async (start, end, building_id) => {
+        const response = await axios.get(
+            '/rooms/search?start=' + start + '&end=' + end + '&building_id=' + building_id
+        );
         return response.data;
     });
 
-    getRoomsCustomer = catchAsync(async id => {
-        const response = await axios.get('/rooms?customerId=' + id);
+    getRooms = catchAsync(async id => {
+        const response = await axios.get(`/rooms?customer_id=${id}`);
         return response.data;
     });
 
     getRoomsInBuilding = catchAsync(async id => {
         console.log(id);
-        //const response = await axios.get(`/rooms?buildingId=${id}`);
+        //const response = await axios.get(`/rooms?building_id=${id}`);
         const response = { data: ROOMS };
         return response.data;
     });
 
-    create = catchAsync(async (name, size, isActive, userId, buildingId) => {
+    create = catchAsync(async (name, size, isActive, user_id, building_id) => {
         const response = await axios.post('/rooms', {
-            data: { name, size, isActive, userId, buildingId }
+            data: { name, size, isActive, user_id, building_id }
         });
         return response.data;
     });
 
-    update = catchAsync(async (name, size, isActive, userId, buildingId, id) => {
+    update = catchAsync(async (name, size, isActive, user_id, building_id, id) => {
         const response = await axios.put('/rooms', {
-            data: { name, size, isActive, userId, buildingId, id }
+            data: { name, size, isActive, user_id, building_id, id }
         });
         return response.data;
     });

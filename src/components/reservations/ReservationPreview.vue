@@ -2,7 +2,7 @@
     <div class="root">
         <div class="item">
             <div class="attribute">Rom</div>
-            <div class="value">{{ reservation.roomName }}</div>
+            <div class="value">{{ reservation.room_name }}</div>
         </div>
         <div class="item">
             <div class="attribute">Bygg</div>

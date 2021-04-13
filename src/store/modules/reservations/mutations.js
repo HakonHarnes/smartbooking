@@ -9,6 +9,6 @@ export default {
         state.reservations.splice(index, 1);
     },
     setReservations(state, reservations) {
-        state.reservations = [...reservations];
+        state.reservations = reservations;
     }
 };

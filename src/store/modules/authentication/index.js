@@ -5,8 +5,9 @@ import getters from './getters.js';
 export default {
     state() {
         return {
-            customerId: '2',
+            customer_id: 2,
             isAuthenticated: true,
+            user_id: 2,
             role: 'user'
         };
     },

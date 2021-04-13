@@ -1,26 +1,25 @@
 import axios from './axios';
 import catchAsync from '../utils/catchAsync';
 
-import { BUILDINGS } from '../data/dummy-data';
+// import { BUILDINGS } from '../data/dummy-data';
 
 class BuildingsService {
-    getBuilding = catchAsync(async id => {
-        //const response = await axios.get(`/buildings/${id}`);
-        console.log(id);
-        const response = { data: BUILDINGS };
+    getBuildings = catchAsync(async id => {
+        const response = await axios.get(`/buildings?customer_id=${id}`);
+        console.log(response);
         return response.data;
     });
 
-    create = catchAsync(async (buildingName, userId) => {
+    create = catchAsync(async (buildingName, user_id) => {
         const response = await axios.post('/buildings', {
-            data: { buildingName, userId }
+            data: { buildingName, user_id }
         });
         return response.data;
     });
 
-    update = catchAsync(async (buildingName, userId, buildingId) => {
+    update = catchAsync(async (buildingName, user_id, building_id) => {
         const response = await axios.put('/buildings', {
-            data: { buildingName, userId, buildingId }
+            data: { buildingName, user_id, building_id }
         });
         return response.data;
     });

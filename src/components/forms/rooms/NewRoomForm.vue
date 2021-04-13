@@ -2,7 +2,7 @@
     <form @submit.prevent="addRoom">
         <div>
             <label for="name">Romnavn</label>
-            <input type="text" name="name" v-model.trim="room.roomName" />
+            <input type="text" name="name" v-model.trim="room.room_name" />
         </div>
         <div>
             <label for="seats">Antall plasser</label>
@@ -27,7 +27,7 @@ export default {
     data() {
         return {
             room: {
-                roomName: '',
+                room_name: '',
                 seats: null,
                 description: '',
                 building: ''

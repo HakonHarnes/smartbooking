@@ -1,1 +1,5 @@
-export default {};
+export default {
+    setBuildings(state, payload) {
+        state.buildings = payload.buildings;
+    }
+};

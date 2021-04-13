@@ -1,9 +1,10 @@
 <template>
     <choose-room-search @load-room="loadRoom"></choose-room-search>
+    <base-spinner v-if="loading"></base-spinner>
     <room-calendar
-        v-if="roomId && currentDays.length"
+        v-else-if="!loading && room_id && currentDays.length"
         :days="currentDays"
-        :perPage="3"
+        :perPage="5"
         @book-room="bookRoom"
     ></room-calendar>
 </template>
@@ -17,38 +18,53 @@ export default {
     components: { ChooseRoomSearch, RoomCalendar },
     data() {
         return {
-            roomId: '',
+            room_id: '',
             currentDays: []
         };
     },
-    methods: {
-        async loadRoom(roomId) {
-            this.initialiseCalendar();
-            this.roomId = roomId;
-            /* const response = await this.$store.dispatch('reservations/getReservations', roomId);
-            const days = [];
-            response.data.forEach(reservation => {
-                const currDates = days.map(day => day.date);
-                if (currDates.includes(reservation.start_time.toISOString().substring(0, 10))) {
-                    const idx = currDates.indexOf(reservation.start_time.toISOString().substring(0, 10));
-                    days[idx].reservations.push({ start: reservation.start_time, end: reservation.end_time });
-                } else {
-                    days.push({
-                        date: reservation.start_time,
-                        reservations: [{ start: reservation.start_time, end: reservation.end_time }]
+    computed: {
+        loading() {
+            return this.$store.getters.loading;
+        },
+        reservations() {
+            return this.$store.getters['reservations/reservations'];
+        },
+        user_id() {
+            return this.$store.getters.user_id;
+        }
+    },
+    watch: {
+        /* reservations(val) {
+            val.forEach(reservation => {
+                const currDates = this.currentDays.map(day => day.date.toISOString().substring(0, 10));
+                if (currDates.includes(reservation.start.toISOString().substring(0, 10))) {
+                    const idx = currDates.indexOf(reservation.start.toISOString().substring(0, 10));
+                    this.currentDays[idx].reservations.push({
+                        ...reservation
                     });
                 }
             });
-            this.days = days;
-            this.roomId = '1'; */
+        } */
+    },
+    methods: {
+        loadRoom(room_id) {
+            this.initialiseCalendar();
+            this.room_id = room_id;
+            this.loadReservations(room_id);
         },
-        bookRoom(date, from, to) {
-            const index = this.currentDays.map(day => day.date).indexOf(date);
+        async bookRoom(date, from, to) {
             const dateString = getDateString(date, false);
-            this.currentDays[index].reservations.push({
+
+            const reservation = {
+                room_id: this.room_id,
+                user_id: this.user_id,
                 start: new Date(`${dateString}T${from}:00.000Z`),
                 end: new Date(`${dateString}T${to}:00.000Z`)
-            });
+            };
+
+            await this.$store.dispatch('reservations/createReservation', { reservation });
+            await this.$store.dispatch('reservations/getReservationsByRoom', { room_id: this.room_id });
+            this.renderReservations();
         },
         initialiseCalendar() {
             const today = new Date();
@@ -59,7 +75,21 @@ export default {
                     reservations: []
                 };
             });
-            console.log(this.currentDays);
+        },
+        renderReservations() {
+            this.reservations.forEach(reservation => {
+                const currDates = this.currentDays.map(day => day.date.toISOString().substring(0, 10));
+                if (currDates.includes(reservation.start.toISOString().substring(0, 10))) {
+                    const idx = currDates.indexOf(reservation.start.toISOString().substring(0, 10));
+                    this.currentDays[idx].reservations.push({
+                        ...reservation
+                    });
+                }
+            });
+        },
+        async loadReservations(room_id) {
+            await this.$store.dispatch('reservations/getReservationsByRoom', { room_id });
+            this.renderReservations();
         }
     }
 };

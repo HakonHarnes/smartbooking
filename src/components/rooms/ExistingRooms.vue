@@ -6,7 +6,7 @@
             <room-list-item
                 v-for="room in rooms"
                 :key="room.id"
-                :name="room.roomName"
+                :name="room.room_name"
                 :seats="room.seats"
                 :description="room.description"
                 :building="room.building"
@@ -32,7 +32,7 @@ export default {
         },
         filteredUsers() {
             return this.rooms.filter(room => {
-                return room.roomName.toLowerCase().includes(this.searchKeyword);
+                return room.room_name.toLowerCase().includes(this.searchKeyword);
             });
         },
         columns() {

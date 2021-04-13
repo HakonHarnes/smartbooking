@@ -3,6 +3,6 @@ export default {
         return state.users;
     },
     user(state) {
-        return userId => state.users.find(({ id }) => id === userId);
+        return user_id => state.users.find(({ id }) => id === user_id);
     }
 };

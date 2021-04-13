@@ -25,7 +25,7 @@ export default {
     },
     methods: {
         deleteUser() {
-            this.$store.dispatch('users/deleteUser', { userId: this.id });
+            this.$store.dispatch('users/deleteUser', { user_id: this.id });
         },
         editUser() {
             this.$emit('edit-user', this.id);

@@ -1,8 +1,7 @@
 <template>
     <li>
-        <div>{{ roomName }}</div>
+        <div>{{ room_name }}</div>
         <div>{{ building }}</div>
-        <div>{{ seats }}</div>
         <div>
             {{ startString }}
         </div>
@@ -17,9 +16,8 @@
 export default {
     props: {
         id: Number,
-        roomName: String,
+        room_name: String,
         building: String,
-        seats: Number,
         start: Date,
         end: Date,
         type: String,

@@ -5,8 +5,14 @@
             <div>{{ dateString }}</div>
         </div>
         <div class="hours">
-            <div class="hour" v-for="(hour, index) in hours" :key="hour.time" :style="hour.available ? null : busy">
-                <div v-if="!hour.available">Opptatt</div>
+            <div
+                class="hour"
+                v-for="(hour, index) in hours"
+                :key="hour.time"
+                :style="hour.mine ? myReservation : hour.available ? null : busy"
+            >
+                <div v-if="hour.mine">Din reservasjon</div>
+                <div v-else-if="!hour.available">Opptatt</div>
                 <div v-else @click="book(index)" class="available">{{ hour.time }}</div>
             </div>
         </div>
@@ -33,6 +39,9 @@ export default {
         busy() {
             return { backgroundColor: '#c0392b', color: '#e9a29b' };
         },
+        myReservation() {
+            return { backgroundColor: '#386881', color: 'white' };
+        },
         dateString() {
             return getDateString(this.date);
         },
@@ -41,6 +50,9 @@ export default {
         },
         numHours() {
             return Math.abs(this.endTime - this.startTime) / 3.6e5;
+        },
+        loggedInUser() {
+            return this.$store.getters.user_id;
         }
     },
     watch: {
@@ -92,7 +104,12 @@ export default {
         setStatuses() {
             this.reservations.forEach(res => {
                 [...Array(this.calcNumHalfHours(res.start, res.end))].forEach((_, idx) => {
-                    this.hours[this.calcStartIndex(res.start) + idx].available = false;
+                    const currIdx = this.calcStartIndex(res.start) + idx;
+                    this.hours[currIdx].available = false;
+                    console.log(res.user_id, this.loggedInUser);
+                    if (res.user_id === this.loggedInUser) {
+                        this.hours[currIdx].mine = true;
+                    }
                 });
             });
         }
@@ -104,7 +121,8 @@ export default {
                     this.getDisplayHour(this.startTime.getUTCHours(), index),
                     this.getDisplayMinutes(this.startTime.getMinutes(), index)
                 ),
-                available: true
+                available: true,
+                mine: false
             };
         });
         this.setStatuses();

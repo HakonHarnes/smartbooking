@@ -7,33 +7,33 @@ class ReservationService {
         return response.data;
     });
 
-    getUserReservations = catchAsync(async id => {
-        const response = await axios.get('/reservations?userId=' + id);
+    getReservationsByUserId = catchAsync(async id => {
+        const response = await axios.get('/reservations?user_id=' + id);
         console.log(response);
         return response.data;
     });
 
-    getRoomReservations = catchAsync(async id => {
-        const response = await axios.get('/reservations?roomId=' + id);
+    getReservationsByRoomAndTime = catchAsync(async (id, start, end) => {
+        const response = await axios.get(`/reservations?room_id=${id}&start=${start}&end=${end}`);
         return response.data;
     });
 
-    create = catchAsync(async (startTime, endTime, roomId, userId) => {
+    createReservation = catchAsync(async ({ start, end, room_id, user_id }) => {
         const response = await axios.post('/reservations', {
-            data: { startTime, endTime, userId, roomId }
+            data: { start, end, user_id, room_id }
         });
         return response.data;
     });
 
-    update = catchAsync(async (startTime, endTime, roomId, userId, resId) => {
+    update = catchAsync(async (start, end, room_id, user_id, reservation_id) => {
         const response = await axios.put('/reservations', {
-            data: { startTime, endTime, userId, roomId, resId }
+            data: { start, end, user_id, room_id, reservation_id }
         });
         return response.data;
     });
 
-    delete = catchAsync(async id => {
-        const response = await axios.delete('/reservations/' + id);
+    deleteReservation = catchAsync(async id => {
+        const response = await axios.delete(`/reservations/${id}`);
         return response.data;
     });
 }

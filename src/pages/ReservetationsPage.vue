@@ -17,9 +17,8 @@
                     v-for="res in reservations"
                     :key="res.res_id"
                     :id="res.res_id"
-                    :roomName="res.room_name"
-                    :building="'Dokken'"
-                    :seats="res.seats"
+                    :room_name="res.room_name"
+                    :building="res.building_name"
                     :start="res.start"
                     :end="res.end"
                     :type="'delete'"
@@ -44,7 +43,7 @@ export default {
     },
     computed: {
         columns() {
-            return ['Rom', 'Bygg', 'Plasser', 'Start', 'Slutt', 'Slett'];
+            return ['Rom', 'Bygg', 'Start', 'Slutt', 'Slett'];
         },
         loading() {
             return this.$store.getters.loading;
@@ -62,7 +61,7 @@ export default {
             this.toggleModal();
         },
         confirmDelete() {
-            this.$store.dispatch('reservations/deleteReservation', { resId: this.resId });
+            this.$store.dispatch('reservations/deleteReservation', { reservation_id: this.resId });
             this.resId = null;
             this.toggleModal();
         }

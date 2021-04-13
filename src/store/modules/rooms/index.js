@@ -6,7 +6,7 @@ export default {
     namespaced: true,
     state() {
         return {
-            rooms: [{ id: 1, roomName: '301', seats: 8, description: 'Møterom', building: 'Bygg 3D', active: true }]
+            rooms: []
         };
     },
     mutations,

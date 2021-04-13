@@ -69,10 +69,6 @@ export default {
     },
     methods: {
         handleChangePage(change) {
-            /* const itemsToView = this.currentPage * this.perPage + this.perPage * change;
-            console.log(itemsToView);
-            const shouldChange = itemsToView >= 0 && itemsToView < this.days.length;
-            console.log(shouldChange); */
             this.currentPage += change;
             this.currentDays = this.days.slice(
                 this.currentPage * this.perPage,

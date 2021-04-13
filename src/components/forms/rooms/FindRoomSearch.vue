@@ -17,6 +17,9 @@
                 <label>Bygg</label>
                 <select>
                     <option>Alle bygg</option>
+                    <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{
+                        b.building_name
+                    }}</option>
                 </select>
             </div>
             <div class="form-control">
@@ -46,6 +49,9 @@ export default {
         };
     },
     computed: {
+        buildings() {
+            return this.$store.getters['buildings/buildings'];
+        },
         today() {
             return new Date().toISOString().slice(0, 10);
         }
