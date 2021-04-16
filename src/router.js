@@ -19,7 +19,7 @@ import UserRoomPage from './pages/UserRoomPage.vue';
 import CustomerRoomPage from './pages/CustomerRoomPage.vue';
 import ChooseRoom from './components/rooms/ChooseRoom.vue';
 import FindRoom from './components/rooms/FindRoom.vue';
-import ResetPassword from './pages/ResetPassword.vue';
+import ResetPasswordPage from './pages/ResetPasswordPage.vue';
 import SetPassword from './pages/SetPassword.vue';
 
 const router = createRouter({
@@ -42,7 +42,7 @@ const router = createRouter({
         },
         {
             path: '/reset/:token',
-            component: ResetPassword,
+            component: ResetPasswordPage,
             meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
         },
         {

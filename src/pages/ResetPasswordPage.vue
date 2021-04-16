@@ -11,13 +11,24 @@
 <script>
 import ResetPasswordForm from '../components/forms/users/ResetPasswordForm.vue';
 import userService from '../services/UserService';
+import checkPasswordLength from '../utils/PasswordValidator';
 
 export default {
     components: {
         ResetPasswordForm
     },
+    data() {
+        return {
+            role: ''
+        };
+    },
     methods: {
         async resetPassword(data) {
+            // Validates the password
+            if (!checkPasswordLength(data.password, this.role)) {
+                return alert('Password length not good mate');
+            }
+
             // Resets the password
             const token = this.$route.params.token;
             const response = await userService.resetPassword(data.password, token);
@@ -32,6 +43,16 @@ export default {
             // Forwards the user to the login page
             this.$router.push('/login');
         }
+    },
+    async beforeCreate() {
+        const token = this.$route.params.token;
+        const response = await userService.getUserFromResetToken(token);
+        if (!response.data) {
+            alert('Invalid reset token');
+            this.$router.push('/login');
+        }
+
+        this.role = response.data.data.role;
     }
 };
 </script>

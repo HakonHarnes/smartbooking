@@ -19,17 +19,11 @@ export default {
     },
     methods: {
         submitForm() {
-            const validInput = this.validateInput();
-            if (!validInput) {
-                return alert('Invalid input!');
+            if (this.password !== this.confirmPassword) {
+                return alert('Passwords do not match!');
             }
 
             this.$emit('submit-form', { password: this.password });
-        },
-
-        // Validates the input
-        validateInput() {
-            return this.password === this.confirmPassword && this.password.length > 0;
         }
     }
 };

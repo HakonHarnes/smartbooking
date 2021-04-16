@@ -26,6 +26,12 @@ class UserService {
         return response;
     });
 
+    getUserFromResetToken = catchAsync(async resetToken => {
+        const response = await axios.get(`/users?resetToken=${resetToken}`);
+
+        return response;
+    });
+
     register = catchAsync(async (email, password, firstName, lastName, isActive, role) => {
         const user = { email, password, firstName, lastName, isActive, role };
 

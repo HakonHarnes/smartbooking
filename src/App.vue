@@ -19,14 +19,6 @@ export default {
             return this.$store.getters.isAuthenticated;
         }
     }
-    // async beforeCreate() {
-    //     const response = await userService.getLoggedInUser();
-    //     if (response.data) {
-    //         this.$store.dispatch('login', { role: response.data.user.role });
-    //     }
-
-    //     this.$store.dispatch('setInitialized', { isInitialized: true });
-    // }
 };
 </script>
 

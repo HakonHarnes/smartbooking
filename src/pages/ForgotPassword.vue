@@ -16,6 +16,11 @@ export default {
     components: {
         ForgotPasswordForm
     },
+    computed: {
+        role() {
+            return this.$store.getters.role;
+        }
+    },
     methods: {
         async forgotPassword(data) {
             alert('Dersom det er en konto knyttet til denne eposten, er tilbakestillingslenke sendt.');
@@ -32,6 +37,9 @@ export default {
             // Forwards the user to the login page
             this.$router.push('/login');
         }
+    },
+    beforeCreate() {
+        console.log('hello');
     }
 };
 </script>
