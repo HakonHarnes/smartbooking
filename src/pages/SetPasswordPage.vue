@@ -2,8 +2,8 @@
     <div class="container">
         <section>
             <img src="../assets/logo.png" alt="" class="logo" />
-            <h1 class="title">Reset passord</h1>
-            <password-form @submit-form="resetPassword" button-text="Reset passord" :user="user"></password-form>
+            <h1 class="title">Sett passord</h1>
+            <password-form @submit-form="setPassword" button-text="Sett passord" :user="user"></password-form>
         </section>
     </div>
 </template>
@@ -23,7 +23,7 @@ export default {
         };
     },
     methods: {
-        async resetPassword(data) {
+        async setPassword(data) {
             const token = this.$route.params.token;
             const response = await userService.resetPassword(data.password, token);
 

@@ -16,6 +16,11 @@ export default {
     components: {
         LoginForm
     },
+    data() {
+        return {
+            toast: this.$store.getters.toast
+        };
+    },
     methods: {
         async login(data) {
             // Attempts to log in the user
@@ -23,7 +28,7 @@ export default {
 
             // Displays error if there is one
             if (response.error) {
-                return alert(response.error);
+                return this.toast.error(response.error);
             }
 
             // Forwards the user to the home page
@@ -42,13 +47,19 @@ export default {
     width: 100vw;
     height: 100vh;
 }
+
+img {
+    width: 100%;
+}
+
 section {
     display: grid;
     grid-template-areas:
         'logo'
         'title'
         'form';
-    width: 400px;
+    max-width: 300px;
+    margin: 60px;
     gap: 0.5rem;
     place-items: center center;
     color: white;

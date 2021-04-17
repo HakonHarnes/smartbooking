@@ -8,7 +8,7 @@ import UserDataPage from './pages/UserDataPage.vue';
 import ReservationsPage from './pages/ReservetationsPage.vue';
 import StatisticsPage from './pages/StatisticsPage.vue';
 import SettingsPage from './pages/SettingsPage.vue';
-import ForgotPassword from './pages/ForgotPassword.vue';
+import ForgotPasswordPage from './pages/ForgotPasswordPage.vue';
 import NotAuthorizedPage from './pages/NotAuthorizedPage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
 import ExistingUsers from './components/user/UserData/ExistingUsers.vue';
@@ -20,7 +20,7 @@ import CustomerRoomPage from './pages/CustomerRoomPage.vue';
 import ChooseRoom from './components/rooms/ChooseRoom.vue';
 import FindRoom from './components/rooms/FindRoom.vue';
 import ResetPasswordPage from './pages/ResetPasswordPage.vue';
-import SetPassword from './pages/SetPassword.vue';
+import SetPasswordPage from './pages/SetPasswordPage.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -36,18 +36,18 @@ const router = createRouter({
             meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
         },
         {
-            path: '/glemt',
-            component: ForgotPassword,
+            path: '/glemt-passord',
+            component: ForgotPasswordPage,
             meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
         },
         {
-            path: '/reset/:token',
+            path: '/reset-passord/:token',
             component: ResetPasswordPage,
             meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
         },
         {
-            path: '/registrer/:token',
-            component: SetPassword,
+            path: '/sett-passord/:token',
+            component: SetPasswordPage,
             meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
         },
         {

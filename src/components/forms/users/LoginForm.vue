@@ -1,11 +1,11 @@
 <template>
     <form @submit.prevent="submitForm">
         <section class="inputs">
-            <input type="email" placeholder="e-post" v-model="email" />
-            <input type="password" placeholder="passord" v-model="password" />
+            <input type="email" placeholder="E-post" v-model="email" required />
+            <input type="password" placeholder="Passord" v-model="password" required />
         </section>
-        <p>Glemt passord? Tilbakestill <router-link to="/glemt">her</router-link></p>
         <base-button>Logg inn</base-button>
+        <p>Glemt passord? Tilbakestill <router-link to="/glemt-passord">her</router-link></p>
     </form>
 </template>
 
@@ -15,22 +15,21 @@ export default {
     data() {
         return {
             email: '',
-            password: ''
+            password: '',
+            toast: this.$store.getters.toast
         };
     },
     methods: {
         submitForm() {
-            const validInput = this.validateInput();
-            if (!validInput) {
-                return alert('Invalid input!');
+            if (!this.validateInput()) {
+                return this.toast.error('Input er for langt.');
             }
 
             this.$emit('submit-form', { email: this.email, password: this.password });
         },
 
-        // TODO: Validate input
         validateInput() {
-            return true;
+            return this.email.length <= 100 && this.password.length <= 64;
         }
     }
 };
@@ -42,7 +41,7 @@ form {
     place-items: center center;
     text-align: center;
     gap: 1rem;
-    width: 300px;
+    width: 100%;
     font-size: 1.1rem;
 }
 
@@ -56,6 +55,7 @@ a {
 }
 
 input {
+    border: none;
     padding: 0.5rem;
     font-size: 1.2rem;
 }
@@ -63,21 +63,5 @@ input {
 .inputs {
     display: grid;
     gap: 0.5rem;
-}
-
-::-webkit-input-placeholder {
-    text-align: center;
-}
-
-:-moz-placeholder {
-    text-align: center;
-}
-
-::-moz-placeholder {
-    text-align: center;
-}
-
-:-ms-input-placeholder {
-    text-align: center;
 }
 </style>

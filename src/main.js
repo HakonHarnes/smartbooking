@@ -3,6 +3,8 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router.js';
 import store from './store/index.js';
+import Toast, { POSITION } from 'vue-toastification';
+import 'vue-toastification/dist/index.css';
 import userService from './services/UserService';
 
 import BaseActiveAttribute from './components/ui/BaseActiveAttribute.vue';
@@ -17,8 +19,13 @@ import Switches from 'vue-switches';
 // Initializes the app
 const initalize = async () => {
     const app = createApp(App);
-    app.use(store);
 
+    app.use(Toast, {
+        timeout: 10000,
+        position: POSITION.TOP_CENTER
+    });
+
+    app.use(store);
     const response = await userService.getLoggedInUser();
     if (response.data) {
         store.dispatch('login', { role: response.data.user.role });

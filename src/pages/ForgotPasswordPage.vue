@@ -2,32 +2,42 @@
     <div class="container">
         <section>
             <img src="../assets/logo.png" alt="" class="logo" />
-            <h1 class="title">Sett passord</h1>
-            <set-password-form @submit-form="resetPassword"></set-password-form>
+            <h1 class="title">Glemt passord</h1>
+            <forgot-password-form @submit-form="forgotPassword"></forgot-password-form>
         </section>
     </div>
 </template>
 
 <script>
-import SetPasswordForm from '../components/forms/users/SetPasswordForm.vue';
+import ForgotPasswordForm from '../components/forms/users/ForgotPasswordForm.vue';
 import userService from '../services/UserService';
 
 export default {
     components: {
-        SetPasswordForm
+        ForgotPasswordForm
+    },
+    computed: {
+        role() {
+            return this.$store.getters.role;
+        }
+    },
+    data() {
+        return {
+            toast: this.$store.getters.toast
+        };
     },
     methods: {
-        async resetPassword(data) {
-            // Resets the password
-            const token = this.$route.params.token;
-            const response = await userService.resetPassword(data.password, token);
+        forgotPassword(data) {
+            this.toast.clear();
+            this.toast.info('Dersom det er en konto knyttet til denne epost-adressen, er tilbakestillingslenke sendt.');
+
+            // Attempts to log in the user
+            const response = userService.forgotPassword(data.email);
 
             // Displays error if there is one
             if (response.error) {
-                return alert(response.error);
+                return this.toast.error(response.error);
             }
-
-            alert('Password was changed!');
 
             // Forwards the user to the login page
             this.$router.push('/login');
@@ -45,6 +55,10 @@ export default {
     height: 100vh;
 }
 
+img {
+    width: 100%;
+}
+
 a {
     text-decoration: none;
 }
@@ -55,7 +69,8 @@ section {
         'logo'
         'title'
         'form';
-    width: 400px;
+    max-width: 300px;
+    margin: 60px;
     gap: 0.5rem;
     place-items: center center;
     color: white;
