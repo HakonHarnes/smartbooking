@@ -10,13 +10,36 @@
 
 <script>
 import ForgotPasswordForm from '../components/forms/users/ForgotPasswordForm.vue';
+import userService from '../services/UserService';
+
 export default {
     components: {
         ForgotPasswordForm
     },
+    computed: {
+        role() {
+            return this.$store.getters.role;
+        }
+    },
+    data() {
+        return {
+            toast: this.$store.getters.toast
+        };
+    },
     methods: {
-        forgotPassword() {
-            alert('Link for tilbakestilling av passord er send til din e-post!');
+        forgotPassword(data) {
+            this.toast.clear();
+            this.toast.info('Dersom det er en konto knyttet til denne epost-adressen, er tilbakestillingslenke sendt.');
+
+            // Attempts to log in the user
+            const response = userService.forgotPassword(data.email);
+
+            // Displays error if there is one
+            if (response.error) {
+                return this.toast.error(response.error);
+            }
+
+            // Forwards the user to the login page
             this.$router.push('/login');
         }
     }
@@ -32,6 +55,10 @@ export default {
     height: 100vh;
 }
 
+img {
+    width: 100%;
+}
+
 a {
     text-decoration: none;
 }
@@ -42,7 +69,8 @@ section {
         'logo'
         'title'
         'form';
-    width: 400px;
+    max-width: 300px;
+    margin: 60px;
     gap: 0.5rem;
     place-items: center center;
     color: white;

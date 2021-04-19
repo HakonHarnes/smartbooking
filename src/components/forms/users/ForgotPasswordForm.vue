@@ -1,20 +1,32 @@
 <template>
     <form @submit.prevent="submitForm">
         <section class="inputs">
-            <input type="email" placeholder="e-post" />
-            <input type="email" placeholder="gjenta e-post" />
+            <input type="email" placeholder="E-post" v-model="email" required />
         </section>
-        <p>Gå tilbake til <router-link to="/login">innlogging</router-link></p>
         <base-button>Be om nytt passord</base-button>
+        <p>Gå tilbake til <router-link to="/login">innlogging</router-link></p>
     </form>
 </template>
 
 <script>
 export default {
     emits: ['submit-form'],
+    data() {
+        return {
+            email: '',
+            toast: this.$store.getters.toast
+        };
+    },
     methods: {
         submitForm() {
-            this.$emit('submit-form');
+            if (!this.validateInput()) {
+                return this.toast.error('Input er for langt.');
+            }
+
+            this.$emit('submit-form', { email: this.email });
+        },
+        validateInput() {
+            return this.email.length <= 100;
         }
     }
 };
@@ -26,7 +38,7 @@ form {
     place-items: center center;
     text-align: center;
     gap: 1rem;
-    width: 300px;
+    width: 100%;
     font-size: 1.1rem;
 }
 
@@ -40,28 +52,8 @@ a {
 }
 
 input {
+    border: none;
     padding: 0.5rem;
     font-size: 1.2rem;
-}
-
-.inputs {
-    display: grid;
-    gap: 0.5rem;
-}
-
-::-webkit-input-placeholder {
-    text-align: center;
-}
-
-:-moz-placeholder {
-    text-align: center;
-}
-
-::-moz-placeholder {
-    text-align: center;
-}
-
-:-ms-input-placeholder {
-    text-align: center;
 }
 </style>

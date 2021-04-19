@@ -61,6 +61,8 @@
 </template>
 
 <script>
+import userService from '../../services/UserService';
+
 export default {
     computed: {
         role() {
@@ -84,6 +86,7 @@ export default {
     },
     methods: {
         logout() {
+            userService.logout();
             this.$store.dispatch('logout');
             this.$router.push('/login');
         }

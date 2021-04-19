@@ -3,7 +3,11 @@ export default fn => {
         try {
             return await fn.apply(this, arguments);
         } catch (error) {
-            return error;
+            if (!error.response) {
+                return { error: "Can't connect to database" };
+            }
+
+            return { error: error.response.data.message };
         }
     };
 };
