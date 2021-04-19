@@ -20,6 +20,24 @@ class UserService {
         return response;
     });
 
+    sendVerificationToken = catchAsync(async () => {
+        const response = await axios.get('/users/sendVerification', { withCredentials: true });
+
+        return response;
+    });
+
+    verifyVerificationToken = catchAsync(async token => {
+        const response = await axios.post(
+            '/users/verify',
+            {
+                data: { token }
+            },
+            { withCredentials: true }
+        );
+
+        return response;
+    });
+
     getLoggedInUser = catchAsync(async () => {
         const response = await axios.get('/users/loggedin', { withCredentials: true });
 

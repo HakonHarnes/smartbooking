@@ -31,6 +31,16 @@ export default {
                 return this.toast.error(response.error);
             }
 
+            // Forwards user to 2FA page if enabled
+            if (response.data.data.twoFactor) {
+                if (response.data.data.twoFactor === 'email') {
+                    await userService.sendVerificationToken(data.email);
+                }
+
+                this.$store.dispatch('partiallyAuthenticate', { isPartiallyAuthenticated: true });
+                return this.$router.push('/bekreftelse');
+            }
+
             // Forwards the user to the home page
             this.$store.dispatch('login', { role: response.data.data.role });
             this.toast.clear();

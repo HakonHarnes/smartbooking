@@ -21,6 +21,7 @@ import ChooseRoom from './components/rooms/ChooseRoom.vue';
 import FindRoom from './components/rooms/FindRoom.vue';
 import ResetPasswordPage from './pages/ResetPasswordPage.vue';
 import SetPasswordPage from './pages/SetPasswordPage.vue';
+import VerificationPage from './pages/VerificationPage.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -98,6 +99,11 @@ const router = createRouter({
             meta: { requiresAuth: true, roles: ['user', 'admin', 'customer'] }
         },
         {
+            path: '/bekreftelse',
+            component: VerificationPage,
+            meta: { requiresPartialAuth: true, roles: ['user', 'admin', 'customer'] }
+        },
+        {
             path: '/401',
             component: NotAuthorizedPage,
             meta: { requiresAuth: false, roles: ['user', 'admin', 'customer'] }
@@ -122,6 +128,11 @@ router.beforeEach(function(to, _, next) {
     // User does not have permissions to view the page
     if (role && !to.meta.roles.includes(role)) {
         return next('/401');
+    }
+
+    //
+    if (!store.getters.isPartiallyAuthenticated && to.meta.requiresPartialAuth) {
+        return next('/login');
     }
 
     // User is not authenticated and page requires authentication

@@ -5,6 +5,9 @@ export default {
     isAuthenticated(state) {
         return state.isAuthenticated;
     },
+    isPartiallyAuthenticated(state) {
+        return state.isPartiallyAuthenticated;
+    },
     role(state) {
         return state.role;
     },

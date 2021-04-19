@@ -7,6 +7,7 @@ export default {
         return {
             isInitialized: false,
             isAuthenticated: false,
+            isPartiallyAuthenticated: false,
             role: ''
         };
     },
