@@ -6,24 +6,22 @@
         </div>
         <div class="item">
             <div class="attribute">Bygg</div>
-            <div class="value">{{ reservation.building }}</div>
+            <div class="value">{{ reservation.building_name }}</div>
         </div>
         <div class="item">
             <div class="attribute">Antall plasser</div>
-            <div class="value">{{ reservation.seats }}</div>
-        </div>
-        <div class="item">
-            <div class="attribute">Romtype</div>
-            <div class="value">{{ reservation.description }}</div>
+            <div class="value">{{ reservation.size }}</div>
         </div>
         <div class="item">
             <div class="attribute">Tidspunkt</div>
-            <div class="value">{{ date }} - {{ date }}</div>
+            <div class="value">{{ start }} - {{ end }}</div>
         </div>
     </div>
 </template>
 
 <script>
+import { getTime } from '../utils';
+
 export default {
     props: {
         reservation: Object
@@ -31,6 +29,12 @@ export default {
     computed: {
         date() {
             return new Date().toLocaleString().substring(10, 15);
+        },
+        start() {
+            return getTime(this.reservation.start);
+        },
+        end() {
+            return getTime(this.reservation.end);
         }
     }
 };

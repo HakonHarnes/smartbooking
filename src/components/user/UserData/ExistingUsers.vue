@@ -1,18 +1,20 @@
 <template>
     <base-modal v-if="showModal" @close="toggleModal">
-        <template #body><edit-user @close-modal="toggleModal" :id="user_id"></edit-user></template>
+        <template #body><edit-user @close-modal="toggleModal" :user_id="user_id"></edit-user></template>
     </base-modal>
     <base-search @search="search"></base-search>
     <base-card>
-        <ul>
+        <base-spinner v-if="loading"></base-spinner>
+        <ul v-else>
             <base-list-description :columns="columns"></base-list-description>
             <user-list-item
                 v-for="user in filteredUsers"
-                :key="user.id"
-                :id="user.id"
-                :name="user.name"
+                :key="user.user_id"
+                :user_id="user.user_id"
+                :first_name="user.first_name"
+                :last_name="user.last_name"
                 :email="user.email"
-                :active="user.active"
+                :active="user.is_active"
                 @edit-user="editUser"
             ></user-list-item>
         </ul>
@@ -37,12 +39,15 @@ export default {
             return this.$store.getters['users/users'];
         },
         filteredUsers() {
-            return this.users.filter(user => {
-                return user.name.toLowerCase().includes(this.searchKeyword);
+            return this.users?.filter(user => {
+                return `${user.first_name} ${user.last_name}`.toLowerCase().includes(this.searchKeyword);
             });
         },
         columns() {
             return ['Navn', 'E-post', 'Status', 'Rediger'];
+        },
+        loading() {
+            return this.$store.getters.loading;
         }
     },
     methods: {
@@ -52,10 +57,13 @@ export default {
         toggleModal() {
             this.showModal = !this.showModal;
         },
-        editUser(id) {
+        editUser(user_id) {
+            this.user_id = user_id;
             this.toggleModal();
-            this.user_id = id;
         }
+    },
+    created() {
+        this.$store.dispatch('users/getUsers');
     }
 };
 </script>

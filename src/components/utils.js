@@ -15,3 +15,11 @@ export const getDateString = (date, norwegian = true) => {
 
     return norwegian ? `${day}.${month}.${date.getFullYear()}` : `${date.getFullYear()}-${month}-${day}`;
 };
+
+export const getTime = date => {
+    const vars = { hours: date.getHours(), minutes: date.getMinutes() };
+    const hours = vars.hours > 9 ? vars.hours : `0${vars.hours}`;
+    const minutes = vars.minutes > 9 ? vars.minutes : `0${vars.minutes}`;
+
+    return `${hours}:${minutes}`;
+};

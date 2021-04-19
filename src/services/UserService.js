@@ -12,10 +12,24 @@ class UserService {
         return response;
     };
 
-    getById = async id => {
-        const response = await axios.get('/users/' + id);
+    deleteUser = async id => {
+        const response = await axios.delete(`/users/${id}`);
+        return response.data;
+    };
 
-        return response;
+    getUsersByCustomer = async id => {
+        const response = await axios.get(`/users?customer_id=${id}`);
+        return response.data;
+    };
+
+    updateUser = async user => {
+        const response = await axios.put(`/users/${user.user_id}`, {
+            firstName: user.first_name,
+            lastName: user.last_name,
+            email: user.email,
+            isActive: user.is_active
+        });
+        return response.data;
     };
 
     register = async (email, password, firstName, lastName, isActive, role) => {

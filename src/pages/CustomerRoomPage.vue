@@ -8,6 +8,14 @@
     </div>
 </template>
 
+<script>
+export default {
+    created() {
+        this.$store.dispatch('rooms/getRooms');
+    }
+};
+</script>
+
 <style scoped>
 .actions {
     margin-bottom: 1rem;

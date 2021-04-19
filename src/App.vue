@@ -61,7 +61,8 @@ body {
 }
 
 input[type='text'],
-input[type='button'] {
+input[type='button'],
+select {
     font-family: 'Montserrat';
 }
 </style>

@@ -8,7 +8,7 @@ export default {
             customer_id: 2,
             isAuthenticated: true,
             user_id: 2,
-            role: 'user'
+            role: 'customer'
         };
     },
     mutations,
