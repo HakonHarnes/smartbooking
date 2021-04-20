@@ -5,6 +5,7 @@
     <base-search @search="search"></base-search>
     <base-card>
         <base-spinner v-if="loading"></base-spinner>
+        <div v-else-if="!loading && !filteredUsers.length">Fant ingen brukere</div>
         <ul v-else>
             <base-list-description :columns="columns"></base-list-description>
             <user-list-item

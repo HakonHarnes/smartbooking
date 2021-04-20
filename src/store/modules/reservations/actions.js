@@ -18,8 +18,8 @@ export default {
         commit('setLoading', true, { root: true });
         const response = await ReservationService.getReservationsByRoomAndTime(
             payload.room_id,
-            '2021-04-10T08:00:00.000Z',
-            '2021-04-17T08:00:00.000Z'
+            '2021-04-17T08:00:00.000Z',
+            '2021-04-24T08:00:00.000Z'
         );
         const reservations = response.data?.map(res => {
             return {

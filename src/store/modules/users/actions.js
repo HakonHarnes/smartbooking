@@ -1,13 +1,10 @@
 import UserService from '../../../services/UserService';
 
 export default {
-    addUser({ commit }, payload) {
-        const newUser = {
-            id: new Date().toISOString(),
-            ...payload,
-            active: true
-        };
-        commit('addUser', newUser);
+    async registerUser({ commit }, payload) {
+        const newUser = { ...payload };
+        const response = await UserService.register();
+        //commit('addUser', newUser);
     },
     async deleteUser({ commit }, payload) {
         commit('setLoading', true, { root: true });

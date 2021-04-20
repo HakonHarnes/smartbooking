@@ -61,8 +61,6 @@ export default {
                 end: new Date(`${dateString}T${to}:00.000Z`)
             };
 
-            console.log(reservation);
-
             await this.$store.dispatch('reservations/createReservation', { reservation });
             await this.$store.dispatch('reservations/getReservationsByRoom', { room_id: this.room_id });
             this.renderReservations();
@@ -78,8 +76,6 @@ export default {
             });
         },
         renderReservations() {
-            console.log(this.reservations);
-
             this.reservations.forEach(reservation => {
                 const currDates = this.currentDays.map(day => day.date.toISOString().substring(0, 10));
                 if (currDates.includes(reservation.start.toISOString().substring(0, 10))) {
@@ -92,6 +88,7 @@ export default {
         },
         async loadReservations(room_id) {
             await this.$store.dispatch('reservations/getReservationsByRoom', { room_id });
+            console.log(this.reservations);
             this.renderReservations();
         }
     }
