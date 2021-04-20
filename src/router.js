@@ -8,7 +8,7 @@ import UserDataPage from './pages/UserDataPage.vue';
 import ReservationsPage from './pages/ReservetationsPage.vue';
 import StatisticsPage from './pages/StatisticsPage.vue';
 import SettingsPage from './pages/SettingsPage.vue';
-import ForgotPassword from './pages/ForgotPassword.vue';
+import ForgotPasswordPage from './pages/ForgotPasswordPage.vue';
 import NotAuthorizedPage from './pages/NotAuthorizedPage.vue';
 import NotFoundPage from './pages/NotFoundPage.vue';
 import ExistingUsers from './components/user/UserData/ExistingUsers.vue';
@@ -19,6 +19,9 @@ import UserRoomPage from './pages/UserRoomPage.vue';
 import CustomerRoomPage from './pages/CustomerRoomPage.vue';
 import ChooseRoom from './components/rooms/ChooseRoom.vue';
 import FindRoom from './components/rooms/FindRoom.vue';
+import ResetPasswordPage from './pages/ResetPasswordPage.vue';
+import SetPasswordPage from './pages/SetPasswordPage.vue';
+import VerificationPage from './pages/VerificationPage.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -34,8 +37,18 @@ const router = createRouter({
             meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
         },
         {
-            path: '/glemt',
-            component: ForgotPassword,
+            path: '/glemt-passord',
+            component: ForgotPasswordPage,
+            meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
+        },
+        {
+            path: '/reset-passord/:token',
+            component: ResetPasswordPage,
+            meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
+        },
+        {
+            path: '/sett-passord/:token',
+            component: SetPasswordPage,
             meta: { requiresUnauth: true, roles: ['user', 'admin', 'customer'] }
         },
         {
@@ -86,6 +99,11 @@ const router = createRouter({
             meta: { requiresAuth: true, roles: ['user', 'admin', 'customer'] }
         },
         {
+            path: '/bekreftelse',
+            component: VerificationPage,
+            meta: { requiresPartialAuth: true, roles: ['user', 'admin', 'customer'] }
+        },
+        {
             path: '/401',
             component: NotAuthorizedPage,
             meta: { requiresAuth: false, roles: ['user', 'admin', 'customer'] }
@@ -94,12 +112,12 @@ const router = createRouter({
             path: '/404',
             name: 'Not found',
             component: NotFoundPage,
-            meta: { requiresAuth: false, roles: ['user', 'admin', 'customer'] }
+            meta: { requiresAuth: true, roles: ['user', 'admin', 'customer'] }
         },
         {
             path: '/:notFound(.*)',
             redirect: { name: 'Not found' },
-            meta: { requiresAuth: false, roles: ['user', 'admin', 'customer'] }
+            meta: { requiresAuth: true, roles: ['user', 'admin', 'customer'] }
         }
     ]
 });
@@ -110,6 +128,11 @@ router.beforeEach(function(to, _, next) {
     // User does not have permissions to view the page
     if (role && !to.meta.roles.includes(role)) {
         return next('/401');
+    }
+
+    //
+    if (!store.getters.isPartiallyAuthenticated && to.meta.requiresPartialAuth) {
+        return next('/login');
     }
 
     // User is not authenticated and page requires authentication

@@ -1,7 +1,7 @@
 <template>
-    <base-card class="card">
-        <base-spinner v-if="loading"></base-spinner>
-        <form v-else-if="!loading" @submit.prevent="go">
+    <base-spinner v-if="!buildings.length"></base-spinner>
+    <base-card v-else class="card">
+        <form @submit.prevent="go">
             <div class="form-control">
                 <label>Bygg</label>
                 <select name="building" @change="handleBuildingChange" required>
@@ -15,7 +15,7 @@
                 <label>Rom</label>
                 <select name="room" @change="handleChange" :disabled="!filteredRooms.length" required>
                     <option :value="null">{{
-                        filteredRooms.length || !buildingId ? 'Velg rom' : 'Fant ingen rom'
+                        filteredRooms.length || !building_id ? 'Velg rom' : 'Fant ingen rom'
                     }}</option>
                     <option v-for="room in filteredRooms" :key="room.room_id" :value="room.room_id">{{
                         room.room_name
@@ -37,16 +37,22 @@ export default {
     emits: ['load-room'],
     data() {
         return {
-            buildingId: null,
-            roomId: null,
-            buildings: null,
-            rooms: [],
+            building_id: null,
+            room_id: null,
             error: null
         };
     },
     computed: {
+        buildings() {
+            return this.$store.getters['buildings/buildings'];
+        },
+        rooms() {
+            return this.$store.getters['rooms/rooms'];
+        },
         filteredRooms() {
-            return this.rooms.filter(({ building_id }) => (this.buildingId ? building_id === +this.buildingId : false));
+            return this.rooms.filter(({ building_id }) =>
+                this.building_id ? building_id === +this.building_id : false
+            );
         },
         loading() {
             return this.$store.getters.loading;
@@ -54,33 +60,19 @@ export default {
     },
     methods: {
         go() {
-            if (this.roomId) {
+            if (this.room_id) {
                 this.error = null;
-                this.$emit('load-room', this.roomId);
+                this.$emit('load-room', this.room_id);
             } else {
                 this.error = 'Vennligst velg en bygning og et rom!';
             }
         },
         handleBuildingChange({ target }) {
-            this.buildingId = target.value;
-            this.getRoomsOnBuilding();
+            this.building_id = target.value;
         },
         handleChange({ target }) {
-            this[`${target.name}Id`] = target.value;
-        },
-        async getRoomsOnBuilding() {
-            if (this.buildingId) {
-                this.rooms = await this.$store.dispatch('rooms/getRoomsInBuilding', this.buildingId);
-            } else {
-                this.rooms = [];
-            }
-        },
-        async getBuildings() {
-            this.buildings = await this.$store.dispatch('buildings/getBuildings');
+            this[`${target.name}_id`] = target.value;
         }
-    },
-    mounted() {
-        this.getBuildings();
     }
 };
 </script>
@@ -95,6 +87,7 @@ form {
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    position: relative;
 }
 
 form div {

@@ -1,43 +1,57 @@
 export const RESERVATIONS = [
     {
-        id: 0,
+        res_id: 0,
+        room_id: 1,
+        user_id: 1,
         room_name: '201',
-        building: 'Dokken',
-        seats: 6,
-        start_time: new Date('2021-04-05T09:30:00.000Z'),
-        end_time: new Date('2021-04-05T14:30:00.000Z')
+        building_name: 'Dokken',
+        start_time: new Date('2021-04-12T09:30:00.000Z'),
+        end_time: new Date('2021-04-12T14:30:00.000Z')
     },
     {
-        id: 1,
+        res_id: 1,
+        room_id: 1,
+        user_id: 2,
         room_name: '301',
-        building: 'Ivar Aasens',
-        seats: 8,
-        start_time: new Date('2021-04-06T09:30:00.000Z'),
-        end_time: new Date('2021-04-06T10:30:00.000Z')
+        building_name: 'Ivar Aasens',
+        start_time: new Date('2021-04-13T09:30:00.000Z'),
+        end_time: new Date('2021-04-13T10:30:00.000Z')
     },
     {
-        id: 2,
+        res_id: 2,
+        room_id: 1,
+        user_id: 5,
         room_name: '402',
-        building: 'Dokken',
-        seats: 12,
-        start_time: new Date('2021-04-07T09:30:00.000Z'),
-        end_time: new Date('2021-04-07T10:00:00.000Z')
+        building_name: 'Dokken',
+        start_time: new Date('2021-04-14T09:30:00.000Z'),
+        end_time: new Date('2021-04-14T10:00:00.000Z')
     },
     {
-        id: 3,
+        res_id: 3,
+        room_id: 1,
+        user_id: 3,
         room_name: '402',
-        building: 'Dokken',
-        seats: 12,
-        start_time: new Date('2021-04-08T09:30:00.000Z'),
-        end_time: new Date('2021-04-08T10:00:00.000Z')
+        building_name: 'Dokken',
+        start_time: new Date('2021-04-15T09:30:00.000Z'),
+        end_time: new Date('2021-04-15T10:00:00.000Z')
     },
     {
-        id: 4,
+        res_id: 4,
+        room_id: 1,
+        user_id: 2,
         room_name: '402',
-        building: 'Dokken',
-        seats: 12,
-        start_time: new Date('2021-04-09T09:30:00.000Z'),
-        end_time: new Date('2021-04-09T10:00:00.000Z')
+        building_name: 'Dokken',
+        start_time: new Date('2021-04-16T09:30:00.000Z'),
+        end_time: new Date('2021-04-16T10:00:00.000Z')
+    },
+    {
+        res_id: 4,
+        room_id: 1,
+        user_id: 1,
+        room_name: '402',
+        building_name: 'Dokken',
+        start_time: new Date('2021-04-17T09:30:00.000Z'),
+        end_time: new Date('2021-04-17T11:00:00.000Z')
     }
 ];
 

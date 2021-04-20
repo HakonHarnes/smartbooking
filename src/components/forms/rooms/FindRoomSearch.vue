@@ -1,5 +1,6 @@
 <template>
-    <base-card class="card">
+    <base-spinner v-if="!buildings.length"></base-spinner>
+    <base-card v-else class="card">
         <form @submit.prevent="search">
             <div class="form-control">
                 <label>Dato</label>
@@ -15,8 +16,11 @@
             </div>
             <div class="form-control">
                 <label>Bygg</label>
-                <select>
-                    <option>Alle bygg</option>
+                <select @change="handleBuildingChange">
+                    <option :value="null">Alle bygg</option>
+                    <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{
+                        b.building_name
+                    }}</option>
                 </select>
             </div>
             <div class="form-control">
@@ -41,21 +45,28 @@ export default {
                 to: '',
                 valid: false
             },
+            building_id: null,
             formValid: false,
             error: null
         };
     },
     computed: {
+        buildings() {
+            return this.$store.getters['buildings/buildings'];
+        },
         today() {
             return new Date().toISOString().slice(0, 10);
         }
     },
     methods: {
+        handleBuildingChange(e) {
+            this.building_id = e.target.value;
+        },
         search() {
             this.error = null;
             this.validateForm();
             if (this.formValid) {
-                this.$emit('find-rooms', {});
+                this.$emit('find-rooms', this.date.val, this.times.from, this.times.to, this.building_id);
             }
         },
         validateDate() {

@@ -53,8 +53,8 @@ export default {
                 from: null,
                 availableTo: null
             },
-            startTime: new Date('2021-03-17T08:00:00.000Z'),
-            endTime: new Date('2021-03-17T16:00:00.000Z')
+            startTime: new Date('2021-04-17T06:00:00.000Z'),
+            endTime: new Date('2021-04-17T14:00:00.000Z')
         };
     },
     computed: {
@@ -69,10 +69,6 @@ export default {
     },
     methods: {
         handleChangePage(change) {
-            /* const itemsToView = this.currentPage * this.perPage + this.perPage * change;
-            console.log(itemsToView);
-            const shouldChange = itemsToView >= 0 && itemsToView < this.days.length;
-            console.log(shouldChange); */
             this.currentPage += change;
             this.currentDays = this.days.slice(
                 this.currentPage * this.perPage,

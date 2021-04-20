@@ -8,18 +8,18 @@ class PolicyService {
     });
 
     create = catchAsync(
-        async (maxTimePerReservation, maxDaysLookup, lengthPeriod, reservationsPerPeriod, buildingId) => {
+        async (maxTimePerReservation, maxDaysLookup, lengthPeriod, reservationsPerPeriod, building_id) => {
             const response = await axios.post('/policies', {
-                data: { maxTimePerReservation, maxDaysLookup, lengthPeriod, reservationsPerPeriod, buildingId }
+                data: { maxTimePerReservation, maxDaysLookup, lengthPeriod, reservationsPerPeriod, building_id }
             });
             return response.data;
         }
     );
 
     update = catchAsync(
-        async (maxTimePerReservation, maxDaysLookup, lengthPeriod, reservationsPerPeriod, buildingId) => {
+        async (maxTimePerReservation, maxDaysLookup, lengthPeriod, reservationsPerPeriod, building_id) => {
             const response = await axios.put('/policies', {
-                data: { maxTimePerReservation, maxDaysLookup, lengthPeriod, reservationsPerPeriod, buildingId }
+                data: { maxTimePerReservation, maxDaysLookup, lengthPeriod, reservationsPerPeriod, building_id }
             });
             return response.data;
         }

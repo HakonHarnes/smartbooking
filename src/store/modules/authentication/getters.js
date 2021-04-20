@@ -1,6 +1,12 @@
 export default {
+    isInitialized(state) {
+        return state.isInitialized;
+    },
     isAuthenticated(state) {
         return state.isAuthenticated;
+    },
+    isPartiallyAuthenticated(state) {
+        return state.isPartiallyAuthenticated;
     },
     role(state) {
         return state.role;
@@ -11,7 +17,10 @@ export default {
     isCustomer(_, getters) {
         return getters.role === 'customer';
     },
-    customerId(state) {
-        return state.customerId;
+    customer_id(state) {
+        return state.customer_id;
+    },
+    user_id(state) {
+        return state.user_id;
     }
 };

@@ -1,12 +1,16 @@
 <template>
     <form @submit.prevent="addUser">
         <div>
-            <label for="name">Navn</label>
-            <input type="text" name="name" v-model.trim="name" />
+            <label for="firstname">Fornavn</label>
+            <input required type="text" name="firstname" v-model.trim="first_name" />
+        </div>
+        <div>
+            <label for="lastname">Etternavn</label>
+            <input required type="text" name="lastname" v-model.trim="last_name" />
         </div>
         <div>
             <label for="email">E-post</label>
-            <input type="email" name="email" v-model.trim="email" />
+            <input required type="email" name="email" v-model.trim="email" />
         </div>
         <div class="actions">
             <base-button>Registrer bruker</base-button>
@@ -18,14 +22,34 @@
 export default {
     data() {
         return {
-            name: '',
-            email: ''
+            first_name: '',
+            last_name: '',
+            email: '',
+            formValid: true
         };
     },
     methods: {
         addUser() {
-            this.$store.dispatch('users/addUser', { name: this.name, email: this.email });
-            this.$router.replace('/brukere');
+            this.validateForm();
+            if (this.formValid) {
+                this.$store.dispatch('users/addUser', {
+                    first_name: this.first_name,
+                    last_name: this.last_name,
+                    email: this.email
+                });
+                this.$router.replace('/brukere');
+            } else {
+                alert('Maks lengde på for- og etternavn er 30!');
+            }
+        },
+        validateForm() {
+            if (this.first_name.length > 30) {
+                this.formValid = false;
+            } else if (this.last_name.length > 30) {
+                this.formValid = false;
+            } else {
+                this.formValid = true;
+            }
         }
     }
 };

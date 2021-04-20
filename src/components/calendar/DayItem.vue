@@ -5,8 +5,14 @@
             <div>{{ dateString }}</div>
         </div>
         <div class="hours">
-            <div class="hour" v-for="(hour, index) in hours" :key="hour.time" :style="hour.available ? null : busy">
-                <div v-if="!hour.available">Opptatt</div>
+            <div
+                class="hour"
+                v-for="(hour, index) in hours"
+                :key="hour.time"
+                :style="hour.mine ? myReservation : hour.available ? null : busy"
+            >
+                <div v-if="hour.mine">Din reservasjon</div>
+                <div v-else-if="!hour.available">Opptatt</div>
                 <div v-else @click="book(index)" class="available">{{ hour.time }}</div>
             </div>
         </div>
@@ -33,6 +39,9 @@ export default {
         busy() {
             return { backgroundColor: '#c0392b', color: '#e9a29b' };
         },
+        myReservation() {
+            return { backgroundColor: '#386881', color: 'white' };
+        },
         dateString() {
             return getDateString(this.date);
         },
@@ -41,6 +50,9 @@ export default {
         },
         numHours() {
             return Math.abs(this.endTime - this.startTime) / 3.6e5;
+        },
+        loggedInUser() {
+            return this.$store.getters.user_id;
         }
     },
     watch: {
@@ -54,8 +66,8 @@ export default {
     methods: {
         addHalfHoursToTimes(times, amount) {
             return times.map(time => {
-                const tid = new Date(new Date(`2021-03-17T${time}:00.000Z`).getTime() + amount * 1.8e6);
-                return this.formatTime(tid.getUTCHours(), tid.getMinutes());
+                const tid = new Date(new Date().setHours(...time.split(':')) + amount * 1.8e6);
+                return this.formatTime(tid.getHours(), tid.getMinutes());
             });
         },
         book(index) {
@@ -77,8 +89,8 @@ export default {
             return Math.abs(end - start) / 1.8e6;
         },
         calcStartIndex(start) {
-            const startIndex = (start.getUTCHours() - this.startTime.getUTCHours()) * 2;
-            return start.getUTCMinutes() === 0 ? startIndex : startIndex + 1;
+            const startIndex = (start.getHours() - this.startTime.getHours()) * 2;
+            return start.getMinutes() === 0 ? startIndex : startIndex + 1;
         },
         formatTime(hours, minutes) {
             return `${hours > 9 ? hours : `0${hours}`}:${minutes === 0 ? `${minutes}0` : minutes}`;
@@ -92,7 +104,11 @@ export default {
         setStatuses() {
             this.reservations.forEach(res => {
                 [...Array(this.calcNumHalfHours(res.start, res.end))].forEach((_, idx) => {
-                    this.hours[this.calcStartIndex(res.start) + idx].available = false;
+                    const currIdx = this.calcStartIndex(res.start) + idx;
+                    this.hours[currIdx].available = false;
+                    if (res.user_id === this.loggedInUser) {
+                        this.hours[currIdx].mine = true;
+                    }
                 });
             });
         }
@@ -101,10 +117,11 @@ export default {
         this.hours = this.hours.map((hour, index) => {
             return {
                 time: this.formatTime(
-                    this.getDisplayHour(this.startTime.getUTCHours(), index),
+                    this.getDisplayHour(this.startTime.getHours(), index),
                     this.getDisplayMinutes(this.startTime.getMinutes(), index)
                 ),
-                available: true
+                available: true,
+                mine: false
             };
         });
         this.setStatuses();

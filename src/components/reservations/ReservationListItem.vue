@@ -1,12 +1,11 @@
 <template>
     <li>
-        <div>{{ roomName }}</div>
+        <div>{{ room_name }}</div>
         <div>{{ building }}</div>
-        <div>{{ seats }}</div>
-        <div>
-            {{ startString }}
-        </div>
-        <div>{{ endString }}</div>
+        <div v-if="size">{{ size }}</div>
+        <div v-if="date">{{ dateString }}</div>
+        <div>{{ startTime }}</div>
+        <div>{{ endTime }}</div>
         <div>
             <base-icon @click="handleAction" :name="type" :class="type"></base-icon>
         </div>
@@ -14,12 +13,15 @@
 </template>
 
 <script>
+import { getDateString, getTime } from '../utils';
+
 export default {
     props: {
         id: Number,
-        roomName: String,
+        room_name: String,
         building: String,
-        seats: Number,
+        date: Boolean,
+        size: Number,
         start: Date,
         end: Date,
         type: String,
@@ -31,17 +33,17 @@ export default {
             this.$emit('handle-action', this.id);
         },
         convertDate(date) {
-            return date
-                .toLocaleString()
-                .slice(this.dateSubstringChars[0], this.dateSubstringChars[1])
-                .replace(',', '');
+            return getTime(date);
         }
     },
     computed: {
-        startString() {
+        dateString() {
+            return getDateString(this.start);
+        },
+        startTime() {
             return this.convertDate(this.start);
         },
-        endString() {
+        endTime() {
             return this.convertDate(this.end);
         }
     }

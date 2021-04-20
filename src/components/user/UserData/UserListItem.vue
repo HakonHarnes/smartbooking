@@ -1,8 +1,8 @@
 <template>
     <li>
-        <div>{{ name }}</div>
+        <div>{{ `${first_name} ${last_name}` }}</div>
         <div>{{ email }}</div>
-        <base-active-attribute :active="active" :text="text"></base-active-attribute>
+        <base-active-attribute :active="!!active" :text="text"></base-active-attribute>
         <div>
             <base-icon @click="editUser" name="edit" class="edit"></base-icon>
         </div>
@@ -12,10 +12,11 @@
 <script>
 export default {
     props: {
-        id: Number,
-        name: String,
+        user_id: Number,
+        first_name: String,
+        last_name: String,
         email: String,
-        active: Boolean
+        active: Number
     },
     emits: ['edit-user'],
     computed: {
@@ -25,10 +26,10 @@ export default {
     },
     methods: {
         deleteUser() {
-            this.$store.dispatch('users/deleteUser', { userId: this.id });
+            this.$store.dispatch('users/deleteUser', { user_id: this.user_id });
         },
         editUser() {
-            this.$emit('edit-user', this.id);
+            this.$emit('edit-user', this.user_id);
         }
     }
 };
