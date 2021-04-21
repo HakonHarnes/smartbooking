@@ -101,7 +101,8 @@ const router = createRouter({
         {
             path: '/bekreftelse',
             component: VerificationPage,
-            meta: { requiresPartialAuth: true, roles: ['user', 'admin', 'customer'] }
+            // TODO: set to true
+            meta: { requiresPartialAuth: false, roles: ['user', 'admin', 'customer'] }
         },
         {
             path: '/401',
