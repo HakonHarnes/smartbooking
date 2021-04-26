@@ -13,11 +13,13 @@ import BaseModal from './components/ui/BaseModal.vue';
 import BaseSearch from './components/ui/BaseSearch.vue';
 import BaseSpinner from './components/ui/BaseSpinner.vue';
 import Switches from 'vue-switches';
+import {VueCsvImport} from "vue-csv-import";
 
 const app = createApp(App);
 
 app.use(router);
 app.use(store);
+app.use(VueCsvImport);
 
 app.component('base-active-attribute', BaseActiveAttribute);
 app.component('base-button', BaseButton);
