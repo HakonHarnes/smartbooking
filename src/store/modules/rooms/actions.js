@@ -55,10 +55,7 @@ export default {
         return rooms;
     },
     async getRooms({ commit, rootState }) {
-<<<<<<< HEAD
-=======
         commit('setLoading', true, { root: true });
->>>>>>> a556b79c26bc8d2dceeec3682f6dcb78ba8bae18
         const response = await RoomService.getRooms(rootState.authentication.customer_id);
 
         const buildings = response.data.map((room, i, a) => {
@@ -73,8 +70,6 @@ export default {
 
         commit('buildings/setBuildings', { buildings: uniqueBuildings }, { root: true });
         commit('setRooms', { rooms: response.data });
-<<<<<<< HEAD
-=======
         commit('setLoading', false, { root: true });
     },
     async updateRoom({ commit }, payload) {
@@ -96,6 +91,5 @@ export default {
             commit('deleteRoom', room_id);
         }
         commit('setLoading', false, { root: true });
->>>>>>> a556b79c26bc8d2dceeec3682f6dcb78ba8bae18
     }
 };

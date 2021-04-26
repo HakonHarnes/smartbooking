@@ -16,7 +16,6 @@ import BaseModal from './components/ui/BaseModal.vue';
 import BaseSearch from './components/ui/BaseSearch.vue';
 import BaseSpinner from './components/ui/BaseSpinner.vue';
 import Switches from 'vue-switches';
-import {VueCsvImport} from "vue-csv-import";
 
 // Initializes the app
 const initalize = async () => {

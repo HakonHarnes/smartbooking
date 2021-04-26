@@ -6333,6 +6333,11 @@
   "resolved" "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz"
   "version" "1.0.11"
 
+"papaparse@^5.0.0", "papaparse@^5.3.0":
+  "integrity" "sha512-Lb7jN/4bTpiuGPrYy4tkKoUS8sTki8zacB5ke1p5zolhcSE4TlWgrlsxjrDTbG/dFVh07ck7X36hUf/b5V68pg=="
+  "resolved" "https://registry.npmjs.org/papaparse/-/papaparse-5.3.0.tgz"
+  "version" "5.3.0"
+
 "parallel-transform@^1.1.0":
   "integrity" "sha512-P2vSmIu38uIlvdcU7fDkyrxj33gTUy/ABO5ZUbGowxNCopBq/OoD42bP4UmMrJoPyk4Uqf0mu3mtWBhHCZD8yg=="
   "resolved" "https://registry.npmjs.org/parallel-transform/-/parallel-transform-1.2.0.tgz"
@@ -8644,6 +8649,15 @@
   "resolved" "https://registry.npmjs.org/vm-browserify/-/vm-browserify-1.1.2.tgz"
   "version" "1.1.2"
 
+"vue-csv-import@^4.0.6":
+  "integrity" "sha512-piu3JHorbmWfd48qYZpLatI0EgjSi0uIJTGTeEVtIzLNwSwtiwTsSuOYdPtYXc4HCNf3LU6RHh8ZX86qVdpTmg=="
+  "resolved" "https://registry.npmjs.org/vue-csv-import/-/vue-csv-import-4.0.6.tgz"
+  "version" "4.0.6"
+  dependencies:
+    "axios" "^0.21.1"
+    "lodash" "^4.17.20"
+    "papaparse" "^5.0.0"
+
 "vue-eslint-parser@^7.6.0":
   "integrity" "sha512-QXxqH8ZevBrtiZMZK0LpwaMfevQi9UL7lY6Kcp+ogWHC88AuwUPwwCIzkOUc1LR4XsYAt/F9yHXAB/QoD17QXA=="
   "resolved" "https://registry.npmjs.org/vue-eslint-parser/-/vue-eslint-parser-7.6.0.tgz"
@@ -8680,6 +8694,14 @@
     "loader-utils" "^1.1.0"
     "vue-hot-reload-api" "^2.3.0"
     "vue-style-loader" "^4.1.0"
+
+"vue-papa-parse@^2.0.0":
+  "integrity" "sha512-2Tn4C+enBTmg6Rh87ZQedzM/dGBm/cvwAa7Ct0yXwFBN4scd31Eybd4YOBrmTGg1Mid2maQ6Sh1PFitmCpvKQg=="
+  "resolved" "https://registry.npmjs.org/vue-papa-parse/-/vue-papa-parse-2.0.0.tgz"
+  "version" "2.0.0"
+  dependencies:
+    "papaparse" "^5.3.0"
+    "vue" "^2.6.12"
 
 "vue-router@^4.0.4":
   "integrity" "sha512-uN6PDEaYdU9aRO7mU+Dkr1uaY49hV3fucEDG/Vre/Qj8ct3RoJS16vcPrvKVzn69zDDjBV5b9Xw7fZA9r6b/Iw=="
@@ -8719,7 +8741,7 @@
   "resolved" "https://registry.npmjs.org/vue-toastification/-/vue-toastification-2.0.0-rc.1.tgz"
   "version" "2.0.0-rc.1"
 
-"vue@^2 || ^3.0.0-0", "vue@^3.0.0", "vue@^3.0.2", "vue@3.0.7":
+"vue@^2 || ^3.0.0-0", "vue@^3.0.0", "vue@^3.0.2", "vue@^3.0.4", "vue@3.0.7":
   "integrity" "sha512-8h4TikD+JabbMK9aRlBO4laG0AtNHRPHynxYgWZ9sq1YUPfzynd9Jeeb27XNyZytC7aCQRX9xe1+TQJuc181Tw=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-3.0.7.tgz"
   "version" "3.0.7"
@@ -8729,6 +8751,11 @@
     "@vue/shared" "3.0.7"
 
 "vue@^2.2.6":
+  "integrity" "sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg=="
+  "resolved" "https://registry.npmjs.org/vue/-/vue-2.6.12.tgz"
+  "version" "2.6.12"
+
+"vue@^2.6.12":
   "integrity" "sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg=="
   "resolved" "https://registry.npmjs.org/vue/-/vue-2.6.12.tgz"
   "version" "2.6.12"
