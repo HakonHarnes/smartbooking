@@ -9,11 +9,11 @@
         <div class v-if="lines > 0">
                         <div class="wrapper" v-if="errorList.length > 0">
                 <p class="listHeader">Faulty Lines</p>
-                <div class="listItem" v-for="item in errorList" :key="item.email">{{ item }}</div>
+                <div class="listItem" v-for="item in errorList" :key="item.room_name">{{ item }}</div>
             </div>
             <div class="wrapper">
                 <p class="listHeader">Successful Lines</p>
-                <div class="listItem" v-for="item in list" :key="item.email">{{ item }}</div>
+                <div class="listItem" v-for="item in list" :key="item.room_name">{{ item }}</div>
             </div>
         </div>
     </div>
@@ -63,7 +63,7 @@ export default {
                     faulty = false;
 
                     for (let j = 0; j < headers.length; j++) {
-                        if (currentline[j] === '' || (headers[j] == 'email' && !currentline[j].includes('@'))) {
+                        if (currentline[j] === '' ){
                             faulty = true;
                         }
                         obj[headers[j]] = currentline[j];
