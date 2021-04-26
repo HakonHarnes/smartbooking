@@ -19,6 +19,7 @@
                     :id="res.res_id"
                     :room_name="res.room_name"
                     :building="res.building_name"
+                    :date="true"
                     :start="res.start"
                     :end="res.end"
                     :type="'delete'"
@@ -43,7 +44,7 @@ export default {
     },
     computed: {
         columns() {
-            return ['Rom', 'Bygg', 'Start', 'Slutt', 'Slett'];
+            return ['Rom', 'Bygg', 'Dato', 'Start', 'Slutt', 'Slett'];
         },
         loading() {
             return this.$store.getters.loading;
@@ -55,6 +56,7 @@ export default {
     methods: {
         toggleModal() {
             this.showModal = !this.showModal;
+            console.log(this.reservations);
         },
         deleteReservation(resId) {
             this.resId = resId;

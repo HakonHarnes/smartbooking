@@ -72,13 +72,7 @@ export default {
         },
         handleChange({ target }) {
             this[`${target.name}_id`] = target.value;
-        },
-        async fetchBuildingsAndRooms() {
-            await this.$store.dispatch('rooms/getRooms');
         }
-    },
-    mounted() {
-        this.fetchBuildingsAndRooms();
     }
 };
 </script>

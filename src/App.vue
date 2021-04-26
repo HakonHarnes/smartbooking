@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// import userService from './services/UserService';
 import TheHeader from './components/layout/TheHeader.vue';
 import TheSidebar from './components/layout/TheSidebar.vue';
 
@@ -61,7 +62,8 @@ body {
 }
 
 input[type='text'],
-input[type='button'] {
+input[type='button'],
+select {
     font-family: 'Montserrat';
 }
 </style>

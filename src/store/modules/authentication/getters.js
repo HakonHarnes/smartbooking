@@ -1,6 +1,12 @@
 export default {
+    isInitialized(state) {
+        return state.isInitialized;
+    },
     isAuthenticated(state) {
         return state.isAuthenticated;
+    },
+    isPartiallyAuthenticated(state) {
+        return state.isPartiallyAuthenticated;
     },
     role(state) {
         return state.role;

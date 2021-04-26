@@ -8,7 +8,7 @@ class ReservationService {
     });
 
     getReservationsByUserId = catchAsync(async id => {
-        const response = await axios.get('/reservations?user_id=' + id);
+        const response = await axios.get(`/reservations?user_id=${id}`);
         console.log(response);
         return response.data;
     });

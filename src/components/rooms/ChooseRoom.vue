@@ -1,6 +1,6 @@
 <template>
     <choose-room-search @load-room="loadRoom"></choose-room-search>
-    <base-spinner v-if="loading"></base-spinner>
+    <base-spinner v-if="loading && buildings.length"></base-spinner>
     <room-calendar
         v-else-if="!loading && room_id && currentDays.length"
         :days="currentDays"
@@ -23,14 +23,14 @@ export default {
         };
     },
     computed: {
+        buildings() {
+            return this.$store.getters['buildings/buildings'];
+        },
         loading() {
             return this.$store.getters.loading;
         },
         reservations() {
             return this.$store.getters['reservations/reservations'];
-        },
-        user_id() {
-            return this.$store.getters.user_id;
         }
     },
     watch: {
@@ -57,10 +57,11 @@ export default {
 
             const reservation = {
                 room_id: this.room_id,
-                user_id: this.user_id,
                 start: new Date(`${dateString}T${from}:00.000Z`),
                 end: new Date(`${dateString}T${to}:00.000Z`)
             };
+
+            console.log(reservation);
 
             await this.$store.dispatch('reservations/createReservation', { reservation });
             await this.$store.dispatch('reservations/getReservationsByRoom', { room_id: this.room_id });
@@ -77,6 +78,8 @@ export default {
             });
         },
         renderReservations() {
+            console.log(this.reservations);
+
             this.reservations.forEach(reservation => {
                 const currDates = this.currentDays.map(day => day.date.toISOString().substring(0, 10));
                 if (currDates.includes(reservation.start.toISOString().substring(0, 10))) {

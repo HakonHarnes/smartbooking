@@ -5,10 +5,12 @@ import getters from './getters.js';
 export default {
     state() {
         return {
+            isPartiallyAuthenticated: false,
+            isAuthenticated: false,
+            isInitialized: false,
             customer_id: 2,
-            isAuthenticated: true,
             user_id: 2,
-            role: 'user'
+            role: ''
         };
     },
     mutations,

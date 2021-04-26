@@ -3,25 +3,21 @@
         <template #body>Er du sikker?</template>
     </base-modal>
     <div class="header">
-        <h3>Rediger bruker</h3>
-        <base-button class="delete" @click="deleteUser" mode="delete" type="button">Slett</base-button>
+        <h3>Rediger rom</h3>
+        <base-button class="delete" @click="deleteRoom" mode="delete" type="button">Slett</base-button>
     </div>
     <form @submit.prevent="save">
         <div class="control">
-            <label>Fornavn</label>
-            <input type="text" v-model.trim="user.first_name" />
+            <label>Romnavn</label>
+            <input type="text" v-model.trim="room.room_name" />
         </div>
         <div class="control">
-            <label>Etternavn</label>
-            <input type="text" v-model.trim="user.last_name" />
+            <label>Plasser</label>
+            <input type="number" v-model.number="room.size" />
         </div>
-        <div class="control">
-            <label>E-post</label>
-            <input type="email" v-model.trim="user.email" />
-        </div>
-        <div class="control">
+        <div class="control switches">
             <label class="marginBottom">{{ activeText }}</label>
-            <switches color="blue" @click="toggleActive" :value="!!user.is_active"></switches>
+            <switches color="blue" @click="toggleActive" :value="!!room.is_active"></switches>
         </div>
         <div class="actions">
             <base-button>Lagre</base-button>
@@ -33,48 +29,53 @@
 <script>
 export default {
     props: {
-        user_id: Number
+        room_id: Number
     },
     emits: ['close-modal'],
     data() {
         return {
             showModal: false,
-            user: {
-                first_name: '',
-                last_name: '',
-                email: '',
+            room: {
+                building_name: '',
+                building_id: null,
+                room_name: '',
+                size: null,
                 is_active: null
             }
         };
     },
     methods: {
         save() {
-            this.$emit('close-modal');
-            this.$store.dispatch('users/updateUser', { user: { user_id: this.user_id, ...this.user } });
-        },
-        toggleActive() {
-            console.log(this.user.is_active);
-            this.user.is_active = this.user.is_active ? 0 : 1;
-        },
-        async deleteUser() {
-            if (confirm('Sikker?')) {
+            if (this.room.room_name && this.room.size > 0) {
                 this.$emit('close-modal');
-                await this.$store.dispatch('users/deleteUser', { user_id: this.user_id });
+                this.$store.dispatch('rooms/updateRoom', { room: { room_id: this.room_id, ...this.room } });
+            } else {
+                alert('Ugyldig data');
             }
         },
-        getSelectedUser() {
-            if (this.user_id) {
-                this.user = { ...this.$store.getters['users/user'](this.user_id) };
+        toggleActive() {
+            this.room.is_active = this.room.is_active ? 0 : 1;
+        },
+        async deleteRoom() {
+            if (confirm('Sikker?')) {
+                this.$emit('close-modal');
+                await this.$store.dispatch('rooms/deleteRoom', { room_id: this.room_id });
+            }
+        },
+        getSelectedRoom() {
+            if (this.room_id) {
+                this.room = { ...this.$store.getters['rooms/room'](this.room_id) };
+                console.log(this.room);
             }
         }
     },
     computed: {
         activeText() {
-            return this.user.is_active ? 'Aktiv' : 'Inaktiv';
+            return this.room.is_active ? 'Tilgjengelig' : 'Utilgjengelig';
         }
     },
     mounted() {
-        this.getSelectedUser();
+        this.getSelectedRoom();
     }
 };
 </script>
@@ -109,6 +110,10 @@ input {
     font-family: inherit;
     font-size: 1rem;
     padding: 0.2rem;
+}
+
+.switches {
+    align-items: center;
 }
 
 .header {

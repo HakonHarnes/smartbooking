@@ -53,8 +53,8 @@ export default {
                 from: null,
                 availableTo: null
             },
-            startTime: new Date('2021-03-17T08:00:00.000Z'),
-            endTime: new Date('2021-03-17T16:00:00.000Z')
+            startTime: new Date('2021-04-17T06:00:00.000Z'),
+            endTime: new Date('2021-04-17T14:00:00.000Z')
         };
     },
     computed: {

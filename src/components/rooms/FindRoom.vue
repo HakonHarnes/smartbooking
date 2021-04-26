@@ -4,23 +4,23 @@
         <template #footer><base-button @click="bookRoom">Reserver</base-button></template>
     </base-modal>
     <find-room-search @find-rooms="findRooms"></find-room-search>
-    <base-card v-if="results.length || loading">
-        <base-spinner v-if="loading"></base-spinner>
-        <template v-else-if="results.length && !loading">
-            <base-list-description :columns="columns"></base-list-description>
-            <reservation-list-item
-                v-for="res in results"
-                :key="res.id"
-                :id="res.id"
-                :room-name="res.room_name"
-                :building="res.building"
-                :seats="res.size"
-                :type="'add'"
-                :dateSubstringChars="[10, -3]"
-                @handle-action="previewReservation"
-            >
-            </reservation-list-item>
-        </template>
+    <base-spinner v-if="loading && buildings.length"></base-spinner>
+    <base-card v-else-if="!loading && results.length">
+        <base-list-description :columns="columns"></base-list-description>
+        <reservation-list-item
+            v-for="res in results"
+            :key="res.room_id"
+            :id="res.room_id"
+            :room_name="res.room_name"
+            :building="res.building_name"
+            :size="res.size"
+            :start="res.start"
+            :end="res.end"
+            :type="'add'"
+            :dateSubstringChars="[10, -3]"
+            @handle-action="previewReservation"
+        >
+        </reservation-list-item>
     </base-card>
 </template>
 
@@ -39,14 +39,17 @@ export default {
         };
     },
     computed: {
+        buildings() {
+            return this.$store.getters['buildings/buildings'];
+        },
+        loading() {
+            return this.$store.getters.loading;
+        },
         columns() {
             return ['Rom', 'Bygg', 'Plasser', 'Start', 'Slutt', 'Reserver'];
         },
         reservations() {
             return this.$store.getters['reservations/reservations'];
-        },
-        loading() {
-            return this.$store.getters.loading;
         }
     },
     methods: {
@@ -56,16 +59,17 @@ export default {
         },
         previewReservation(id) {
             this.showModal = true;
-            this.newReservation = { ...this.results.find(res => res.id === id) };
+            this.newReservation = { ...this.results.find(res => res.room_id === id) };
         },
-        bookRoom() {
-            this.$store.dispatch('reservations/createReservation', { reservation: { ...this.newReservation } });
+        async bookRoom() {
+            await this.$store.dispatch('reservations/createReservation', {
+                reservation: this.newReservation
+            });
             this.closeModal();
             this.$router.replace('/reservasjoner');
         },
-        async findRooms() {
-            const results = await this.$store.dispatch('rooms/findAvailableRooms', {});
-            console.log(results);
+        async findRooms(date, start, end, building_id) {
+            const results = await this.$store.dispatch('rooms/findAvailableRooms', { date, start, end, building_id });
             this.results = results;
         }
     },

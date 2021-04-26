@@ -1,15 +1,17 @@
 import ReservationService from '../../../services/ReservationService';
 
 export default {
-    async createReservation({ commit }, payload) {
+    async createReservation({ commit, rootState }, payload) {
         commit('setLoading', true, { root: true });
-        await ReservationService.createReservation(payload.reservation);
+        await ReservationService.createReservation({
+            ...payload.reservation,
+            user_id: rootState.authentication.user_id
+        });
         commit('setLoading', false, { root: true });
     },
     async deleteReservation({ commit, dispatch }, payload) {
         commit('setLoading', true, { root: true });
-        const response = await ReservationService.deleteReservation(payload.reservation_id);
-        console.log(response);
+        await ReservationService.deleteReservation(payload.reservation_id);
         dispatch('getMyReservations');
     },
     async getReservationsByRoom({ commit }, payload) {
@@ -26,8 +28,7 @@ export default {
                 end: new Date(res.end)
             };
         });
-        console.log(reservations);
-        commit('setReservations', reservations);
+        commit('setReservations', { reservations });
         commit('setLoading', false, { root: true });
     },
     async getMyReservations({ commit, rootState }) {
@@ -42,7 +43,7 @@ export default {
             };
         });
         if (reservations) {
-            commit('setReservations', reservations);
+            commit('setReservations', { reservations });
         }
         commit('setLoading', false, { root: true });
     }

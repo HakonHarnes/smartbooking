@@ -32,6 +32,9 @@ export default {
         currentTab() {
             return this.enabled ? ImportRooms : NewRoomForm;
         }
+    },
+    mounted() {
+        this.$store.dispatch('buildings/getBuildings');
     }
 };
 </script>
