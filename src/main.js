@@ -29,6 +29,7 @@ const initalize = async () => {
     app.use(store);
 
     const response = await userService.getLoggedInUser();
+    console.log(response);
     if (response.data.user) {
         store.dispatch('login', { role: response.data.user.role });
     }

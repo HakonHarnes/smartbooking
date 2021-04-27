@@ -16,11 +16,9 @@ export default {
     },
     async getReservationsByRoom({ commit }, payload) {
         commit('setLoading', true, { root: true });
-        const response = await ReservationService.getReservationsByRoomAndTime(
-            payload.room_id,
-            '2021-04-10T08:00:00.000Z',
-            '2021-04-17T08:00:00.000Z'
-        );
+        const { room_id, from, to } = payload;
+        console.log(to);
+        const response = await ReservationService.getReservationsByRoomAndTime(room_id, from, to);
         const reservations = response.data?.map(res => {
             return {
                 ...res,

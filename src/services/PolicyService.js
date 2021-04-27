@@ -2,28 +2,24 @@ import axios from './axios';
 import catchAsync from '../utils/catchAsync';
 
 class PolicyService {
-    getById = catchAsync(async id => {
-        const response = await axios.get('/policies/' + id);
+    getPolicy = catchAsync(async id => {
+        const response = await axios.get(`/policies?user_id=` + id);
         return response.data;
     });
 
-    create = catchAsync(
-        async (maxTimePerReservation, maxDaysLookup, lengthPeriod, reservationsPerPeriod, building_id) => {
-            const response = await axios.post('/policies', {
-                data: { maxTimePerReservation, maxDaysLookup, lengthPeriod, reservationsPerPeriod, building_id }
-            });
-            return response.data;
-        }
-    );
+    create = catchAsync(async policy => {
+        const response = await axios.post('/policies', {
+            ...policy
+        });
+        return response.data;
+    });
 
-    update = catchAsync(
-        async (maxTimePerReservation, maxDaysLookup, lengthPeriod, reservationsPerPeriod, building_id) => {
-            const response = await axios.put('/policies', {
-                data: { maxTimePerReservation, maxDaysLookup, lengthPeriod, reservationsPerPeriod, building_id }
-            });
-            return response.data;
-        }
-    );
+    updatePolicy = catchAsync(async policy => {
+        const response = await axios.put(`/policies/${policy.policy_id}`, {
+            ...policy
+        });
+        return response.data;
+    });
 
     delete = catchAsync(async id => {
         const response = await axios.delete('/policies/' + id);

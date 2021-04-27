@@ -28,15 +28,21 @@ export default {
             formValid: true
         };
     },
+    computed: {
+        toast() {
+            return this.$store.getters.toast;
+        }
+    },
     methods: {
         addUser() {
             this.validateForm();
             if (this.formValid) {
-                this.$store.dispatch('users/addUser', {
+                this.$store.dispatch('users/registerUser', {
                     first_name: this.first_name,
                     last_name: this.last_name,
                     email: this.email
                 });
+                this.toast.success('Bruker lagt til');
                 this.$router.replace('/brukere');
             } else {
                 alert('Maks lengde på for- og etternavn er 30!');
