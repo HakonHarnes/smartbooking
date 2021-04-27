@@ -70,14 +70,16 @@ class UserService {
         return response.data;
     });
 
-    register = catchAsync(async (email, password, firstName, lastName, isActive, role) => {
-        const user = { email, password, firstName, lastName, isActive, role };
-
-        const response = await axios.post('/users', {
-            data: user
+    register = catchAsync(async ({ first_name, last_name, email }) => {
+        const response = await axios.post('/users/register', {
+            data: {
+                firstName: first_name,
+                lastName: last_name,
+                email
+            }
         });
 
-        return response;
+        return response.data;
     });
 
     forgotPassword = catchAsync(async email => {

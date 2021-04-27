@@ -19,7 +19,11 @@ export default {
     data() {
         return {
             room_id: '',
-            currentDays: []
+            currentDays: [],
+            bookingAvailableInterval: {
+                from: null,
+                to: null
+            }
         };
     },
     computed: {
@@ -64,18 +68,30 @@ export default {
             console.log(reservation);
 
             await this.$store.dispatch('reservations/createReservation', { reservation });
-            await this.$store.dispatch('reservations/getReservationsByRoom', { room_id: this.room_id });
-            this.renderReservations();
+            /* await this.$store.dispatch('reservations/getReservationsByRoom', { room_id: this.room_id });
+            this.renderReservations(); */
+            this.loadReservations(this.room_id);
         },
         initialiseCalendar() {
             const today = new Date();
             const first = today.getDate() - today.getDay() + 1;
-            this.currentDays = new Array(7).fill(0).map((_, idx) => {
+
+            const daysAhead = 7;
+
+            // TODO: Fetch from DB how many days ahead in time to display
+            this.currentDays = new Array(daysAhead).fill(0).map((_, idx) => {
                 return {
                     date: new Date(new Date(today).setDate(first + idx)),
                     reservations: []
                 };
             });
+            this.bookingAvailableInterval = {
+                from: getDateString(new Date(this.currentDays[0].date), false),
+                to: getDateString(
+                    new Date(new Date(this.currentDays[this.currentDays.length - 1].date).setDate(first + daysAhead)),
+                    false
+                )
+            };
         },
         renderReservations() {
             console.log(this.reservations);
@@ -91,7 +107,10 @@ export default {
             });
         },
         async loadReservations(room_id) {
-            await this.$store.dispatch('reservations/getReservationsByRoom', { room_id });
+            await this.$store.dispatch('reservations/getReservationsByRoom', {
+                room_id,
+                ...this.bookingAvailableInterval
+            });
             this.renderReservations();
         }
     }

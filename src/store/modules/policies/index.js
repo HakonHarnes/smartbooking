@@ -3,14 +3,10 @@ import actions from './actions.js';
 import getters from './getters.js';
 
 export default {
+    namespaced: true,
     state() {
         return {
-            isPartiallyAuthenticated: false,
-            isAuthenticated: true,
-            isInitialized: false,
-            customer_id: 2,
-            user_id: 2,
-            role: 'customer'
+            policy: null
         };
     },
     mutations,
