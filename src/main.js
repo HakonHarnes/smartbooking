@@ -5,7 +5,7 @@ import router from './router.js';
 import store from './store/index.js';
 import Toast, { POSITION } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
-import userService from './services/UserService';
+// import userService from './services/UserService';
 
 import BaseActiveAttribute from './components/ui/BaseActiveAttribute.vue';
 import BaseButton from './components/ui/BaseButton.vue';
@@ -28,11 +28,10 @@ const initalize = async () => {
 
     app.use(store);
 
-    const response = await userService.getLoggedInUser();
-    console.log(response);
-    if (response.data.user) {
-        store.dispatch('login', { role: response.data.user.role });
-    }
+    // const response = await userService.getLoggedInUser();
+    // if (response.data.user) {
+    // store.dispatch('login', { role: response.data.user.role });
+    // }
 
     app.use(router);
     app.component('base-active-attribute', BaseActiveAttribute);

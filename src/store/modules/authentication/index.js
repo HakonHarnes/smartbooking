@@ -6,11 +6,11 @@ export default {
     state() {
         return {
             isPartiallyAuthenticated: false,
-            isAuthenticated: false,
+            isAuthenticated: true,
             isInitialized: false,
             customer_id: 2,
             user_id: 2,
-            role: ''
+            role: 'customer'
         };
     },
     mutations,
