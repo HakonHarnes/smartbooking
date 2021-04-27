@@ -1,6 +1,13 @@
 <template>
     <form @submit.prevent="submitForm">
-        <input v-for="index in length" :key="index" @focus="onFocus" @keydown="onInput" type="number" />
+        <input
+            v-for="index in length"
+            :key="index"
+            @focus="onFocus"
+            @keydown="onKeydown"
+            @paste="onPaste"
+            type="number"
+        />
     </form>
 </template>
 
@@ -16,18 +23,66 @@ export default {
         onFocus(event) {
             event.target.select();
         },
-        onInput(event) {
-            // Limits input to one character
-            console.log(event);
-            if (event.target.value >= 1) {
-                event.target.value = event.target.value.charAt(0);
-            } else {
-                return event.target.previousElementSibling.focus();
+        onPaste(event) {
+            event.preventDefault();
+        },
+        onKeydown(event) {
+            // Deletes input and goes to previous input if backspace is pressed
+            if (event.key === 'Backspace') {
+                event.target.value = '';
+                event.preventDefault();
+                if (event.target.previousElementSibling) {
+                    return event.target.previousElementSibling.focus();
+                }
             }
 
-            // Focuses on next input field if there is one
-            if (event.target.nextElementSibling) {
-                event.target.nextElementSibling.focus();
+            // Goes to previous input if left arrow is pressed
+            if (event.key === 'ArrowLeft') {
+                if (event.target.previousElementSibling) {
+                    event.preventDefault();
+                    return event.target.previousElementSibling.focus();
+                }
+            }
+
+            // Goes to next input if right arrow is pressed
+            if (event.key === 'ArrowRight' || event.key === 'Enter') {
+                if (event.target.nextElementSibling) {
+                    event.preventDefault();
+                    return event.target.nextElementSibling.focus();
+                }
+            }
+
+            if (event.key === 'e') {
+                event.preventDefault();
+            }
+
+            // Goes to next input if valid number is entered
+            if (parseInt(event.key) && event.key !== 'e') {
+                event.target.value = event.key;
+                event.preventDefault();
+                if (event.target.nextElementSibling) {
+                    return event.target.nextElementSibling.focus();
+                }
+            }
+
+            event.preventDefault();
+        },
+        onKeyup(event) {
+            // Moves to previous input field if backspace or left arrow is pressed
+            if (event.key === 'Backspace' || event.key === 'ArrowLeft') {
+                if (event.target.previousElementSibling) {
+                    return event.target.previousElementSibling.focus();
+                } else {
+                    return;
+                }
+            }
+
+            // Moves to next input field if enter, right arrow or a number is pressed
+            const numbers = /^\d+$/;
+            if (event.key === 'Enter' || event.key === 'ArrowRight' || numbers.test(event.key)) {
+                if (event.target.nextElementSibling) {
+                    event.target.nextElementSibling.focus();
+                }
             }
 
             // Checks if all inputs are filled
@@ -46,11 +101,17 @@ input {
     font-size: 40px;
     font-weight: bold;
     color: white;
+    background-color: #184c68;
     border: none;
-    border-bottom: 2px solid white;
-    background-color: transparent;
-    width: 40px;
-    margin: 10px;
+    border-radius: 5px;
+    width: 50px;
+    padding: 8px;
+    margin: 5px;
+}
+
+input:focus {
+    outline: none;
+    background-color: #467c99;
 }
 
 /* Chrome, Safari, Edge, Opera */
