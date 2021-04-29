@@ -20,6 +20,7 @@ import CustomerRoomPage from './pages/CustomerRoomPage.vue';
 import ChooseRoom from './components/rooms/ChooseRoom.vue';
 import FindRoom from './components/rooms/FindRoom.vue';
 import ResetPasswordPage from './pages/ResetPasswordPage.vue';
+import RoomSettings from './components/rooms/RoomSettings.vue';
 import SetPasswordPage from './pages/SetPasswordPage.vue';
 import VerificationPage from './pages/VerificationPage.vue';
 
@@ -71,7 +72,8 @@ const router = createRouter({
             meta: { requiresAccessToken: true, roles: ['customer'] },
             children: [
                 { path: '', component: ExistingRooms },
-                { path: 'nytt', component: NewRoom }
+                { path: 'nytt', component: NewRoom },
+                { path: 'innstillinger', component: RoomSettings }
             ]
         },
         {
@@ -101,7 +103,7 @@ const router = createRouter({
         {
             path: '/bekreftelse',
             component: VerificationPage,
-            meta: { requiresVerificationToken: false, roles: ['user', 'admin', 'customer'] }
+            meta: { requiresVerificationToken: true, roles: ['user', 'admin', 'customer'] }
         },
         {
             path: '/401',

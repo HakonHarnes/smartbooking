@@ -1,4 +1,5 @@
 import PolicyService from '../../../services/PolicyService';
+import BuildingService from '../../../services/BuildingService';
 
 export default {
     async getPolicy({ commit, rootState }) {
@@ -17,9 +18,29 @@ export default {
         console.log(payload);
         const response = await PolicyService.updatePolicy(newPolicy);
         console.log(response);
-        if (response.data) {
-            console.log('OK');
-        }
         commit('setLoading', false, { root: true });
+        if (response.data.changedRows > 0) {
+            commit('setPolicy', newPolicy);
+            return true;
+        } else {
+            return false;
+        }
+    },
+    async getBuildingPolicy(_, payload) {
+        //commit('setLoading', true, { root: true });
+        console.log('getting policy');
+        const { building_id } = payload;
+        const response = await BuildingService.getBuildingPolicy(building_id);
+        if (response.data) {
+            return response.data;
+        }
+        //commit('setLoading', false, { root: true });
+    },
+    async updateBuildingPolicy(_, payload) {
+        const { times } = payload;
+        const response = await BuildingService.updateBuildingPolicy(times.building_id, times);
+        if (response.data) {
+            return response.data.affectedRows > 0;
+        }
     }
 };

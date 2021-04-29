@@ -3,7 +3,7 @@
         <base-card class="card">
             <policy-form></policy-form>
         </base-card>
-        <base-card class="card">
+        <base-card class="card times">
             <policy-times-form></policy-times-form>
         </base-card>
     </div>
@@ -26,10 +26,16 @@ export default {
     display: flex;
     align-items: flex-start;
     justify-content: space-evenly;
-    padding: 1.4rem;
+}
+
+@media only screen and (max-width: 1000px) {
+    .root {
+        flex-direction: column;
+    }
 }
 
 .card {
-    margin: 0;
+    margin: 0.4rem;
+    padding: 0;
 }
 </style>
