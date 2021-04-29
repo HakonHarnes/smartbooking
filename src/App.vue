@@ -23,6 +23,11 @@ export default {
         isAuthenticated() {
             return this.$store.getters.isAuthenticated;
         }
+    },
+    created() {
+        if (this.isAuthenticated) {
+            this.$store.dispatch('policies/getPolicy');
+        }
     }
 };
 </script>
@@ -65,5 +70,11 @@ input[type='text'],
 input[type='button'],
 select {
     font-family: 'Montserrat';
+}
+
+h2 {
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: 2rem;
 }
 </style>

@@ -22,5 +22,8 @@ export default {
     },
     user_id(state) {
         return state.user_id;
+    },
+    user(state) {
+        return state.user;
     }
 };

@@ -35,6 +35,9 @@ export default {
         },
         reservations() {
             return this.$store.getters['reservations/reservations'];
+        },
+        policy() {
+            return this.$store.getters['policies/policy'];
         }
     },
     watch: {
@@ -76,7 +79,7 @@ export default {
             const today = new Date();
             const first = today.getDate() - today.getDay() + 1;
 
-            const daysAhead = 7;
+            const daysAhead = this.policy?.max_days_lookup;
 
             // TODO: Fetch from DB how many days ahead in time to display
             this.currentDays = new Array(daysAhead).fill(0).map((_, idx) => {

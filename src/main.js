@@ -12,6 +12,7 @@ import BaseButton from './components/ui/BaseButton.vue';
 import BaseCard from './components/ui/BaseCard.vue';
 import BaseIcon from './components/ui/BaseIcon.vue';
 import BaseListDescription from './components/ui/BaseListDescription.vue';
+import BaseLoading from './components/ui/BaseLoading.vue';
 import BaseModal from './components/ui/BaseModal.vue';
 import BaseSearch from './components/ui/BaseSearch.vue';
 import BaseSpinner from './components/ui/BaseSpinner.vue';
@@ -39,6 +40,7 @@ const initalize = async () => {
     app.component('base-card', BaseCard);
     app.component('base-icon', BaseIcon);
     app.component('base-list-description', BaseListDescription);
+    app.component('base-loading', BaseLoading);
     app.component('base-modal', BaseModal);
     app.component('base-search', BaseSearch);
     app.component('base-spinner', BaseSpinner);

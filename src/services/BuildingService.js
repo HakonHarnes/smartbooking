@@ -7,10 +7,22 @@ class BuildingsService {
         return response.data;
     });
 
+    getBuildingPolicy = catchAsync(async id => {
+        const response = await axios.get(`/policy-times?building_id=${id}`);
+        return response.data;
+    });
+
     createBuilding = catchAsync(async (buildingName, user_id) => {
         const response = await axios.post('/buildings', {
             buildingName,
             user_id
+        });
+        return response.data;
+    });
+
+    updateBuildingPolicy = catchAsync(async (id, times) => {
+        const response = await axios.put(`/policy-times?building_id=${id}`, {
+            ...times
         });
         return response.data;
     });

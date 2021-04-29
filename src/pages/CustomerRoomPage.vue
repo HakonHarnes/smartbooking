@@ -3,6 +3,7 @@
         <div class="actions">
             <base-button link to="/rom/">Eksisterende rom</base-button>
             <base-button link to="/rom/nytt">Nytt rom</base-button>
+            <base-button link to="/rom/innstillinger">Innstillinger</base-button>
         </div>
         <router-view></router-view>
     </div>

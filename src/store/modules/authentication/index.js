@@ -10,7 +10,14 @@ export default {
             isInitialized: false,
             customer_id: 2,
             user_id: 2,
-            role: 'customer'
+            role: 'customer',
+            user: {
+                first_name: 'Gaute',
+                last_name: 'Rømme',
+                email: 'gaute@roemme.no',
+                two_factor: 0,
+                two_factor_method: null
+            }
         };
     },
     mutations,

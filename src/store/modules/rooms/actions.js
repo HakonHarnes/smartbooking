@@ -58,7 +58,7 @@ export default {
         commit('setLoading', true, { root: true });
         const response = await RoomService.getRooms(rootState.authentication.customer_id);
 
-        const buildings = response.data.map((room, i, a) => {
+        const buildings = response.data?.map((room, i, a) => {
             if (a)
                 return {
                     building_id: room.building_id,

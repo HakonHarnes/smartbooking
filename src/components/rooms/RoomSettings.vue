@@ -26,7 +26,6 @@ export default {
     display: flex;
     align-items: flex-start;
     justify-content: space-evenly;
-    padding: 1.4rem;
 }
 
 .card {
