@@ -29,7 +29,7 @@ const router = createRouter({
         {
             path: '/',
             component: DashboardPage,
-            meta: { requiresAuth: true, roles: ['user', 'admin', 'customer'] }
+            meta: { requiresAccessToken: true, roles: ['user', 'admin', 'customer'] }
         },
         {
             path: '/login',
@@ -54,12 +54,12 @@ const router = createRouter({
         {
             path: '/kunder',
             component: CustomersPage,
-            meta: { requiresAuth: true, roles: ['admin'] }
+            meta: { requiresAccessToken: true, roles: ['admin'] }
         },
         {
             path: '/brukere',
             component: UserDataPage,
-            meta: { requiresAuth: true, roles: ['customer'] },
+            meta: { requiresAccessToken: true, roles: ['customer'] },
             children: [
                 { path: '', component: ExistingUsers },
                 { path: 'ny', component: NewUser }
@@ -68,7 +68,7 @@ const router = createRouter({
         {
             path: '/rom',
             component: CustomerRoomPage,
-            meta: { requiresAuth: true, roles: ['customer'] },
+            meta: { requiresAccessToken: true, roles: ['customer'] },
             children: [
                 { path: '', component: ExistingRooms },
                 { path: 'nytt', component: NewRoom }
@@ -77,7 +77,7 @@ const router = createRouter({
         {
             path: '/finn-rom',
             component: UserRoomPage,
-            meta: { requiresAuth: true, roles: ['user'] },
+            meta: { requiresAccessToken: true, roles: ['user'] },
             children: [
                 { path: '', component: FindRoom },
                 { path: 'velg', component: ChooseRoom }
@@ -86,45 +86,45 @@ const router = createRouter({
         {
             path: '/reservasjoner',
             component: ReservationsPage,
-            meta: { requiresAuth: true, roles: ['user', 'admin', 'customer'] }
+            meta: { requiresAccessToken: true, roles: ['user', 'admin', 'customer'] }
         },
         {
             path: '/statistikk',
             component: StatisticsPage,
-            meta: { requiresAuth: true, roles: ['admin', 'customer'] }
+            meta: { requiresAccessToken: true, roles: ['admin', 'customer'] }
         },
         {
             path: '/innstillinger',
             component: SettingsPage,
-            meta: { requiresAuth: true, roles: ['user', 'admin', 'customer'] }
+            meta: { requiresAccessToken: true, roles: ['user', 'admin', 'customer'] }
         },
         {
             path: '/bekreftelse',
             component: VerificationPage,
             // TODO: set to true
-            meta: { requiresPartialAuth: false, roles: ['user', 'admin', 'customer'] }
+            meta: { requiresVerificationToken: false, roles: ['user', 'admin', 'customer'] }
         },
         {
             path: '/401',
             component: NotAuthorizedPage,
-            meta: { requiresAuth: false, roles: ['user', 'admin', 'customer'] }
+            meta: { requiresAccessToken: false, roles: ['user', 'admin', 'customer'] }
         },
         {
             path: '/404',
             name: 'Not found',
             component: NotFoundPage,
-            meta: { requiresAuth: true, roles: ['user', 'admin', 'customer'] }
+            meta: { requiresAccessToken: true, roles: ['user', 'admin', 'customer'] }
         },
         {
             path: '/:notFound(.*)',
             redirect: { name: 'Not found' },
-            meta: { requiresAuth: true, roles: ['user', 'admin', 'customer'] }
+            meta: { requiresAccessToken: true, roles: ['user', 'admin', 'customer'] }
         }
     ]
 });
 
 router.beforeEach(function(to, _, next) {
-    const role = store.getters.role;
+    const role = store.getters['auth/user'] ? store.getters['auth/user'].role : null;
 
     // User does not have permissions to view the page
     if (role && !to.meta.roles.includes(role)) {
@@ -132,17 +132,17 @@ router.beforeEach(function(to, _, next) {
     }
 
     //
-    if (!store.getters.isPartiallyAuthenticated && to.meta.requiresPartialAuth) {
+    if (!store.getters['auth/verificationToken'] && to.meta.requiresVerificationToken) {
         return next('/login');
     }
 
     // User is not authenticated and page requires authentication
-    if (!store.getters.isAuthenticated && to.meta.requiresAuth) {
+    if (!store.getters['auth/accessToken'] && to.meta.requiresAccessToken) {
         return next('/login');
     }
 
     // User is authenticated but page requires unauthentication
-    if (store.getters.isAuthenticated && to.meta.requiresUnauth) {
+    if (store.getters['auth/accessToken'] && to.meta.requiresUnauth) {
         return next('/');
     }
 

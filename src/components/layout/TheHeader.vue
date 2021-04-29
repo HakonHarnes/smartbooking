@@ -9,6 +9,7 @@
 
 <script>
 export default {
+    created() {},
     computed: {
         title() {
             const path = this.$route.path;
@@ -38,7 +39,7 @@ export default {
             }
         },
         role() {
-            return this.$store.getters.role;
+            return this.$store.getters['auth/user'].role;
         }
     },
     methods: {

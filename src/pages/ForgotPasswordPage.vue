@@ -10,16 +10,10 @@
 
 <script>
 import ForgotPasswordForm from '../components/forms/users/ForgotPasswordForm.vue';
-import userService from '../services/UserService';
 
 export default {
     components: {
         ForgotPasswordForm
-    },
-    computed: {
-        role() {
-            return this.$store.getters.role;
-        }
     },
     data() {
         return {
@@ -28,18 +22,8 @@ export default {
     },
     methods: {
         forgotPassword(data) {
-            this.toast.clear();
             this.toast.info('Dersom det er en konto knyttet til denne epost-adressen, er tilbakestillingslenke sendt.');
-
-            // Attempts to log in the user
-            const response = userService.forgotPassword(data.email);
-
-            // Displays error if there is one
-            if (response.error) {
-                return this.toast.error(response.error);
-            }
-
-            // Forwards the user to the login page
+            this.$store.dispatch('auth/forgotPassword', data);
             this.$router.push('/login');
         }
     }

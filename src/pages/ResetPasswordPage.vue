@@ -10,45 +10,36 @@
 
 <script>
 import PasswordForm from '../components/forms/users/PasswordForm.vue';
-import userService from '../services/UserService';
+import jwt_decode from 'jwt-decode';
 
 export default {
     components: {
         PasswordForm
     },
+    computed: {
+        user() {
+            const resetToken = this.$route.params.token;
+            return jwt_decode(resetToken).user;
+        }
+    },
     data() {
         return {
-            user: '',
             toast: this.$store.getters.toast
         };
     },
     methods: {
         async resetPassword(data) {
-            const token = this.$route.params.token;
-            const response = await userService.resetPassword(data.password, token);
-
-            // Displays error if there is one
-            if (response.error) {
-                return this.toast.error(response.error);
-            }
-
-            this.toast.success('Passordet ble endret!');
-            this.$router.push('/login');
-        }
-    },
-
-    // Gets user from token
-    async beforeCreate() {
-        const token = this.$route.params.token;
-        const response = await userService.getUserFromResetToken(token);
-        if (!response.data) {
-            this.toast.error('Tilbakestillingslenken er ugyldig. Vennligst be om nytt passord og prøv på nytt.', {
-                timeout: false
+            const resetToken = this.$route.params.token;
+            const response = await this.$store.dispatch('auth/resetPassword', {
+                newPassword: data.password,
+                resetToken
             });
-            return this.$router.push('/glemt-passord');
-        }
 
-        this.user = response.data.data;
+            if (response.status == '200') {
+                this.toast.success('Passordet ble endret!');
+                this.$router.push('/login');
+            }
+        }
     }
 };
 </script>

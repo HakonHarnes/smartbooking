@@ -21,7 +21,7 @@ export default {
     },
     computed: {
         isAuthenticated() {
-            return this.$store.getters.isAuthenticated;
+            return this.$store.getters['auth/accessToken'];
         }
     }
 };

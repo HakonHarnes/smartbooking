@@ -61,12 +61,10 @@
 </template>
 
 <script>
-import userService from '../../services/UserService';
-
 export default {
     computed: {
         role() {
-            return this.$store.getters.role;
+            return this.$store.getters['auth/user'].role;
         },
         admin() {
             return this.role === 'admin';
@@ -85,9 +83,8 @@ export default {
         }
     },
     methods: {
-        logout() {
-            userService.logout();
-            this.$store.dispatch('logout');
+        async logout() {
+            await this.$store.dispatch('auth/logout');
             this.$router.push('/login');
         }
     }

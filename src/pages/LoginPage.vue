@@ -10,41 +10,19 @@
 
 <script>
 import LoginForm from '../components/forms/users/LoginForm.vue';
-import userService from '../services/UserService';
 
 export default {
     components: {
         LoginForm
     },
-    data() {
-        return {
-            toast: this.$store.getters.toast
-        };
-    },
     methods: {
         async login(data) {
-            // Attempts to log in the user
-            const response = await userService.login(data.email, data.password);
+            // Attempts to log in
+            await this.$store.dispatch('auth/login', data);
 
-            // Displays error if there is one
-            if (response.error) {
-                return this.toast.error(response.error);
-            }
-
-            // Forwards user to 2FA page if enabled
-            if (response.data.data.twoFactor) {
-                if (response.data.data.twoFactor === 'email') {
-                    await userService.sendVerificationToken(data.email);
-                }
-
-                this.$store.dispatch('partiallyAuthenticate', { isPartiallyAuthenticated: true });
-                return this.$router.push('/bekreftelse');
-            }
-
-            // Forwards the user to the home page
-            this.$store.dispatch('login', { role: response.data.data.role });
-            this.toast.clear();
-            this.$router.push('/');
+            // Redirects the user
+            if (this.$store.getters['auth/verificationToken']) return this.$router.push('/bekreftelse');
+            if (this.$store.getters['auth/accessToken']) return this.$router.push('/');
         }
     }
 };

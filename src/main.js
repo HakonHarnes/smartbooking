@@ -5,7 +5,6 @@ import router from './router.js';
 import store from './store/index.js';
 import Toast, { POSITION } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
-// import userService from './services/UserService';
 
 import BaseActiveAttribute from './components/ui/BaseActiveAttribute.vue';
 import BaseButton from './components/ui/BaseButton.vue';
@@ -17,21 +16,19 @@ import BaseSearch from './components/ui/BaseSearch.vue';
 import BaseSpinner from './components/ui/BaseSpinner.vue';
 import Switches from 'vue-switches';
 
-// Initializes the app
-const initalize = async () => {
+(async () => {
     const app = createApp(App);
 
     app.use(Toast, {
-        timeout: 10000,
-        position: POSITION.TOP_CENTER
+        timeout: 5000,
+        position: POSITION.TOP_CENTER,
+        maxToasts: 1
     });
 
     app.use(store);
 
-    // const response = await userService.getLoggedInUser();
-    // if (response.data.user) {
-    // store.dispatch('login', { role: response.data.user.role });
-    // }
+    // Refreshes the access token
+    await store.dispatch('auth/refresh');
 
     app.use(router);
     app.component('base-active-attribute', BaseActiveAttribute);
@@ -44,6 +41,4 @@ const initalize = async () => {
     app.component('base-spinner', BaseSpinner);
     app.component('switches', Switches);
     app.mount('#app');
-};
-
-initalize();
+})();
