@@ -7,38 +7,38 @@
         </select>
         <div class="day">
             <div class="name">Mandag</div>
-            <div><input :disabled="!building_id" type="text" v-model="times.start_mon" /></div>
-            <div><input :disabled="!building_id" type="text" v-model="times.end_mon" /></div>
+            <input :disabled="!building_id" type="text" v-model="times.start_mon" />
+            <input :disabled="!building_id" type="text" v-model="times.end_mon" />
         </div>
         <div class="day">
             <div class="name">Tirsdag</div>
-            <div><input :disabled="!building_id" type="text" v-model="times.start_tue" /></div>
-            <div><input :disabled="!building_id" type="text" v-model="times.end_tue" /></div>
+            <input :disabled="!building_id" type="text" v-model="times.start_tue" />
+            <input :disabled="!building_id" type="text" v-model="times.end_tue" />
         </div>
         <div class="day">
             <div class="name">Onsdag</div>
-            <div><input :disabled="!building_id" type="text" v-model="times.start_wed" /></div>
-            <div><input :disabled="!building_id" type="text" v-model="times.end_wed" /></div>
+            <input :disabled="!building_id" type="text" v-model="times.start_wed" />
+            <input :disabled="!building_id" type="text" v-model="times.end_wed" />
         </div>
         <div class="day">
             <div class="name">Torsdag</div>
-            <div><input :disabled="!building_id" type="text" v-model="times.start_thu" /></div>
-            <div><input :disabled="!building_id" type="text" v-model="times.end_thu" /></div>
+            <input :disabled="!building_id" type="text" v-model="times.start_thu" />
+            <input :disabled="!building_id" type="text" v-model="times.end_thu" />
         </div>
         <div class="day">
             <div class="name">Fredag</div>
-            <div><input :disabled="!building_id" type="text" v-model="times.start_fri" /></div>
-            <div><input :disabled="!building_id" type="text" v-model="times.end_fri" /></div>
+            <input :disabled="!building_id" type="text" v-model="times.start_fri" />
+            <input :disabled="!building_id" type="text" v-model="times.end_fri" />
         </div>
         <div class="day">
             <div class="name">Lørdag</div>
-            <div><input :disabled="!building_id" type="text" v-model="times.start_sat" /></div>
-            <div><input :disabled="!building_id" type="text" v-model="times.end_sat" /></div>
+            <input :disabled="!building_id" type="text" v-model="times.start_sat" />
+            <input :disabled="!building_id" type="text" v-model="times.end_sat" />
         </div>
         <div class="day">
             <div class="name">Søndag</div>
-            <div><input :disabled="!building_id" type="text" v-model="times.start_sun" /></div>
-            <div><input :disabled="!building_id" type="text" v-model="times.end_sun" /></div>
+            <input :disabled="!building_id" type="text" v-model="times.start_sun" />
+            <input :disabled="!building_id" type="text" v-model="times.end_sun" />
         </div>
         <div class="actions">
             <base-button>Oppdater</base-button>
@@ -125,7 +125,12 @@ export default {
 </script>
 
 <style scoped>
+form {
+    padding: 1rem;
+}
+
 .day {
+    width: 100%;
     display: flex;
     align-items: center;
     margin: 1.6rem 0;
@@ -133,7 +138,7 @@ export default {
 }
 
 .name {
-    width: 15%;
+    width: 28%;
 }
 
 .title {
@@ -145,6 +150,7 @@ input[type='text'] {
     font-size: 1.2rem;
     margin: 0 1rem;
     text-align: center;
+    width: 36%;
 }
 
 select {

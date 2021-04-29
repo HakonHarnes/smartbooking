@@ -96,6 +96,7 @@ export default {
 
 <style scoped>
 section {
+    height: 100%;
     display: grid;
     grid-template-areas:
         'title'
@@ -107,10 +108,13 @@ section {
 }
 
 ul {
-    display: grid;
     list-style: none;
     margin: 0;
     padding: 0;
+}
+
+ul li {
+    height: 65px;
 }
 
 .title {

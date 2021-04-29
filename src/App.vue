@@ -1,11 +1,10 @@
 <template>
-    <the-header class="header" v-if="isAuthenticated"></the-header>
-    <the-sidebar class="sidebar" v-if="isAuthenticated"></the-sidebar>
-    <router-view></router-view>
+    <the-header class="header" v-if="isAuthenticated" @toggle-sidebar="showSidebar = !showSidebar"></the-header>
+    <the-sidebar :class="sidebarClass" :style="sidebarStyles" v-if="isAuthenticated"></the-sidebar>
+    <router-view class="content"></router-view>
 </template>
 
 <script>
-// import userService from './services/UserService';
 import TheHeader from './components/layout/TheHeader.vue';
 import TheSidebar from './components/layout/TheSidebar.vue';
 
@@ -16,12 +15,20 @@ export default {
     },
     data() {
         return {
-            loading: true
+            showSidebar: false
         };
     },
     computed: {
         isAuthenticated() {
             return this.$store.getters.isAuthenticated;
+        },
+        sidebarStyles() {
+            return {
+                visibility: window.innerWidth >= 1000 ? 'visible' : this.showSidebar ? 'visible' : 'hidden'
+            };
+        },
+        sidebarClass() {
+            return window.innerWidth >= 1000 ? 'sidebar' : 'sidebar-mobile';
         }
     },
     created() {
@@ -56,6 +63,7 @@ body {
     grid-template-rows: auto 1fr;
     grid-template-columns: 16em 1fr;
     min-height: 100vh;
+    position: relative;
 }
 
 .header {
@@ -64,6 +72,20 @@ body {
 
 .sidebar {
     grid-area: sidebar;
+}
+
+.sidebar-mobile {
+    grid-area: sidebar;
+    z-index: 10;
+    position: absolute;
+    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
+}
+
+@media only screen and (max-width: 1000px) {
+    #app {
+        display: flex;
+        flex-direction: column;
+    }
 }
 
 input[type='text'],

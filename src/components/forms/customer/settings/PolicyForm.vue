@@ -95,4 +95,8 @@ input[type='number'] {
     top: 0;
     left: 5px;
 }
+
+form {
+    padding: 1rem;
+}
 </style>

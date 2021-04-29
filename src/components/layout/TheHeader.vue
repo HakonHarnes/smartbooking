@@ -4,12 +4,20 @@
             <img class="logo" src="../../assets/logo.png" alt="" @click="redirectHome" />
         </nav>
         <h1 class="title">{{ title }}</h1>
+        <h3 :style="toggleSidebarStyle" @click="$emit('toggle-sidebar')">
+            <base-icon class="hamburger" name="menu" size="36px"></base-icon>
+        </h3>
     </header>
 </template>
 
 <script>
 export default {
     computed: {
+        toggleSidebarStyle() {
+            return {
+                visibility: window.innerWidth >= 1000 ? 'hidden' : 'visible'
+            };
+        },
         title() {
             const path = this.$route.path;
             switch (path) {
@@ -51,8 +59,8 @@ export default {
 
 <style scoped>
 header {
-    display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    display: flex;
+    justify-content: space-between;
     padding: 0px 2rem;
     width: 100%;
     height: 5rem;
@@ -73,5 +81,9 @@ header {
     justify-self: center;
     font-size: 1.8rem;
     font-weight: 500;
+}
+
+.hamburger {
+    cursor: pointer;
 }
 </style>
