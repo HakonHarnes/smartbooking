@@ -101,7 +101,6 @@ const router = createRouter({
         {
             path: '/bekreftelse',
             component: VerificationPage,
-            // TODO: set to true
             meta: { requiresVerificationToken: false, roles: ['user', 'admin', 'customer'] }
         },
         {

@@ -17,7 +17,6 @@ export default {
     async getReservationsByRoom({ commit }, payload) {
         commit('setLoading', true, { root: true });
         const { room_id, from, to } = payload;
-        console.log(to);
         const response = await ReservationService.getReservationsByRoomAndTime(room_id, from, to);
         const reservations = response.data?.map(res => {
             return {
@@ -31,8 +30,9 @@ export default {
     },
     async getMyReservations({ commit, rootState }) {
         commit('setLoading', true, { root: true });
-        const { user_id } = rootState.authentication;
-        const response = await ReservationService.getReservationsByUserId(user_id);
+
+        const { userId } = rootState.auth.user;
+        const response = await ReservationService.getReservationsByUserId(userId);
 
         const reservations = response.data?.map(res => {
             return {
@@ -41,6 +41,7 @@ export default {
                 end: new Date(res.end)
             };
         });
+
         if (reservations) {
             commit('setReservations', { reservations });
         }

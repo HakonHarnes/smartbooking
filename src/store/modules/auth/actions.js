@@ -56,5 +56,20 @@ export default {
 
         commit('setLoading', false, { root: true });
         return response;
+    },
+
+    async verify({ commit }, payload) {
+        commit('setLoading', true, { root: true });
+
+        const { code } = payload;
+        const response = await AuthService.verify(code);
+        if (!response.data.error) {
+            const { accessToken, user } = response.data;
+            commit('setVerificationToken', { verificationToken: null });
+            commit('setAccessToken', { accessToken });
+            commit('setUser', { user });
+        }
+
+        commit('setLoading', false, { root: true });
     }
 };

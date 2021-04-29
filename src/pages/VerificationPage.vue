@@ -8,7 +8,6 @@
 </template>
 
 <script>
-// import userService from '../services/UserService';
 import otpForm from '../components/forms/users/OtpForm';
 
 export default {
@@ -17,24 +16,16 @@ export default {
     },
     data() {
         return {
-            token: null,
             toast: this.$store.getters.toast
         };
     },
     methods: {
         async verifyToken(data) {
-            console.log(data.token);
+            // Verifies the verification code
+            await this.$store.dispatch('auth/verify', data);
 
-            // const response = await userService.verifyVerificationToken(this.token);
-
-            // if (response.error) {
-            //     return this.toast.error(response.error);
-            // }
-
-            // // Forwards the user to the home page
-            // this.$store.dispatch('login', { role: response.data.data.role });
-            // this.toast.clear();
-            // this.$router.push('/');
+            // Redirects the user
+            if (this.$store.getters['auth/accessToken']) return this.$router.push('/');
         }
     }
 };

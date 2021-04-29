@@ -1,30 +1,33 @@
 <template>
-    <form @submit.prevent="submitForm">
-        <input
-            v-for="index in length"
-            :key="index"
-            @focus="onFocus"
-            @keydown="onKeydown"
-            @paste="onPaste"
-            type="number"
-        />
+    <form @submit.prevent="submitForm" ref="inputs">
+        <input v-for="index in length" :key="index" @keydown="onKeydown" @focus="onFocus" type="number" />
     </form>
 </template>
 
 <script>
 export default {
     emits: ['submit-form'],
+    mounted() {
+        this.$refs.inputs[0].focus();
+    },
     data() {
         return {
             length: 6
         };
     },
     methods: {
+        getCode(input) {
+            let code = '';
+
+            while (input) {
+                code = input.value + code;
+                input = input.previousElementSibling;
+            }
+
+            return code;
+        },
         onFocus(event) {
             event.target.select();
-        },
-        onPaste(event) {
-            event.preventDefault();
         },
         onKeydown(event) {
             // Deletes input and goes to previous input if backspace is pressed
@@ -57,38 +60,21 @@ export default {
             }
 
             // Goes to next input if valid number is entered
-            if (parseInt(event.key) && event.key !== 'e') {
+            if (parseInt(event.key) >= 0) {
                 event.target.value = event.key;
                 event.preventDefault();
                 if (event.target.nextElementSibling) {
                     return event.target.nextElementSibling.focus();
+                } else {
+                    const code = this.getCode(event.target);
+                    if (code.length === 6) this.submitForm(code);
                 }
             }
 
             event.preventDefault();
         },
-        onKeyup(event) {
-            // Moves to previous input field if backspace or left arrow is pressed
-            if (event.key === 'Backspace' || event.key === 'ArrowLeft') {
-                if (event.target.previousElementSibling) {
-                    return event.target.previousElementSibling.focus();
-                } else {
-                    return;
-                }
-            }
-
-            // Moves to next input field if enter, right arrow or a number is pressed
-            const numbers = /^\d+$/;
-            if (event.key === 'Enter' || event.key === 'ArrowRight' || numbers.test(event.key)) {
-                if (event.target.nextElementSibling) {
-                    event.target.nextElementSibling.focus();
-                }
-            }
-
-            // Checks if all inputs are filled
-        },
-        submitForm() {
-            this.$emit('submit-form', { token: '123456' });
+        submitForm(code) {
+            this.$emit('submit-form', { code });
         }
     }
 };
