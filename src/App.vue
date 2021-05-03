@@ -1,7 +1,7 @@
 <template>
     <the-header class="header" v-if="isAuthenticated" @toggle-sidebar="showSidebar = !showSidebar"></the-header>
     <the-sidebar :class="sidebarClass" :style="sidebarStyles" v-if="isAuthenticated"></the-sidebar>
-    <router-view class="content"></router-view>
+    <router-view></router-view>
 </template>
 
 <script>

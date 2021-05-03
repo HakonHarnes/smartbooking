@@ -10,7 +10,7 @@ export default {
             size,
             building_id,
             is_active: 1,
-            user_id: rootState.authentication.customer_id
+            user_id: rootState.auth.user.customer_id
         };
         const { data } = await RoomService.createRoom(newRoom);
         if (data.affectedRows === 1) {
@@ -25,7 +25,7 @@ export default {
     async addRoomAndBuilding({ commit, dispatch, rootState }, payload) {
         commit('setLoading', true, { root: true });
         const { room_name, size, building_name } = payload;
-        const { data } = await BuildingService.createBuilding(building_name, rootState.authentication.customer_id);
+        const { data } = await BuildingService.createBuilding(building_name, rootState.auth.user.customer_id);
         if (data.insertId) {
             dispatch('addRoom', { room_name, size, building_id: data.insertId, building_name });
         }
@@ -34,7 +34,7 @@ export default {
         commit('setLoading', true, { root: true });
         const { building_id, date, start, end } = payload;
         const response = await RoomService.getAvaliableRooms(
-            rootState.authentication.customer_id,
+            rootState.auth.user.customer_id,
             `${date}T${start}:00.000Z`,
             `${date}T${end}:00.000Z`,
             building_id
@@ -56,7 +56,7 @@ export default {
     },
     async getRooms({ commit, rootState }) {
         commit('setLoading', true, { root: true });
-        const response = await RoomService.getRooms(rootState.authentication.customer_id);
+        const response = await RoomService.getRooms(rootState.auth.user.customer_id);
 
         const buildings = response.data?.map((room, i, a) => {
             if (a)

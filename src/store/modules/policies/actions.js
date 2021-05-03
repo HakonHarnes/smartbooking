@@ -4,7 +4,8 @@ import BuildingService from '../../../services/BuildingService';
 export default {
     async getPolicy({ commit, rootState }) {
         commit('setLoading', true, { root: true });
-        const response = await PolicyService.getPolicy(rootState.authentication.customer_id);
+        console.log(rootState);
+        const response = await PolicyService.getPolicy(rootState.auth.user.customer_id);
         console.log(response);
         if (response.data) {
             console.log('setting');

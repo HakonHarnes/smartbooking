@@ -48,14 +48,8 @@
             </ul>
         </nav>
         <nav class="log-buttons">
-            <ul>
-                <li>
-                    <base-button v-if="customer">Logg inn som bruker</base-button>
-                </li>
-                <li>
-                    <base-button @click="logout">Logg ut</base-button>
-                </li>
-            </ul>
+            <base-button class="button" v-if="customer">Logg inn som bruker</base-button>
+            <base-button class="button" @click="logout">Logg ut</base-button>
         </nav>
     </section>
 </template>
@@ -102,6 +96,10 @@ section {
     grid-template-rows: auto 1fr auto;
     padding: 1rem 0rem 1rem 0rem;
     background-color: #ededed;
+}
+
+.button {
+    margin: 0.2rem 0;
 }
 
 ul {

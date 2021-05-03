@@ -5,7 +5,7 @@ export default {
         commit('setLoading', true, { root: true });
         await ReservationService.createReservation({
             ...payload.reservation,
-            user_id: rootState.authentication.user_id
+            user_id: rootState.auth.user.user_id
         });
         commit('setLoading', false, { root: true });
     },
