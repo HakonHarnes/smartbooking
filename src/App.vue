@@ -97,5 +97,20 @@ h2 {
         grid-template-rows: auto 1fr auto;
         grid-template-columns: 1fr;
     }
+
+    .header {
+        position: fixed;
+        top: 0px;
+    }
+
+    .menubar {
+        position: fixed;
+        bottom: 0px;
+    }
+
+    .content {
+        margin-top: 80px;
+        margin-bottom: 60px;
+    }
 }
 </style>

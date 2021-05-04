@@ -59,7 +59,7 @@ header {
     grid-template-columns: 1fr 2fr 1fr;
     padding: 0px 2rem;
     width: 100%;
-    height: 5rem;
+    height: 80px;
     align-items: center;
     background-color: #00334e;
     color: white;

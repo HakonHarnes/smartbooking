@@ -104,6 +104,7 @@ section {
         'log-buttons';
     grid-template-rows: auto 1fr auto;
     padding: 1rem 0rem 1rem 0rem;
+    width: 100%;
     background-color: #ededed;
 }
 ul {
