@@ -102,7 +102,7 @@ section {
     grid-template-rows: auto 1fr auto;
     padding: 1rem 0rem 1rem 0rem;
     width: 16em;
-    background-color: #ededed;
+    background-color: #dfdfdf;
 }
 ul {
     display: grid;
@@ -146,7 +146,7 @@ ul {
 
     ul {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
     }
 }
 </style>

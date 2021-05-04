@@ -1,7 +1,7 @@
 <template>
     <the-header :mobile="isMobile" class="header" v-if="isAuthenticated"></the-header>
     <the-menu-bar :mobile="isMobile" class="menubar" v-if="isAuthenticated"></the-menu-bar>
-    <router-view></router-view>
+    <router-view class="content"></router-view>
 </template>
 
 <script>
@@ -41,6 +41,10 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
 @import '~material-design-icons/iconfont/material-icons.css';
 
+body {
+    background-color: rgb(245, 245, 245);
+}
+
 * {
     box-sizing: border-box;
 }
@@ -66,6 +70,10 @@ body {
 
 .header {
     grid-area: header;
+}
+
+.content {
+    grid-area: content;
 }
 
 .menubar {

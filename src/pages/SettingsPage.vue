@@ -1,24 +1,6 @@
 <template>
     <div class="root">
         <base-card class="card">
-            <user-information
-                :first_name="user.first_name"
-                :last_name="user.last_name"
-                :email="user.email"
-            ></user-information>
-        </base-card>
-        <base-card class="card" v-if="isCustomer">
-            <base-spinner v-if="loading"></base-spinner>
-            <customer-information
-                v-else-if="customer"
-                :organization_name="customer.organization_name"
-                :organization_number="customer.organization_number"
-                :organization_address="customer.organization_address"
-                :postal_code="customer.postal_code"
-                :postal_zone="customer.postal_zone"
-            ></customer-information>
-        </base-card>
-        <base-card class="card">
             <authentication :two_f="user.two_factor" :two_f_method="user.two_factor_method"></authentication>
         </base-card>
         <base-card class="card">
@@ -33,11 +15,9 @@
 <script>
 import Authentication from '../components/settings/Authentication';
 import ChangePassword from '../components/settings/ChangePassword';
-import CustomerInformation from '../components/settings/CustomerInformation';
-import UserInformation from '../components/settings/UserInformation';
 
 export default {
-    components: { Authentication, ChangePassword, CustomerInformation, UserInformation },
+    components: { Authentication, ChangePassword },
     data() {
         return {
             customer: null
