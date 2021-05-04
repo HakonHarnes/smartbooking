@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import ForgotPasswordForm from '../components/forms/users/ForgotPasswordForm.vue';
+import ForgotPasswordForm from '../components/forms/password/ForgotPasswordForm.vue';
 import BaseLogo from '../components/ui/BaseLogo';
 
 export default {
@@ -17,15 +17,18 @@ export default {
         ForgotPasswordForm,
         BaseLogo
     },
-    data() {
-        return {
-            toast: this.$store.getters.toast
-        };
+    computed: {
+        toast() {
+            return this.$store.getters.toast;
+        }
     },
     methods: {
-        forgotPassword(data) {
+        async forgotPassword(data) {
             this.toast.info('Dersom det er en konto knyttet til denne epost-adressen, er tilbakestillingslenke sendt.');
             this.$store.dispatch('auth/forgotPassword', data);
+
+            // Redirects to the login page
+            await new Promise(r => setTimeout(r, 5000));
             this.$router.push('/login');
         }
     }

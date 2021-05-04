@@ -3,17 +3,17 @@
         <section>
             <img :src="qr" class="qr" v-if="qr" />
             <h1 class="title">Bekreftelseskode</h1>
-            <otp-form class="otp-form" @submit-form="verifyToken"></otp-form>
+            <one-time-password-form class="otp-form" @submit-form="verifyToken"></one-time-password-form>
         </section>
     </div>
 </template>
 
 <script>
-import otpForm from '../components/forms/users/OtpForm';
+import oneTimePasswordForm from '../components/forms/password/OneTimePasswordForm';
 
 export default {
     components: {
-        otpForm
+        oneTimePasswordForm
     },
     mounted() {
         this.toast.info(
