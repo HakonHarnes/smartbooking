@@ -57,17 +57,15 @@ export default {
     methods: {
         async getCustomer() {
             this.customer = await this.$store.dispatch('users/getCustomer');
+        },
+        async logout() {
+            await this.$store.dispatch('auth/logout');
+            this.$router.push('/login');
         }
     },
     created() {
         if (this.isCustomer) {
             this.getCustomer();
-        }
-    },
-    methods: {
-        async logout() {
-            await this.$store.dispatch('auth/logout');
-            this.$router.push('/login');
         }
     }
 };

@@ -1,7 +1,7 @@
 <template>
     <the-header :mobile="isMobile" class="header" v-if="isAuthenticated"></the-header>
     <the-menu-bar :mobile="isMobile" class="menubar" v-if="isAuthenticated"></the-menu-bar>
-    <router-view class="content"></router-view>
+    <router-view></router-view>
 </template>
 
 <script>
@@ -70,10 +70,6 @@ body {
 
 .menubar {
     grid-area: menubar;
-}
-
-.content {
-    grid-area: content;
 }
 
 input[type='text'],
