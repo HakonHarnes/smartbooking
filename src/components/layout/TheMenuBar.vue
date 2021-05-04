@@ -50,9 +50,6 @@
         <nav v-if="!mobile" class="log-buttons">
             <ul>
                 <li>
-                    <base-button v-if="customer">Logg inn som bruker</base-button>
-                </li>
-                <li>
                     <base-button @click="logout">Logg ut</base-button>
                 </li>
             </ul>
@@ -104,7 +101,7 @@ section {
         'log-buttons';
     grid-template-rows: auto 1fr auto;
     padding: 1rem 0rem 1rem 0rem;
-    width: 100%;
+    width: 16em;
     background-color: #ededed;
 }
 ul {
@@ -143,6 +140,7 @@ ul {
     section {
         grid-template-areas: 'nav-buttons';
         grid-template-rows: 1fr;
+        width: 100%;
         padding: 0px;
     }
 

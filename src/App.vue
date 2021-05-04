@@ -59,7 +59,7 @@ body {
         'header     header'
         'menubar    content';
     grid-template-rows: auto 1fr;
-    grid-template-columns: 16em 1fr;
+    grid-template-columns: auto 1fr;
     min-height: 100vh;
     position: relative;
 }
