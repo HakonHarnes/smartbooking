@@ -1,5 +1,5 @@
 <template>
-    <button v-if="!link" :class="mode" :type="type">
+    <button :disabled="disabled" v-if="!link" :class="mode" :type="type">
         <slot></slot>
     </button>
     <router-link v-else :to="to" :class="mode">
@@ -28,6 +28,10 @@ export default {
         type: {
             type: String,
             required: false
+        },
+        disabled: {
+            type: Boolean,
+            required: false
         }
     }
 };
@@ -48,9 +52,14 @@ a {
     border: 1px solid transparent;
 }
 
+button:disabled {
+    background-color: #bbb;
+    cursor: not-allowed;
+}
+
 a:hover,
 a:active,
-button:hover,
+button:hover:enabled,
 button:active {
     background-color: #5588a3;
     color: white;
@@ -82,7 +91,7 @@ a {
     color: #222;
 }
 
-.outlined:hover {
+.outlined:hover:enabled {
     background-color: #222;
 }
 
@@ -93,7 +102,7 @@ a {
     box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.2);
 }
 
-.delete:hover {
+.delete:hover:enabled {
     background-color: rgb(155, 22, 22);
 }
 </style>

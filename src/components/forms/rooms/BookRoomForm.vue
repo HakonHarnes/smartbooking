@@ -42,9 +42,6 @@ export default {
         bookRoom() {
             this.$emit('book-room', this.date, this.from, this.to);
         }
-    },
-    mounted() {
-        console.log(this.availableTo);
     }
 };
 </script>

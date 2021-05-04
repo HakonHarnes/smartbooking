@@ -60,22 +60,24 @@ class UserService {
         return response.data;
     });
 
-    updateUser = catchAsync(async user => {
-        const response = await axios.put(`/users/${user.user_id}`, {
-            firstName: user.first_name,
-            lastName: user.last_name,
-            email: user.email,
-            isActive: user.is_active
+    updateUser = catchAsync(async ({ first_name, last_name, email, is_active, user_id }) => {
+        const response = await axios.put(`/users/${user_id}`, {
+            firstName: first_name,
+            lastName: last_name,
+            email,
+            isActive: is_active
         });
         return response.data;
     });
 
-    register = catchAsync(async ({ first_name, last_name, email }) => {
-        const response = await axios.post('/users/register', {
+    register = catchAsync(async ({ first_name, last_name, email, role = 'user', customer_id }) => {
+        const response = await axios.post('/register', {
             data: {
                 firstName: first_name,
                 lastName: last_name,
-                email
+                email,
+                role,
+                customerId: customer_id
             }
         });
 
@@ -83,7 +85,7 @@ class UserService {
     });
 
     forgotPassword = catchAsync(async email => {
-        const response = await axios.post('/users/forgotPassword', {
+        const response = await axios.post('/forgotPassword', {
             data: { email }
         });
 
@@ -91,7 +93,7 @@ class UserService {
     });
 
     resetPassword = catchAsync(async (password, token) => {
-        const response = await axios.patch(`/users/resetPassword/${token}`, {
+        const response = await axios.patch(`/resetPassword/${token}`, {
             data: { password }
         });
 

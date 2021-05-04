@@ -7,9 +7,16 @@
                 :email="user.email"
             ></user-information>
         </base-card>
-        <base-card class="card">
+        <base-card class="card" v-if="isCustomer">
             <base-spinner v-if="loading"></base-spinner>
-            <customer-information v-else></customer-information>
+            <customer-information
+                v-else-if="customer"
+                :organization_name="customer.organization_name"
+                :organization_number="customer.organization_number"
+                :organization_address="customer.organization_address"
+                :postal_code="customer.postal_code"
+                :postal_zone="customer.postal_zone"
+            ></customer-information>
         </base-card>
         <base-card class="card">
             <authentication :two_f="user.two_factor" :two_f_method="user.two_factor_method"></authentication>
@@ -28,12 +35,30 @@ import UserInformation from '../components/settings/UserInformation';
 
 export default {
     components: { Authentication, ChangePassword, CustomerInformation, UserInformation },
+    data() {
+        return {
+            customer: null
+        };
+    },
     computed: {
         user() {
             return this.$store.getters['auth/user'];
         },
         loading() {
             return this.$store.getters.loading;
+        },
+        isCustomer() {
+            return this.$store.getters['auth/user'].role === 'customer';
+        }
+    },
+    methods: {
+        async getCustomer() {
+            this.customer = await this.$store.dispatch('users/getCustomer');
+        }
+    },
+    created() {
+        if (this.isCustomer) {
+            this.getCustomer();
         }
     }
 };

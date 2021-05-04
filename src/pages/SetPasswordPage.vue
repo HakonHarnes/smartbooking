@@ -40,7 +40,6 @@ export default {
     // Gets user from token
     async beforeCreate() {
         const token = this.$route.params.token;
-        console.log('running');
 
         const response = await userService.getUserFromResetToken(token);
         if (!response.data) {

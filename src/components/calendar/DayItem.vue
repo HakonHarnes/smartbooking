@@ -52,7 +52,7 @@ export default {
             return Math.abs(this.endTime - this.startTime) / 3.6e5;
         },
         loggedInUser() {
-            return this.$store.getters.user_id;
+            return this.$store.getters['auth/user'].user_id;
         }
     },
     watch: {
@@ -138,14 +138,14 @@ export default {
     text-align: center;
 }
 .hour {
-    height: 2rem;
+    height: 30px;
     font-size: 0.9rem;
-    line-height: 2rem;
+    line-height: 30px;
     background-color: #e6e6e6;
 }
 .hours {
     display: grid;
-    grid-auto-rows: 2rem;
+    grid-auto-rows: 30px;
     grid-row-gap: 0.2rem;
 }
 

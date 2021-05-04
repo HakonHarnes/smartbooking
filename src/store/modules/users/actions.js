@@ -1,9 +1,10 @@
+import CustomerService from '../../../services/CustomerService';
 import UserService from '../../../services/UserService';
 
 export default {
-    async registerUser({ commit }, payload) {
+    async registerUser({ commit, rootState }, payload) {
         commit('setLoading', true, { root: true });
-        const newUser = { ...payload };
+        const newUser = { ...payload, customer_id: rootState.auth.user.customer_id };
         const response = await UserService.register(newUser);
         if (response.data) {
             commit('addUser', { ...newUser, id: response.data.insertId });
@@ -18,6 +19,14 @@ export default {
             commit('deleteUser', user_id);
         }
         commit('setLoading', false, { root: true });
+    },
+    async getCustomer({ commit, rootState }) {
+        commit('setLoading', true, { root: true });
+        const response = await CustomerService.getCustomer(rootState.auth.user.customer_id);
+        commit('setLoading', false, { root: true });
+        if (response.data) {
+            return response.data;
+        }
     },
     async getUsers({ commit, rootState }) {
         commit('setLoading', true, { root: true });

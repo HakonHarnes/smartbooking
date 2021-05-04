@@ -52,7 +52,6 @@ export default {
     },
     methods: {
         editRoom(room_id) {
-            console.log(room_id);
             this.room_id = room_id;
             this.toggleModal();
         },

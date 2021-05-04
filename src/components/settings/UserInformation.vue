@@ -1,7 +1,7 @@
 <template>
-    <div class="card">
+    <div>
         <h2>Brukerinformasjon</h2>
-        <div class="content">
+        <div>
             <div class="firstname">
                 <h4>Fornavn</h4>
                 <p>{{ first_name }}</p>
@@ -29,15 +29,6 @@ export default {
 </script>
 
 <style scoped>
-h4 {
-    color: rgb(109, 109, 109);
-    margin: 0;
-    font-weight: 400;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    margin-bottom: 0.2rem;
-}
-
 .firstname,
 .lastname,
 .email {

@@ -8,11 +8,11 @@
             </div>
             <div class="form-control">
                 <label>Fra kl.</label>
-                <input type="time" required v-model="times.from" />
+                <base-timepicker id="from" @handle-change="handleTimeChange"></base-timepicker>
             </div>
             <div class="form-control">
                 <label>Til kl.</label>
-                <input type="time" required v-model="times.to" />
+                <base-timepicker id="to" @handle-change="handleTimeChange"></base-timepicker>
             </div>
             <div class="form-control">
                 <label>Bygg</label>
@@ -56,11 +56,20 @@ export default {
         },
         today() {
             return new Date().toISOString().slice(0, 10);
+        },
+        toast() {
+            return this.$store.getters.toast;
         }
     },
     methods: {
-        handleBuildingChange(e) {
-            this.building_id = e.target.value;
+        handleTimeChange(id, time) {
+            this.times[id] = time;
+        },
+        handleBuildingChange({ target }) {
+            this.building_id = target.value;
+        },
+        async getBuildingPolicy(building_id) {
+            await this.$store.dispatch('policies/getBuildingPolicy', { building_id });
         },
         search() {
             this.error = null;
@@ -81,8 +90,11 @@ export default {
             const replaceDot = time => time.replace(':', '');
             const from = replaceDot(this.times.from);
             const to = replaceDot(this.times.to);
-            if (to - from <= 0) {
-                this.error = '"FRA KL." må være før "TIL KL."';
+            if (!from || !to) {
+                this.toast.warning('Vennligst sjekk at tidene er utfylt.');
+                return (this.times.valid = false);
+            } else if (to - from <= 0) {
+                this.toast.warning('Fra kl. må være før til kl.');
                 return (this.times.valid = false);
             }
             this.times.valid = true;
@@ -128,9 +140,9 @@ form div {
 select,
 input[type='date'],
 input[type='time'] {
-    padding: 0.3rem 0.2rem;
+    padding: 0.2rem 0.3rem;
     font-family: inherit;
-    font-size: 0.9rem;
+    font-size: 1rem;
 }
 
 select {

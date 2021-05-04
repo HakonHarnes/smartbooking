@@ -60,9 +60,9 @@ export default {
     },
     methods: {
         go() {
-            if (this.room_id) {
+            if (this.room_id && this.building_id) {
                 this.error = null;
-                this.$emit('load-room', this.room_id);
+                this.$emit('load-room', this.room_id, this.building_id);
             } else {
                 this.error = 'Vennligst velg en bygning og et rom!';
             }

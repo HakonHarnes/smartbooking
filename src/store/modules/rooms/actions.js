@@ -75,9 +75,7 @@ export default {
     async updateRoom({ commit }, payload) {
         commit('setLoading', true, { root: true });
         const { room } = payload;
-        console.log(room.size);
         const { data } = await RoomService.updateRoom(room);
-        console.log(data);
         if (data.changedRows === 1) {
             commit('updateRoom', room);
         }

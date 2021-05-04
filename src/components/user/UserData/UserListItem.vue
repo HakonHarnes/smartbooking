@@ -46,7 +46,6 @@ li {
 }
 
 li div {
-    text-align: center;
     flex: 1;
 }
 

@@ -65,7 +65,6 @@ export default {
         getSelectedRoom() {
             if (this.room_id) {
                 this.room = { ...this.$store.getters['rooms/room'](this.room_id) };
-                console.log(this.room);
             }
         }
     },

@@ -53,7 +53,6 @@ export default {
     methods: {
         handleChange(e) {
             this[e.target.name] = e.target.value;
-            console.log(e.target.value);
         },
         handleSave() {
             if (!!this.two_factor && !this.two_factor_method) {

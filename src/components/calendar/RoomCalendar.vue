@@ -40,6 +40,7 @@ export default {
     components: { BookRoomForm, DayItem },
     emits: ['book-room'],
     props: {
+        bookableTimes: Object,
         days: Array,
         perPage: Number
     },
@@ -53,8 +54,8 @@ export default {
                 from: null,
                 availableTo: null
             },
-            startTime: new Date('2021-04-17T06:00:00.000Z'),
-            endTime: new Date('2021-04-17T14:00:00.000Z')
+            startTime: new Date(new Date(`2021-04-17T${this.bookableTimes.min}:00.000Z`) - 7.2e6),
+            endTime: new Date(new Date(`2021-04-17T${this.bookableTimes.max}:00.000Z`) - 7.2e6)
         };
     },
     computed: {
@@ -91,9 +92,6 @@ export default {
             this.newBooking = { date: null, from: null, to: null };
             this.showModal = false;
         }
-    },
-    created() {
-        console.log(this.days.slice(0, this.perPage));
     }
 };
 </script>

@@ -97,6 +97,15 @@ select {
 h2 {
     font-weight: 400;
     margin: 0;
-    margin-bottom: 2rem;
+    margin-bottom: 1.6rem;
+}
+
+h4 {
+    color: rgb(109, 109, 109);
+    margin: 0;
+    font-weight: 400;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
 }
 </style>

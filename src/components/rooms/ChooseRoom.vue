@@ -3,8 +3,9 @@
     <base-spinner v-if="loading && buildings.length"></base-spinner>
     <room-calendar
         v-else-if="!loading && room_id && currentDays.length"
+        :bookableTimes="bookableTimes"
         :days="currentDays"
-        :perPage="5"
+        :perPage="7"
         @book-room="bookRoom"
     ></room-calendar>
 </template>
@@ -23,7 +24,12 @@ export default {
             bookingAvailableInterval: {
                 from: null,
                 to: null
-            }
+            },
+            bookableTimes: {
+                min: null,
+                max: null
+            },
+            buildingPolicy: null
         };
     },
     computed: {
@@ -54,10 +60,30 @@ export default {
         } */
     },
     methods: {
-        loadRoom(room_id) {
+        async loadRoom(room_id, building_id) {
+            await this.getBuildingPolicy(building_id);
+            this.findTimespan();
             this.initialiseCalendar();
             this.room_id = room_id;
             this.loadReservations(room_id);
+        },
+        async getBuildingPolicy(building_id) {
+            this.buildingPolicy = await this.$store.dispatch('policies/getBuildingPolicy', { building_id });
+        },
+        findTimespan() {
+            if (this.buildingPolicy) {
+                const numbers = Object.values(this.buildingPolicy)
+                    .filter(num => typeof num === 'string')
+                    .map(num => parseInt(num.replace(':', '')));
+                const minNum = ('0' + Math.min(...numbers)).slice(-4);
+                const maxNum = ('0' + Math.max(...numbers)).slice(-4);
+                const min = `${minNum.substring(0, 2)}:${minNum.substring(2, 4)}`;
+                const max = `${maxNum.substring(0, 2)}:${maxNum.substring(2, 4)}`;
+                this.bookableTimes = {
+                    min,
+                    max
+                };
+            }
         },
         async bookRoom(date, from, to) {
             const dateString = getDateString(date, false);
@@ -68,11 +94,7 @@ export default {
                 end: new Date(`${dateString}T${to}:00.000Z`)
             };
 
-            console.log(reservation);
-
             await this.$store.dispatch('reservations/createReservation', { reservation });
-            /* await this.$store.dispatch('reservations/getReservationsByRoom', { room_id: this.room_id });
-            this.renderReservations(); */
             this.loadReservations(this.room_id);
         },
         initialiseCalendar() {
@@ -81,7 +103,6 @@ export default {
 
             const daysAhead = this.policy?.max_days_lookup;
 
-            // TODO: Fetch from DB how many days ahead in time to display
             this.currentDays = new Array(daysAhead).fill(0).map((_, idx) => {
                 return {
                     date: new Date(new Date(today).setDate(first + idx)),
@@ -97,8 +118,6 @@ export default {
             };
         },
         renderReservations() {
-            console.log(this.reservations);
-
             this.reservations.forEach(reservation => {
                 const currDates = this.currentDays.map(day => day.date.toISOString().substring(0, 10));
                 if (currDates.includes(reservation.start.toISOString().substring(0, 10))) {

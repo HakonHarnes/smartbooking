@@ -23,8 +23,8 @@ class RoomService {
     });
 
     getRoomsInBuilding = catchAsync(async id => {
-        console.log(id);
         //const response = await axios.get(`/rooms?building_id=${id}`);
+        console.log(id);
         const response = { data: ROOMS };
         return response.data;
     });

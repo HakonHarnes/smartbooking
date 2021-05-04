@@ -53,7 +53,6 @@ export default {
             this.$store.dispatch('users/updateUser', { user: { user_id: this.user_id, ...this.user } });
         },
         toggleActive() {
-            console.log(this.user.is_active);
             this.user.is_active = this.user.is_active ? 0 : 1;
         },
         async deleteUser() {

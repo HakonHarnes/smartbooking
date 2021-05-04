@@ -15,6 +15,7 @@ import BaseLoading from './components/ui/BaseLoading.vue';
 import BaseModal from './components/ui/BaseModal.vue';
 import BaseSearch from './components/ui/BaseSearch.vue';
 import BaseSpinner from './components/ui/BaseSpinner.vue';
+import BaseTimepicker from './components/ui/BaseTimepicker.vue';
 import Switches from 'vue-switches';
 
 (async () => {
@@ -41,6 +42,7 @@ import Switches from 'vue-switches';
     app.component('base-modal', BaseModal);
     app.component('base-search', BaseSearch);
     app.component('base-spinner', BaseSpinner);
+    app.component('base-timepicker', BaseTimepicker);
     app.component('switches', Switches);
     app.mount('#app');
 })();

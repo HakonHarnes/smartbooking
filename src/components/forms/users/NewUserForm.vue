@@ -40,7 +40,8 @@ export default {
                 this.$store.dispatch('users/registerUser', {
                     first_name: this.first_name,
                     last_name: this.last_name,
-                    email: this.email
+                    email: this.email,
+                    role: 'user'
                 });
                 this.toast.success('Bruker lagt til');
                 this.$router.replace('/brukere');

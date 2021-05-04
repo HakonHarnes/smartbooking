@@ -1,6 +1,5 @@
 export default {
     addRoom(state, payload) {
-        console.log(payload);
         state.rooms.unshift(payload);
     },
     setRooms(state, payload) {
@@ -12,7 +11,6 @@ export default {
     },
     updateRoom(state, room) {
         const index = state.rooms.map(({ room_id }) => room_id).indexOf(room.room_id);
-        console.log(index);
         state.rooms[index] = { ...room };
     }
 };
