@@ -20,7 +20,7 @@ export default {
     },
     computed: {
         isAuthenticated() {
-            return this.$store.getters['auth/accessToken'];
+            return this.$store.getters['auth/accessToken'] && !this.$store.getters['auth/verificationToken'];
         },
         sidebarStyles() {
             return {

@@ -12,7 +12,7 @@
             <customer-information v-else></customer-information>
         </base-card>
         <base-card class="card">
-            <authentication :two_f="user.two_factor" :two_f_method="user.two_factor_method"></authentication>
+            <authentication-settings></authentication-settings>
         </base-card>
         <base-card class="card">
             <change-password></change-password>
@@ -21,13 +21,13 @@
 </template>
 
 <script>
-import Authentication from '../components/settings/Authentication';
+import AuthenticationSettings from '../components/settings/AuthenticationSettings';
 import ChangePassword from '../components/settings/ChangePassword';
 import CustomerInformation from '../components/settings/CustomerInformation';
 import UserInformation from '../components/settings/UserInformation';
 
 export default {
-    components: { Authentication, ChangePassword, CustomerInformation, UserInformation },
+    components: { AuthenticationSettings, ChangePassword, CustomerInformation, UserInformation },
     computed: {
         user() {
             return this.$store.getters['auth/user'];

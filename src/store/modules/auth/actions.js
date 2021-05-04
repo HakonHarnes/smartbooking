@@ -71,5 +71,30 @@ export default {
         }
 
         commit('setLoading', false, { root: true });
+    },
+
+    async enableTwoFactorAuth({ commit }, payload) {
+        commit('setLoading', true, { root: true });
+
+        const { twoFactorMethod } = payload;
+        const response = await AuthService.enableTwoFactorAuth(twoFactorMethod);
+        if (!response.data.error) {
+            const { verificationToken, qr } = response.data;
+            commit('setVerificationToken', { verificationToken });
+            commit('setQr', { qr });
+        }
+
+        commit('setLoading', false, { root: true });
+    },
+
+    async disableTwoFactorAuth({ commit }) {
+        commit('setLoading', true, { root: true });
+
+        const response = await AuthService.disableTwoFactorAuth();
+        if (!response.data.error) {
+            commit('setTwoFactor', { twoFactor: false });
+        }
+
+        commit('setLoading', false, { root: true });
     }
 };

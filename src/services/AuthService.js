@@ -7,6 +7,8 @@ import axios from './axios';
 // Checks if access token has expired before making a request.
 // If it has, try to get a new access token with the refresh token
 axios.interceptors.request.use(async config => {
+    if (config.headers.Authorization) return config;
+
     let accessToken = store.getters['auth/accessToken'];
 
     if (accessToken && !config.url.includes('refresh')) {
@@ -64,6 +66,16 @@ class AuthService {
                 headers: { Authorization: `Bearer ${store.getters['auth/verificationToken']}` }
             }
         );
+    });
+
+    enableTwoFactorAuth = catchAsync(async twoFactorMethod => {
+        return await axios.patch('/enable-two-factor', {
+            data: { twoFactorMethod }
+        });
+    });
+
+    disableTwoFactorAuth = catchAsync(async () => {
+        return await axios.patch('/disable-two-factor');
     });
 }
 
