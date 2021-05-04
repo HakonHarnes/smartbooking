@@ -1,7 +1,7 @@
 <template>
     <div class="root">
         <base-card class="card">
-            <authentication :two_f="user.two_factor" :two_f_method="user.two_factor_method"></authentication>
+            <authentication-settings></authentication-settings>
         </base-card>
         <base-card class="card">
             <change-password></change-password>
@@ -13,16 +13,11 @@
 </template>
 
 <script>
-import Authentication from '../components/settings/Authentication';
+import AuthenticationSettings from '../components/settings/AuthenticationSettings';
 import ChangePassword from '../components/settings/ChangePassword';
 
 export default {
-    components: { Authentication, ChangePassword },
-    data() {
-        return {
-            customer: null
-        };
-    },
+    components: { AuthenticationSettings, ChangePassword },
     computed: {
         user() {
             return this.$store.getters['auth/user'];

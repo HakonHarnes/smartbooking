@@ -8,7 +8,8 @@ export default {
         return {
             verificationToken: null,
             accessToken: null,
-            user: null
+            user: null,
+            qr: null
         };
     },
     mutations,

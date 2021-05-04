@@ -7,5 +7,8 @@ export default {
     },
     user(state) {
         return state.user;
+    },
+    qr(state) {
+        return state.qr;
     }
 };

@@ -23,6 +23,7 @@ import ResetPasswordPage from './pages/ResetPasswordPage.vue';
 import RoomSettings from './components/rooms/RoomSettings.vue';
 import SetPasswordPage from './pages/SetPasswordPage.vue';
 import VerificationPage from './pages/VerificationPage.vue';
+import InitTwoFactorPage from './pages/InitTwoFactorPage.vue';
 
 const router = createRouter({
     history: createWebHistory(),
@@ -103,6 +104,11 @@ const router = createRouter({
         {
             path: '/bekreftelse',
             component: VerificationPage,
+            meta: { requiresVerificationToken: true, roles: ['user', 'admin', 'customer'] }
+        },
+        {
+            path: '/init-to-faktor',
+            component: InitTwoFactorPage,
             meta: { requiresVerificationToken: true, roles: ['user', 'admin', 'customer'] }
         },
         {

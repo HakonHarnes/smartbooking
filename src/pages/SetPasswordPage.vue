@@ -61,6 +61,7 @@ export default {
     background-color: #00334e;
     width: 100vw;
     height: 100vh;
+    margin: 0;
 }
 
 a {
