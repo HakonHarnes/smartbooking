@@ -1,62 +1,72 @@
 <template>
     <section>
-        <h1 class="title">Meny</h1>
+        <h1 v-if="!mobile" class="title">Meny</h1>
         <nav class="nav-buttons">
             <ul>
                 <li v-if="admin || customer || user">
-                    <base-button class="flex" link mode="sidebar" to="/">
+                    <base-button class="flex" link :mode="buttonMode" to="/">
                         <base-icon name="laptop"></base-icon>
-                        <div>Dashboard</div>
+                        <div v-if="!mobile">Dashboard</div>
                     </base-button>
                 </li>
                 <li v-if="admin">
-                    <base-button link mode="sidebar" to="/kunder">
+                    <base-button link :mode="buttonMode" to="/kunder">
                         <base-icon name="people"></base-icon>
-                        <div>Kunder</div>
+                        <div v-if="!mobile">Kunder</div>
                     </base-button>
                 </li>
                 <li v-if="customer">
-                    <base-button class="flex" link mode="sidebar" to="/brukere">
+                    <base-button class="flex" link :mode="buttonMode" to="/brukere">
                         <base-icon name="person"></base-icon>
-                        <div>Brukere</div>
+                        <div v-if="!mobile">Brukere</div>
                     </base-button>
                 </li>
                 <li v-if="user || customer">
-                    <base-button class="flex" link mode="sidebar" :to="roomLink">
+                    <base-button class="flex" link :mode="buttonMode" :to="roomLink">
                         <base-icon name="domain"></base-icon>
-                        <div>{{ roomsText }}</div>
+                        <div v-if="!mobile">{{ roomsText }}</div>
                     </base-button>
                 </li>
                 <li v-if="user">
-                    <base-button class="flex" link mode="sidebar" to="/reservasjoner">
+                    <base-button class="flex" link :mode="buttonMode" to="/reservasjoner">
                         <base-icon name="event_note"></base-icon>
-                        <div>Reservasjoner</div>
+                        <div v-if="!mobile">Reservasjoner</div>
                     </base-button>
                 </li>
                 <li v-if="admin || customer">
-                    <base-button class="flex" link mode="sidebar" to="/statistikk">
+                    <base-button class="flex" link :mode="buttonMode" to="/statistikk">
                         <base-icon name="poll"></base-icon>
-                        <div>Statistikk</div>
+                        <div v-if="!mobile">Statistikk</div>
                     </base-button>
                 </li>
                 <li v-if="admin || customer || user">
-                    <base-button class="flex" link mode="sidebar" to="/innstillinger">
+                    <base-button class="flex" link :mode="buttonMode" to="/innstillinger">
                         <base-icon name="settings"></base-icon>
-                        <div>Innstillinger</div>
+                        <div v-if="!mobile">Innstillinger</div>
                     </base-button>
                 </li>
             </ul>
         </nav>
-        <nav class="log-buttons">
-            <base-button class="button" v-if="customer">Logg inn som bruker</base-button>
-            <base-button class="button" @click="logout">Logg ut</base-button>
+        <nav v-if="!mobile" class="log-buttons">
+            <ul>
+                <li>
+                    <base-button v-if="customer">Logg inn som bruker</base-button>
+                </li>
+                <li>
+                    <base-button @click="logout">Logg ut</base-button>
+                </li>
+            </ul>
         </nav>
     </section>
 </template>
 
 <script>
 export default {
+    props: ['mobile'],
     computed: {
+        buttonMode() {
+            return this.mobile ? 'bottombar' : 'sidebar';
+        },
         role() {
             return this.$store.getters['auth/user'].role;
         },
@@ -87,7 +97,6 @@ export default {
 
 <style scoped>
 section {
-    height: 100%;
     display: grid;
     grid-template-areas:
         'title'
@@ -97,49 +106,48 @@ section {
     padding: 1rem 0rem 1rem 0rem;
     background-color: #ededed;
 }
-
-.button {
-    margin: 0.2rem 0;
-}
-
 ul {
+    display: grid;
     list-style: none;
     margin: 0;
     padding: 0;
 }
-
-ul li {
-    height: 65px;
-}
-
 .title {
     grid-area: title;
     margin-left: 2rem;
     color: rgb(27, 27, 27);
 }
-
 .nav-butttons {
     grid-area: nav-buttons;
     justify-self: top;
 }
-
 .log-buttons {
     grid-area: log-buttons;
     justify-self: bottom;
     padding: 0rem 1rem;
 }
-
 .log-buttons ul {
     display: grid;
     gap: 0.5em;
 }
-
 .log-buttons button {
     width: 100%;
 }
-
 .flex {
     display: flex;
     align-items: center;
+}
+
+@media only screen and (max-width: 1000px) {
+    section {
+        grid-template-areas: 'nav-buttons';
+        grid-template-rows: 1fr;
+        padding: 0px;
+    }
+
+    ul {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(20px, 1fr));
+    }
 }
 </style>
