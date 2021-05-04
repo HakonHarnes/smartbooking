@@ -85,6 +85,20 @@ a {
     color: white;
 }
 
+.bottombar {
+    display: grid;
+    justify-content: center;
+    background-color: transparent;
+    width: 100%;
+    color: black;
+}
+
+.bottombar:active,
+.bottombar.router-link-active {
+    background-color: #386881;
+    color: white;
+}
+
 .outlined {
     background-color: transparent;
     border: 1px solid #386881;

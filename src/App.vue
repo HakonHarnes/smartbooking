@@ -1,40 +1,38 @@
 <template>
-    <the-header class="header" v-if="isAuthenticated" @toggle-sidebar="showSidebar = !showSidebar"></the-header>
-    <the-sidebar :class="sidebarClass" :style="sidebarStyles" v-if="isAuthenticated"></the-sidebar>
-    <router-view></router-view>
+    <the-header :mobile="isMobile" class="header" v-if="isAuthenticated"></the-header>
+    <the-menu-bar :mobile="isMobile" class="menubar" v-if="isAuthenticated"></the-menu-bar>
+    <router-view class="content"></router-view>
 </template>
 
 <script>
 import TheHeader from './components/layout/TheHeader.vue';
-import TheSidebar from './components/layout/TheSidebar.vue';
+import TheMenuBar from './components/layout/TheMenuBar.vue';
 
 export default {
     components: {
         TheHeader,
-        TheSidebar
+        TheMenuBar
     },
-    data() {
-        return {
-            showSidebar: false
-        };
-    },
-    computed: {
-        isAuthenticated() {
-            return this.$store.getters['auth/accessToken'];
-        },
-        sidebarStyles() {
-            return {
-                visibility: window.innerWidth >= 1000 ? 'visible' : this.showSidebar ? 'visible' : 'hidden'
-            };
-        },
-        sidebarClass() {
-            return window.innerWidth >= 1000 ? 'sidebar' : 'sidebar-mobile';
-        }
+    mounted() {
+        window.addEventListener('resize', () => {
+            this.windowWidth = window.innerWidth;
+        });
     },
     created() {
         if (this.isAuthenticated) {
             this.$store.dispatch('policies/getPolicy');
         }
+    },
+    computed: {
+        isMobile() {
+            return this.windowWidth <= 1000;
+        },
+        isAuthenticated() {
+            return this.$store.getters['auth/accessToken'];
+        }
+    },
+    data() {
+        return { windowWidth: window.innerWidth };
     }
 };
 </script>
@@ -59,9 +57,9 @@ body {
     display: grid;
     grid-template-areas:
         'header     header'
-        'sidebar    content';
+        'menubar    content';
     grid-template-rows: auto 1fr;
-    grid-template-columns: 16em 1fr;
+    grid-template-columns: auto 1fr;
     min-height: 100vh;
     position: relative;
 }
@@ -70,22 +68,12 @@ body {
     grid-area: header;
 }
 
-.sidebar {
-    grid-area: sidebar;
+.menubar {
+    grid-area: menubar;
 }
 
-.sidebar-mobile {
-    grid-area: sidebar;
-    z-index: 10;
-    position: absolute;
-    box-shadow: 0 5px 8px rgba(0, 0, 0, 0.3);
-}
-
-@media only screen and (max-width: 1000px) {
-    #app {
-        display: flex;
-        flex-direction: column;
-    }
+.content {
+    grid-area: content;
 }
 
 input[type='text'],
@@ -107,5 +95,31 @@ h4 {
     font-size: 0.9rem;
     text-transform: uppercase;
     margin-bottom: 0.2rem;
+}
+
+@media only screen and (max-width: 1000px) {
+    #app {
+        grid-template-areas:
+            'header'
+            'content'
+            'menubar';
+        grid-template-rows: auto 1fr auto;
+        grid-template-columns: 1fr;
+    }
+
+    .header {
+        position: fixed;
+        top: 0px;
+    }
+
+    .menubar {
+        position: fixed;
+        bottom: 0px;
+    }
+
+    .content {
+        margin-top: 80px;
+        margin-bottom: 60px;
+    }
 }
 </style>
