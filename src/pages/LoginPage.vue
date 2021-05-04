@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <section>
-            <img src="../assets/logo.png" alt="" class="logo" />
+            <base-logo class="logo" />
             <h1 class="title">Innlogging</h1>
             <login-form @submit-form="login"></login-form>
         </section>
@@ -10,10 +10,12 @@
 
 <script>
 import LoginForm from '../components/forms/users/LoginForm.vue';
+import BaseLogo from '../components/ui/BaseLogo';
 
 export default {
     components: {
-        LoginForm
+        LoginForm,
+        BaseLogo
     },
     methods: {
         async login(data) {

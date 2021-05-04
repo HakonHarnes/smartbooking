@@ -1,15 +1,18 @@
 <template>
     <header>
         <nav>
-            <img class="logo" src="../../assets/logo.png" alt="" @click="redirectHome" />
+            <base-logo class="logo" alt="" @click="redirectHome" />
         </nav>
         <h1 v-if="!mobile" class="title">{{ title }}</h1>
     </header>
 </template>
 
 <script>
+import BaseLogo from '../ui/BaseLogo';
+
 export default {
     props: ['mobile'],
+    components: { BaseLogo },
     computed: {
         buttonMode() {
             return this.mobile ? 'bottombar' : 'sidebar';
@@ -56,7 +59,7 @@ export default {
 <style scoped>
 header {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 16em 1fr;
     padding: 0px 2rem;
     width: 100%;
     height: 80px;
