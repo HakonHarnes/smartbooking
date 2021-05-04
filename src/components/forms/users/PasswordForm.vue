@@ -31,6 +31,9 @@ export default {
         },
         confirmPasswordStyle() {
             return this.equalPassword ? '' : 'error';
+        },
+        toast() {
+            return this.$store.getters.toast;
         }
     },
     data() {
@@ -38,8 +41,7 @@ export default {
             password: '',
             confirmPassword: '',
             validPassword: true,
-            equalPassword: true,
-            toast: this.$store.getters.toast
+            equalPassword: true
         };
     },
     methods: {

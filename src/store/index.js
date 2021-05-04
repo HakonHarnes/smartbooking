@@ -14,6 +14,7 @@ const store = createStore({
     modules: { auth, buildings, general, policies, users, reservations, rooms },
     getters: {
         toast() {
+            toast.clear();
             return toast;
         }
     }

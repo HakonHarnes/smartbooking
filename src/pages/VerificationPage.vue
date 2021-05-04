@@ -2,7 +2,7 @@
     <div class="container">
         <section>
             <h1 class="title">Bekreftelseskode</h1>
-            <otp-form @submit-form="verifyToken"></otp-form>
+            <otp-form :length="6" @submit-form="verifyToken"></otp-form>
         </section>
     </div>
 </template>
