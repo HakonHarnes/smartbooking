@@ -1,28 +1,6 @@
 import catchAsync from '../utils/catchAsync';
-import jwt_decode from 'jwt-decode';
-import router from '../router';
 import store from '../store';
 import axios from './axios';
-
-// Checks if access token has expired before making a request.
-// If it has, try to get a new access token with the refresh token
-axios.interceptors.request.use(async config => {
-    if (config.headers.Authorization) return config;
-
-    let accessToken = store.getters['auth/accessToken'];
-
-    if (accessToken && !config.url.includes('refresh')) {
-        const payload = jwt_decode(accessToken);
-        if (Date.now() > payload.exp * 1000) await store.dispatch('auth/refresh');
-
-        accessToken = store.getters['auth/accessToken'];
-
-        if (!accessToken) router.push('/login');
-        else config.headers.Authorization = `Bearer ${accessToken}`;
-    }
-
-    return config;
-});
 
 class AuthService {
     refresh = catchAsync(async () => {
@@ -53,6 +31,16 @@ class AuthService {
         return await axios.patch(`/reset-password/${resetToken}`, {
             data: { newPassword }
         });
+    });
+
+    updatePassword = catchAsync(async (oldPassword, newPassword) => {
+        return await axios.patch(
+            '/update-password',
+            {
+                data: { oldPassword, newPassword }
+            },
+            { withCredentials: true }
+        );
     });
 
     verify = catchAsync(async code => {

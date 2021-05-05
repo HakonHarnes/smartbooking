@@ -30,7 +30,7 @@ export default {
     },
     async getUsers({ commit, rootState }) {
         commit('setLoading', true, { root: true });
-        const response = await UserService.getUsersByCustomer(rootState.auth.user.organization_id);
+        const response = await UserService.getUsersByOrganization(rootState.auth.user.organization_id);
         if (response.data) {
             commit('setUsers', response.data);
         }

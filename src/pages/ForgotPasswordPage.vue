@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <section>
-            <img src="../assets/logo.png" alt="" class="logo" />
+            <base-logo class="logo" />
             <h1 class="title">Glemt passord</h1>
             <forgot-password-form @submit-form="forgotPassword"></forgot-password-form>
         </section>
@@ -9,21 +9,26 @@
 </template>
 
 <script>
-import ForgotPasswordForm from '../components/forms/users/ForgotPasswordForm.vue';
+import ForgotPasswordForm from '../components/forms/password/ForgotPasswordForm.vue';
+import BaseLogo from '../components/ui/BaseLogo';
 
 export default {
     components: {
-        ForgotPasswordForm
+        ForgotPasswordForm,
+        BaseLogo
     },
-    data() {
-        return {
-            toast: this.$store.getters.toast
-        };
+    computed: {
+        toast() {
+            return this.$store.getters.toast;
+        }
     },
     methods: {
-        forgotPassword(data) {
+        async forgotPassword(data) {
             this.toast.info('Dersom det er en konto knyttet til denne epost-adressen, er tilbakestillingslenke sendt.');
             this.$store.dispatch('auth/forgotPassword', data);
+
+            // Redirects to the login page
+            await new Promise(r => setTimeout(r, 5000));
             this.$router.push('/login');
         }
     }
@@ -40,8 +45,8 @@ export default {
     margin: 0;
 }
 
-img {
-    width: 100%;
+.logo {
+    width: 95%;
 }
 
 a {

@@ -40,8 +40,8 @@ export default {
     margin: 0;
 }
 
-img {
-    width: 100%;
+.logo {
+    width: 95%;
 }
 
 section {

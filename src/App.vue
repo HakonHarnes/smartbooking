@@ -28,7 +28,7 @@ export default {
             return this.windowWidth <= 1000;
         },
         isAuthenticated() {
-            return this.$store.getters['auth/accessToken'];
+            return this.$store.getters['auth/accessToken'] && !this.$store.getters['auth/verificationToken'];
         }
     },
     data() {

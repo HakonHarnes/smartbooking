@@ -2,17 +2,17 @@
     <div class="container">
         <section>
             <h1 class="title">Bekreftelseskode</h1>
-            <otp-form @submit-form="verifyToken"></otp-form>
+            <one-time-password-form :length="6" @submit-form="verifyToken"></one-time-password-form>
         </section>
     </div>
 </template>
 
 <script>
-import otpForm from '../components/forms/users/OtpForm';
+import oneTimePasswordForm from '../components/forms/password/OneTimePasswordForm';
 
 export default {
     components: {
-        otpForm
+        oneTimePasswordForm
     },
     data() {
         return {

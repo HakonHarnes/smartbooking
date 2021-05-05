@@ -24,7 +24,7 @@ import Switches from 'vue-switches';
     app.use(Toast, {
         timeout: 5000,
         position: POSITION.TOP_CENTER,
-        maxToasts: 1
+        hideProgressBar: true
     });
 
     app.use(store);

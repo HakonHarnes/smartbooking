@@ -9,17 +9,24 @@
 </template>
 
 <script>
-import PasswordForm from '../components/forms/users/PasswordForm.vue';
+import PasswordForm from '../components/forms/password/PasswordForm.vue';
 import jwt_decode from 'jwt-decode';
 
 export default {
     components: {
         PasswordForm
     },
+    mounted() {
+        if (!this.user) this.$router.push('/login');
+    },
     computed: {
         user() {
             const resetToken = this.$route.params.token;
-            return jwt_decode(resetToken).user;
+            try {
+                return jwt_decode(resetToken).user;
+            } catch (error) {
+                return null;
+            }
         }
     },
     data() {

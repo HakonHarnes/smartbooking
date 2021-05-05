@@ -1,34 +1,62 @@
 <template>
     <form @submit.prevent="submitForm" ref="inputs">
-        <input v-for="index in length" :key="index" @keydown="onKeydown" @focus="onFocus" type="number" />
+        <input
+            v-for="index in length"
+            :key="index"
+            @input="onInput"
+            @paste="onPaste"
+            @keydown="onKeydown"
+            type="number"
+        />
     </form>
 </template>
 
 <script>
 export default {
+    props: ['length'],
     emits: ['submit-form'],
     mounted() {
         this.$refs.inputs[0].focus();
     },
-    data() {
-        return {
-            length: 6
-        };
-    },
     methods: {
-        getCode(input) {
-            let code = '';
+        submitForm(code) {
+            this.$emit('submit-form', { code });
+        },
 
-            while (input) {
-                code = input.value + code;
-                input = input.previousElementSibling;
-            }
+        getVerificationCode() {
+            let code = '';
+            for (const input of this.$refs.inputs) code += input.value;
 
             return code;
         },
-        onFocus(event) {
-            event.target.select();
+
+        onInput(event) {
+            // Accept input if it is a digit
+            if (parseInt(event.data) >= 0) event.target.value = event.data;
+            else return;
+
+            // Submits the form if all inputs are filled
+            const code = this.getVerificationCode();
+            if (code.length === this.length) return this.submitForm(code);
+
+            // Focuses on next input if there is one
+            if (event.target.nextElementSibling) return event.target.nextElementSibling.focus();
         },
+
+        onPaste(event) {
+            event.preventDefault();
+
+            // Splits the paste event into separate input events
+            const input = (event.clipboardData || window.clipboardData).getData('Text');
+            for (let i = 0; i < input.length && i < this.$refs.inputs.length; i++) {
+                this.$refs.inputs[i].dispatchEvent(
+                    new InputEvent('input', {
+                        data: input.charAt(i)
+                    })
+                );
+            }
+        },
+
         onKeydown(event) {
             // Deletes input and goes to previous input if backspace is pressed
             if (event.key === 'Backspace') {
@@ -38,7 +66,6 @@ export default {
                     return event.target.previousElementSibling.focus();
                 }
             }
-
             // Goes to previous input if left arrow is pressed
             if (event.key === 'ArrowLeft') {
                 if (event.target.previousElementSibling) {
@@ -46,7 +73,6 @@ export default {
                     return event.target.previousElementSibling.focus();
                 }
             }
-
             // Goes to next input if right arrow is pressed
             if (event.key === 'ArrowRight' || event.key === 'Enter') {
                 if (event.target.nextElementSibling) {
@@ -55,26 +81,8 @@ export default {
                 }
             }
 
-            if (event.key === 'e') {
-                event.preventDefault();
-            }
-
-            // Goes to next input if valid number is entered
-            if (parseInt(event.key) >= 0) {
-                event.target.value = event.key;
-                event.preventDefault();
-                if (event.target.nextElementSibling) {
-                    return event.target.nextElementSibling.focus();
-                } else {
-                    const code = this.getCode(event.target);
-                    if (code.length === 6) this.submitForm(code);
-                }
-            }
-
-            event.preventDefault();
-        },
-        submitForm(code) {
-            this.$emit('submit-form', { code });
+            // Prevents 'e' from being accepted as a valid digit
+            if (event.key === 'e') event.preventDefault();
         }
     }
 };

@@ -9,16 +9,16 @@ class RoomService {
         return response.data;
     });
 
-    getAvaliableRooms = catchAsync(async (customer_id, start, end, building_id) => {
+    getAvaliableRooms = catchAsync(async (organization_id, start, end, building_id) => {
         const buildingQuery = building_id ? `&building_id=${building_id}` : '';
         const response = await axios.get(
-            `/rooms/search?customer_id=${customer_id}&start=${start}&end=${end}${buildingQuery}`
+            `/rooms/search?organization_id=${organization_id}&start=${start}&end=${end}${buildingQuery}`
         );
         return response.data;
     });
 
     getRooms = catchAsync(async id => {
-        const response = await axios.get(`/rooms?customer_id=${id}`);
+        const response = await axios.get(`/rooms?organization_id=${id}`);
         return response.data;
     });
 
