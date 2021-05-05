@@ -58,6 +58,21 @@ export default {
         return response;
     },
 
+    async updatePassword({ commit }, payload) {
+        commit('setLoading', true, { root: true });
+
+        const { oldPassword, newPassword } = payload;
+        const response = await AuthService.updatePassword(oldPassword, newPassword);
+        if (!response.data.error) {
+            const { accessToken } = response.data;
+            console.log(accessToken);
+            commit('setAccessToken', { accessToken });
+        }
+
+        commit('setLoading', false, { root: true });
+        return response;
+    },
+
     async verify({ commit }, payload) {
         commit('setLoading', true, { root: true });
 

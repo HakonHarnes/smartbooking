@@ -55,6 +55,16 @@ class AuthService {
         });
     });
 
+    updatePassword = catchAsync(async (oldPassword, newPassword) => {
+        return await axios.patch(
+            '/update-password',
+            {
+                data: { oldPassword, newPassword }
+            },
+            { withCredentials: true }
+        );
+    });
+
     verify = catchAsync(async code => {
         return await axios.post(
             '/verify',

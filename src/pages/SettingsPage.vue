@@ -4,7 +4,7 @@
             <authentication-settings></authentication-settings>
         </base-card>
         <base-card class="card">
-            <change-password></change-password>
+            <update-password></update-password>
         </base-card>
         <base-card class="card last">
             <base-button @click="logout">Logg ut</base-button>
@@ -14,10 +14,10 @@
 
 <script>
 import AuthenticationSettings from '../components/settings/AuthenticationSettings';
-import ChangePassword from '../components/settings/ChangePassword';
+import UpdatePassword from '../components/settings/UpdatePassword';
 
 export default {
-    components: { AuthenticationSettings, ChangePassword },
+    components: { AuthenticationSettings, UpdatePassword },
     computed: {
         user() {
             return this.$store.getters['auth/user'];
