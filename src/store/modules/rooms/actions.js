@@ -34,7 +34,7 @@ export default {
         commit('setLoading', true, { root: true });
         const { building_id, date, start, end } = payload;
         const response = await RoomService.getAvaliableRooms(
-            rootState.auth.user.customer_id,
+            rootState.auth.user.organization_id,
             `${date}T${start}:00.000Z`,
             `${date}T${end}:00.000Z`,
             building_id
@@ -56,7 +56,7 @@ export default {
     },
     async getRooms({ commit, rootState }) {
         commit('setLoading', true, { root: true });
-        const response = await RoomService.getRooms(rootState.auth.user.customer_id);
+        const response = await RoomService.getRooms(rootState.auth.user.organization_id);
 
         const buildings = response.data?.map((room, i, a) => {
             if (a)

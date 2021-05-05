@@ -3,7 +3,7 @@ import catchAsync from '../utils/catchAsync';
 
 class BuildingsService {
     getBuildings = catchAsync(async id => {
-        const response = await axios.get(`/buildings?customer_id=${id}`);
+        const response = await axios.get(`/buildings?organization_id=${id}`);
         return response.data;
     });
 

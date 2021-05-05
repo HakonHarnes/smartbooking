@@ -55,8 +55,8 @@ class UserService {
         return response.data;
     });
 
-    getUsersByCustomer = catchAsync(async id => {
-        const response = await axios.get(`/users?customer_id=${id}`);
+    getUsersByOrganization = catchAsync(async id => {
+        const response = await axios.get(`/users?organization_id=${id}`);
         return response.data;
     });
 
