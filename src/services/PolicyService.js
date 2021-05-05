@@ -3,7 +3,7 @@ import catchAsync from '../utils/catchAsync';
 
 class PolicyService {
     getPolicy = catchAsync(async id => {
-        const response = await axios.get(`/policies?user_id=` + id);
+        const response = await axios.get(`/policies?organization_id=` + id);
         return response.data;
     });
 

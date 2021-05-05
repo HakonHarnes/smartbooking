@@ -3,7 +3,7 @@
         <section>
             <img :src="qr" class="qr" v-if="qr" />
             <h1 class="title">Bekreftelseskode</h1>
-            <one-time-password-form class="otp-form" @submit-form="verifyToken"></one-time-password-form>
+            <one-time-password-form class="otp-form" :length="6" @submit-form="verifyToken"></one-time-password-form>
         </section>
     </div>
 </template>
