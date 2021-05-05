@@ -56,7 +56,7 @@ class UserService {
     });
 
     getUsersByCustomer = catchAsync(async id => {
-        const response = await axios.get(`/users?customer_id=${id}`);
+        const response = await axios.get(`/users?organization_id=${id}`);
         return response.data;
     });
 
@@ -70,14 +70,14 @@ class UserService {
         return response.data;
     });
 
-    register = catchAsync(async ({ first_name, last_name, email, role = 'user', customer_id }) => {
+    register = catchAsync(async ({ first_name, last_name, email, role = 'user', organization_id }) => {
         const response = await axios.post('/register', {
             data: {
                 firstName: first_name,
                 lastName: last_name,
                 email,
                 role,
-                customerId: customer_id
+                organization_id
             }
         });
 

@@ -9,9 +9,10 @@
                 class="hour"
                 v-for="(hour, index) in hours"
                 :key="hour.time"
-                :style="hour.mine ? myReservation : hour.available ? null : busy"
+                :style="hour.closed ? closedStyle : hour.mine ? myReservationStyle : hour.available ? null : busy"
             >
                 <div v-if="hour.mine">Din reservasjon</div>
+                <div v-else-if="hour.closed">Stengt</div>
                 <div v-else-if="!hour.available">Opptatt</div>
                 <div v-else @click="book(index)" class="available">{{ hour.time }}</div>
             </div>
@@ -20,14 +21,16 @@
 </template>
 
 <script>
-import { dayOfWeekMapper, getDateString } from '../../components/utils';
+import { dayOfWeekMapper, getDateString, getTime } from '../../components/utils';
 
 export default {
     props: {
         date: Date,
         reservations: Array,
         startTime: Date,
-        endTime: Date
+        endTime: Date,
+        opens: String,
+        closes: String
     },
     emits: ['preview-reservation'],
     data() {
@@ -39,8 +42,11 @@ export default {
         busy() {
             return { backgroundColor: '#c0392b', color: '#e9a29b' };
         },
-        myReservation() {
+        myReservationStyle() {
             return { backgroundColor: '#386881', color: 'white' };
+        },
+        closedStyle() {
+            return { backgroundColor: '#777', color: 'white' };
         },
         dateString() {
             return getDateString(this.date);
@@ -111,6 +117,21 @@ export default {
                     }
                 });
             });
+        },
+        setClosed() {
+            const offsetOpens = Math.ceil(
+                (+this.opens.replace(':', '') - +getTime(this.startTime).replace(':', '')) / 50
+            );
+            const offsetCloses = (+getTime(this.endTime).replace(':', '') - +this.closes.replace(':', '')) / 50;
+            for (let i = 0; i < offsetOpens; i++) {
+                this.hours[i].closed = true;
+                this.hours[i].available = false;
+            }
+            const length = this.hours.length;
+            for (let i = 1; i <= offsetCloses; i++) {
+                this.hours[length - i].closed = true;
+                this.hours[length - i].available = false;
+            }
         }
     },
     created() {
@@ -121,10 +142,12 @@ export default {
                     this.getDisplayMinutes(this.startTime.getMinutes(), index)
                 ),
                 available: true,
+                closed: false,
                 mine: false
             };
         });
         this.setStatuses();
+        this.setClosed();
     }
 };
 </script>
@@ -138,14 +161,14 @@ export default {
     text-align: center;
 }
 .hour {
-    height: 30px;
+    height: 1.8rem;
     font-size: 0.9rem;
-    line-height: 30px;
+    line-height: 1.8rem;
     background-color: #e6e6e6;
 }
 .hours {
     display: grid;
-    grid-auto-rows: 30px;
+    grid-auto-rows: 1.8rem;
     grid-row-gap: 0.2rem;
 }
 

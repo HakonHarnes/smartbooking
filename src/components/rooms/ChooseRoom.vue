@@ -4,6 +4,7 @@
     <room-calendar
         v-else-if="!loading && room_id && currentDays.length"
         :bookableTimes="bookableTimes"
+        :buildingPolicy="buildingPolicy"
         :days="currentDays"
         :perPage="7"
         @book-room="bookRoom"
@@ -11,7 +12,7 @@
 </template>
 
 <script>
-import { getDateString } from '../utils';
+import { dayOfWeekMapperEng, getDateString } from '../utils';
 import ChooseRoomSearch from '../forms/rooms/ChooseRoomSearch';
 import RoomCalendar from '../calendar/RoomCalendar';
 
@@ -46,19 +47,7 @@ export default {
             return this.$store.getters['policies/policy'];
         }
     },
-    watch: {
-        /* reservations(val) {
-            val.forEach(reservation => {
-                const currDates = this.currentDays.map(day => day.date.toISOString().substring(0, 10));
-                if (currDates.includes(reservation.start.toISOString().substring(0, 10))) {
-                    const idx = currDates.indexOf(reservation.start.toISOString().substring(0, 10));
-                    this.currentDays[idx].reservations.push({
-                        ...reservation
-                    });
-                }
-            });
-        } */
-    },
+    watch: {},
     methods: {
         async loadRoom(room_id, building_id) {
             await this.getBuildingPolicy(building_id);
@@ -69,6 +58,7 @@ export default {
         },
         async getBuildingPolicy(building_id) {
             this.buildingPolicy = await this.$store.dispatch('policies/getBuildingPolicy', { building_id });
+            console.log(this.buildingPolicy);
         },
         findTimespan() {
             if (this.buildingPolicy) {
@@ -104,8 +94,10 @@ export default {
             const daysAhead = this.policy?.max_days_lookup;
 
             this.currentDays = new Array(daysAhead).fill(0).map((_, idx) => {
+                const date = new Date(new Date(today).setDate(first + idx));
                 return {
-                    date: new Date(new Date(today).setDate(first + idx)),
+                    date,
+                    weekday: dayOfWeekMapperEng[date.getDay()],
                     reservations: []
                 };
             });
@@ -134,6 +126,16 @@ export default {
                 ...this.bookingAvailableInterval
             });
             this.renderReservations();
+        }
+    },
+    created() {
+        const roomId = +this.$route.query.romId;
+        console.log(roomId);
+        if (roomId) {
+            console.log('ID');
+            console.log(this.$store);
+            const { building_id } = this.$store.getters['rooms/buildingByRoom'](roomId);
+            this.loadRoom(roomId, building_id);
         }
     }
 };

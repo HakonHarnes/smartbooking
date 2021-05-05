@@ -23,6 +23,8 @@
                 v-for="day in currentDays"
                 :key="day"
                 :date="day.date"
+                :opens="buildingPolicy[`start_${day.weekday}`]"
+                :closes="buildingPolicy[`end_${day.weekday}`]"
                 :reservations="day.reservations"
                 :start-time="startTime"
                 :end-time="endTime"
@@ -41,6 +43,7 @@ export default {
     emits: ['book-room'],
     props: {
         bookableTimes: Object,
+        buildingPolicy: Object,
         days: Array,
         perPage: Number
     },
@@ -92,6 +95,9 @@ export default {
             this.newBooking = { date: null, from: null, to: null };
             this.showModal = false;
         }
+    },
+    created() {
+        console.log(this.days);
     }
 };
 </script>

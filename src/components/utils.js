@@ -8,6 +8,16 @@ export const dayOfWeekMapper = {
     6: 'Lørdag'
 };
 
+export const dayOfWeekMapperEng = {
+    0: 'sun',
+    1: 'mon',
+    2: 'tue',
+    3: 'wed',
+    4: 'thu',
+    5: 'fri',
+    6: 'sat'
+};
+
 export const getDateString = (date, norwegian = true) => {
     const vars = { month: date.getMonth() + 1, day: date.getDate() };
     const month = vars.month > 9 ? vars.month : `0${vars.month}`;

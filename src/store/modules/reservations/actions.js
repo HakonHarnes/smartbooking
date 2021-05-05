@@ -31,8 +31,8 @@ export default {
     async getMyReservations({ commit, rootState }) {
         commit('setLoading', true, { root: true });
 
-        const { userId } = rootState.auth.user;
-        const response = await ReservationService.getReservationsByUserId(userId);
+        const { user_id } = rootState.auth.user;
+        const response = await ReservationService.getReservationsByUserId(user_id);
 
         const reservations = response.data?.map(res => {
             return {

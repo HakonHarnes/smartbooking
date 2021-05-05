@@ -4,7 +4,7 @@ import UserService from '../../../services/UserService';
 export default {
     async registerUser({ commit, rootState }, payload) {
         commit('setLoading', true, { root: true });
-        const newUser = { ...payload, customer_id: rootState.auth.user.customer_id };
+        const newUser = { ...payload, organization_id: rootState.auth.user.organization_id };
         const response = await UserService.register(newUser);
         if (response.data) {
             commit('addUser', { ...newUser, id: response.data.insertId });
@@ -22,7 +22,7 @@ export default {
     },
     async getCustomer({ commit, rootState }) {
         commit('setLoading', true, { root: true });
-        const response = await CustomerService.getCustomer(rootState.auth.user.customer_id);
+        const response = await CustomerService.getCustomer(rootState.auth.user.organization_id);
         commit('setLoading', false, { root: true });
         if (response.data) {
             return response.data;
@@ -30,7 +30,7 @@ export default {
     },
     async getUsers({ commit, rootState }) {
         commit('setLoading', true, { root: true });
-        const response = await UserService.getUsersByCustomer(rootState.auth.user.customer_id);
+        const response = await UserService.getUsersByCustomer(rootState.auth.user.organization_id);
         if (response.data) {
             commit('setUsers', response.data);
         }

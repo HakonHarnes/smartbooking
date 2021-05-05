@@ -83,7 +83,7 @@ const router = createRouter({
             meta: { requiresAccessToken: true, roles: ['user'] },
             children: [
                 { path: '', component: FindRoom },
-                { path: 'velg', component: ChooseRoom }
+                { path: ':id', component: ChooseRoom }
             ]
         },
         {
