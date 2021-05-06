@@ -4,8 +4,8 @@ import catchAsync from '../utils/catchAsync';
 import { ROOMS } from '../data/dummy-data';
 
 class RoomService {
-    getById = catchAsync(async id => {
-        const response = await axios.get('/rooms/' + id);
+    getRoom = catchAsync(async id => {
+        const response = await axios.get(`/rooms/${id}`);
         return response.data;
     });
 

@@ -1,5 +1,5 @@
 <template>
-    <choose-room-search @load-room="loadRoom"></choose-room-search>
+    <choose-room-search @load-room="loadRoom" :r_id="room_id" :b_id="building_id"></choose-room-search>
     <base-spinner v-if="loading && buildings.length"></base-spinner>
     <room-calendar
         v-else-if="!loading && room_id && currentDays.length"
@@ -20,7 +20,8 @@ export default {
     components: { ChooseRoomSearch, RoomCalendar },
     data() {
         return {
-            room_id: '',
+            room_id: null,
+            building_id: null,
             currentDays: [],
             bookingAvailableInterval: {
                 from: null,
@@ -45,28 +46,35 @@ export default {
         },
         policy() {
             return this.$store.getters['policies/policy'];
+        },
+        toast() {
+            return this.$store.getters.toast;
         }
     },
     watch: {},
     methods: {
         async loadRoom(room_id, building_id) {
+            window.history.replaceState({}, '', `/finn-rom/velg?rom=${room_id}`);
             await this.getBuildingPolicy(building_id);
             this.findTimespan();
             this.initialiseCalendar();
-            this.room_id = room_id;
+            this.room_id = +room_id;
+            this.building_id = +building_id;
             this.loadReservations(room_id);
         },
         async getBuildingPolicy(building_id) {
             this.buildingPolicy = await this.$store.dispatch('policies/getBuildingPolicy', { building_id });
-            console.log(this.buildingPolicy);
         },
         findTimespan() {
             if (this.buildingPolicy) {
+                console.log(this.buildingPolicy);
                 const numbers = Object.values(this.buildingPolicy)
                     .filter(num => typeof num === 'string')
                     .map(num => parseInt(num.replace(':', '')));
+                console.log(numbers);
                 const minNum = ('0' + Math.min(...numbers)).slice(-4);
                 const maxNum = ('0' + Math.max(...numbers)).slice(-4);
+                console.log(minNum);
                 const min = `${minNum.substring(0, 2)}:${minNum.substring(2, 4)}`;
                 const max = `${maxNum.substring(0, 2)}:${maxNum.substring(2, 4)}`;
                 this.bookableTimes = {
@@ -126,16 +134,21 @@ export default {
                 ...this.bookingAvailableInterval
             });
             this.renderReservations();
+        },
+        async loadRoomFromQuery(room_id) {
+            const room = await this.$store.dispatch('rooms/getRoom', { room_id });
+            if (!room) return this.toast.error('Ugyldig rom');
+            console.log(room);
+            console.log(room_id);
+            //const building = this.$store.getters['rooms/buildingByRoom'];
+            //console.log(building);
+            this.loadRoom(room_id, room.building_id);
         }
     },
     created() {
-        const roomId = +this.$route.query.romId;
-        console.log(roomId);
-        if (roomId) {
-            console.log('ID');
-            console.log(this.$store);
-            const { building_id } = this.$store.getters['rooms/buildingByRoom'](roomId);
-            this.loadRoom(roomId, building_id);
+        const { rom: room_id } = this.$route.query;
+        if (room_id) {
+            this.loadRoomFromQuery(room_id);
         }
     }
 };

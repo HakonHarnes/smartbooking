@@ -119,6 +119,7 @@ export default {
             });
         },
         setClosed() {
+            if (!this.hours.length) return;
             const offsetOpens = Math.ceil(
                 (+this.opens.replace(':', '') - +getTime(this.startTime).replace(':', '')) / 50
             );

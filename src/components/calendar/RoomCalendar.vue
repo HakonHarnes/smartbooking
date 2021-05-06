@@ -95,9 +95,6 @@ export default {
             this.newBooking = { date: null, from: null, to: null };
             this.showModal = false;
         }
-    },
-    created() {
-        console.log(this.days);
     }
 };
 </script>

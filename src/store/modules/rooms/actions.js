@@ -68,9 +68,10 @@ export default {
         });
         const uniqueBuildings = [...new Map(buildings.map(b => [b['building_id'], b])).values()];
 
+        commit('setLoading', false, { root: true });
         commit('buildings/setBuildings', { buildings: uniqueBuildings }, { root: true });
         commit('setRooms', { rooms: response.data });
-        commit('setLoading', false, { root: true });
+        return response.data;
     },
     async updateRoom({ commit }, payload) {
         commit('setLoading', true, { root: true });
@@ -89,5 +90,14 @@ export default {
             commit('deleteRoom', room_id);
         }
         commit('setLoading', false, { root: true });
+    },
+    async getRoom({ commit }, payload) {
+        commit('setLoading', true, { root: true });
+        const { room_id } = payload;
+        const response = await RoomService.getRoom(room_id);
+        console.log(response);
+
+        commit('setLoading', false, { root: true });
+        return response.data;
     }
 };

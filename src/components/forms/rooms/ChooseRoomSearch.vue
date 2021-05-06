@@ -4,7 +4,7 @@
         <form @submit.prevent="go">
             <div class="form-control">
                 <label>Bygg</label>
-                <select name="building" @change="handleBuildingChange" required>
+                <select name="building" @change="handleBuildingChange" required v-model="building_id">
                     <option :value="null">Velg bygg</option>
                     <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{
                         b.building_name
@@ -13,7 +13,7 @@
             </div>
             <div class="form-control">
                 <label>Rom</label>
-                <select name="room" @change="handleChange" :disabled="!filteredRooms.length" required>
+                <select name="room" :disabled="!filteredRooms.length" required v-model="room_id">
                     <option :value="null">{{
                         filteredRooms.length || !building_id ? 'Velg rom' : 'Fant ingen rom'
                     }}</option>
@@ -35,12 +35,27 @@
 <script>
 export default {
     emits: ['load-room'],
+    props: {
+        b_id: Number,
+        r_id: Number
+    },
     data() {
         return {
-            building_id: null,
-            room_id: null,
+            building_id: this.b_id,
+            room_id: this.r_id,
             error: null
         };
+    },
+    watch: {
+        b_id(val) {
+            this.building_id = val;
+        },
+        r_id(val) {
+            this.room_id = val;
+        }
+        /* building_id() {
+            this.room_id = null;
+        } */
     },
     computed: {
         buildings() {
@@ -67,12 +82,19 @@ export default {
                 this.error = 'Vennligst velg en bygning og et rom!';
             }
         },
-        handleBuildingChange({ target }) {
-            this.building_id = target.value;
-        },
-        handleChange({ target }) {
-            this[`${target.name}_id`] = target.value;
+        handleBuildingChange() {
+            this.room_id = null;
         }
+        /* handleChange({ target }) {
+            this[`${target.name}_id`] = target.value;
+        } */
+    },
+    created() {
+        /* const { rom: room_id, bygg: building_id } = this.$route.query;
+        if (room_id && building_id) {
+            this.room_id = room_id;
+            this.building_id = building_id;
+        } */
     }
 };
 </script>
