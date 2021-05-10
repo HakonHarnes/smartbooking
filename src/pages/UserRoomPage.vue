@@ -1,7 +1,7 @@
 <template>
     <div class="root">
         <div class="actions">
-            <base-button link to="/finn-rom/">Finn ledig rom</base-button>
+            <base-button class="firstButton" link to="/finn-rom/">Finn ledig rom</base-button>
             <base-button link to="/finn-rom/velg">Velg rom</base-button>
         </div>
         <router-view></router-view>
@@ -21,8 +21,11 @@ export default {
     margin-bottom: 1rem;
 }
 
-.actions a {
+.firstButton {
     margin-right: 0.6rem;
+}
+
+.actions a {
     position: relative;
     transition: all 0.3s;
     background-color: rgb(156, 156, 156);
@@ -47,5 +50,11 @@ export default {
 
 .root {
     padding: 1.4rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .root {
+        padding: 0.5rem;
+    }
 }
 </style>

@@ -20,12 +20,20 @@ export default {
     },
     created() {
         if (this.isAuthenticated) {
-            this.$store.dispatch('policies/getPolicy');
+            if (this.role !== 'admin') {
+                this.$store.dispatch('policies/getPolicy');
+            } else {
+                this.$store.dispatch('organizations/getOrganizations');
+                this.$store.dispatch('users/getAccounts');
+            }
         }
     },
     computed: {
         isMobile() {
             return this.windowWidth <= 1000;
+        },
+        role() {
+            return this.$store.getters['auth/user'].role;
         },
         isAuthenticated() {
             return this.$store.getters['auth/accessToken'] && !this.$store.getters['auth/verificationToken'];
@@ -82,8 +90,18 @@ body {
 
 input[type='text'],
 input[type='button'],
+input[type='number'],
+input[type='email'],
 select {
     font-family: 'Montserrat';
+    font-size: 1rem;
+    padding: 0.3rem 0.5rem;
+}
+
+input[type='checkbox'] {
+    height: 20px;
+    width: 20px;
+    margin-right: 0.6rem;
 }
 
 h2 {

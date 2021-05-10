@@ -4,6 +4,7 @@
             <base-logo class="logo" alt="" @click="redirectHome" />
         </nav>
         <h1 v-if="!mobile" class="title">{{ title }}</h1>
+        <div v-if="!mobile && user" class="user">{{ user.first_name }} {{ user.last_name }}</div>
     </header>
 </template>
 
@@ -44,8 +45,8 @@ export default {
                     return 'Dashboard';
             }
         },
-        role() {
-            return this.$store.getters['auth/user'].role;
+        user() {
+            return this.$store.getters['auth/user'];
         }
     },
     methods: {
@@ -77,6 +78,13 @@ header {
     justify-self: center;
     font-size: 1.8rem;
     font-weight: 500;
+}
+
+.user {
+    position: absolute;
+    right: 20px;
+    top: 40px;
+    transform: translateY(-50%);
 }
 
 @media only screen and (max-width: 1000px) {

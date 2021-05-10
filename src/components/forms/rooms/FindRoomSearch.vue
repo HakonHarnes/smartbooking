@@ -2,19 +2,20 @@
     <base-spinner v-if="!buildings.length"></base-spinner>
     <base-card v-else class="card">
         <form @submit.prevent="search">
-            <div class="form-control">
+            <div></div>
+            <div class="form-control date">
                 <label>Dato</label>
                 <input type="date" :min="today" v-model="date.val" />
             </div>
-            <div class="form-control">
+            <div class="form-control from">
                 <label>Fra kl.</label>
                 <base-timepicker id="from" @handle-change="handleTimeChange"></base-timepicker>
             </div>
-            <div class="form-control">
+            <div class="form-control to">
                 <label>Til kl.</label>
                 <base-timepicker id="to" @handle-change="handleTimeChange"></base-timepicker>
             </div>
-            <div class="form-control">
+            <div class="form-control area">
                 <label>Bygg</label>
                 <select @change="handleBuildingChange">
                     <option :value="null">Alle bygg</option>
@@ -23,11 +24,10 @@
                     }}</option>
                 </select>
             </div>
-            <div class="form-control">
+            <div class="form-control search">
                 <base-button>Søk</base-button>
             </div>
         </form>
-        <div class="error">{{ error }}</div>
     </base-card>
 </template>
 
@@ -114,21 +114,70 @@ export default {
 
 <style scoped>
 .card {
-    margin: 2rem 0 1rem;
-    width: min-content;
-}
-
-.error {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: rgba(182, 23, 23, 0.933);
+    margin: 1.6rem 0 1rem;
 }
 
 form {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr 1fr 1fr 1fr 1fr 1.1fr;
+    justify-items: center;
+    align-items: center;
+}
+
+@media only screen and (max-width: 1150px) {
+    .card {
+        padding: 1rem !important;
+    }
+
+    form {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        grid-gap: 0.8rem;
+        justify-items: start;
+    }
+
+    .to {
+        grid-row: 2;
+        grid-column: 3;
+    }
+
+    .area {
+        grid-row: 2;
+        grid-column: 2;
+    }
+
+    .search {
+        grid-row: span 2;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    form {
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+        grid-gap: 0.6rem;
+        justify-items: center;
+    }
+
+    .from {
+        grid-row: 3;
+        grid-column: 2;
+    }
+
+    .to {
+        grid-row: 4;
+        grid-column: 2;
+    }
+
+    .area {
+        grid-row: 2;
+        grid-column: 2;
+    }
+
+    .search {
+        grid-row: 5;
+        grid-column: 2;
+    }
 }
 
 form div {

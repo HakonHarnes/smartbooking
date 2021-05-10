@@ -1,9 +1,8 @@
 <template>
     <div class="root">
         <div class="actions">
-            <base-button link to="/rom/">Eksisterende arealer</base-button>
-            <base-button link to="/rom/nytt">Nytt areal</base-button>
-            <base-button link to="/rom/innstillinger">Innstillinger</base-button>
+            <base-button link to="/organisasjoner/">Eksisterende organisasjoner</base-button>
+            <base-button link to="/organisasjoner/ny">Ny organisasjon</base-button>
         </div>
         <router-view></router-view>
     </div>
@@ -11,8 +10,15 @@
 
 <script>
 export default {
+    computed: {
+        user() {
+            return this.$store.getters['auth/user'];
+        }
+    },
     created() {
-        this.$store.dispatch('rooms/getRooms');
+        if (this.user?.role === 'admin') {
+            this.$store.dispatch('organizations/getOrganizations');
+        }
     }
 };
 </script>
@@ -45,7 +51,6 @@ export default {
     content: '';
     transition: all 0.8s ease;
 }
-
 .root {
     padding: 1.4rem;
 }

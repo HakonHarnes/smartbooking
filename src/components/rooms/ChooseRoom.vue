@@ -92,8 +92,9 @@ export default {
                 end: new Date(`${dateString}T${to}:00.000Z`)
             };
 
-            await this.$store.dispatch('reservations/createReservation', { reservation });
-            this.loadReservations(this.room_id);
+            if (await this.$store.dispatch('reservations/createReservation', { reservation })) {
+                this.loadReservations(this.room_id);
+            }
         },
         initialiseCalendar() {
             const today = new Date();

@@ -2,14 +2,16 @@ import CustomerService from '../../../services/CustomerService';
 import UserService from '../../../services/UserService';
 
 export default {
-    async registerUser({ commit, rootState }, payload) {
+    async register({ commit, rootState }, payload) {
         commit('setLoading', true, { root: true });
-        const newUser = { ...payload, organization_id: rootState.auth.user.organization_id };
+        const newUser = { organization_id: rootState.auth.user.organization_id, ...payload };
         const response = await UserService.register(newUser);
-        if (response.data) {
-            commit('addUser', { ...newUser, id: response.data.insertId });
-        }
         commit('setLoading', false, { root: true });
+        if (response.data) {
+            commit('addUser', { ...newUser, id: response.data.insertId, is_active: 1 });
+            return true;
+        }
+        return false;
     },
     async deleteUser({ commit }, payload) {
         commit('setLoading', true, { root: true });
@@ -36,13 +38,24 @@ export default {
         }
         commit('setLoading', false, { root: true });
     },
+    async getAccounts({ commit }) {
+        commit('setLoading', true, { root: true });
+        const response = await UserService.getAccounts();
+        console.log(response);
+        if (response.data) {
+            commit('setUsers', response.data);
+        }
+        commit('setLoading', false, { root: true });
+    },
     async updateUser({ commit }, payload) {
         commit('setLoading', true, { root: true });
         const { user } = payload;
         const response = await UserService.updateUser(user);
+        commit('setLoading', false, { root: true });
         if (response.data?.changedRows === 1) {
             commit('updateUser', user);
+            return true;
         }
-        commit('setLoading', false, { root: true });
+        return false;
     }
 };

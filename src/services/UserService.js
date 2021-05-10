@@ -55,6 +55,11 @@ class UserService {
         return response.data;
     });
 
+    getAccounts = catchAsync(async () => {
+        const response = await axios.get('/users');
+        return response.data;
+    });
+
     getUsersByOrganization = catchAsync(async id => {
         const response = await axios.get(`/users?organization_id=${id}`);
         return response.data;
@@ -71,12 +76,11 @@ class UserService {
     });
 
     register = catchAsync(async ({ first_name, last_name, email, role = 'user', organization_id }) => {
-        const response = await axios.post('/register', {
+        const response = await axios.post(`/register-${role}`, {
             data: {
                 firstName: first_name,
                 lastName: last_name,
                 email,
-                role,
                 organization_id
             }
         });

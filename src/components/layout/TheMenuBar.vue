@@ -10,9 +10,15 @@
                     </base-button>
                 </li>
                 <li v-if="admin">
-                    <base-button link :mode="buttonMode" to="/kunder">
+                    <base-button class="flex" link :mode="buttonMode" to="/organisasjoner">
+                        <base-icon name="domain"></base-icon>
+                        <div v-if="!mobile">Organisasjoner</div>
+                    </base-button>
+                </li>
+                <li v-if="admin">
+                    <base-button class="flex" link :mode="buttonMode" to="/kontoer">
                         <base-icon name="people"></base-icon>
-                        <div v-if="!mobile">Kunder</div>
+                        <div v-if="!mobile">Kontoer</div>
                     </base-button>
                 </li>
                 <li v-if="customer">
@@ -77,7 +83,7 @@ export default {
             return this.role === 'user';
         },
         roomsText() {
-            return this.customer ? 'Rom og arealer' : 'Finn rom';
+            return this.customer ? 'Rom og områder' : 'Finn rom';
         },
         roomLink() {
             return this.user ? '/finn-rom' : '/rom';

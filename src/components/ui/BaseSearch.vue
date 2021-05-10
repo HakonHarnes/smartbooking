@@ -23,12 +23,10 @@ export default {
 <style scoped>
 form {
     display: flex;
-    margin: 2rem 0 1.4rem;
+    margin: 1.4rem 0;
 }
 
 input[type='text'] {
     margin-right: 0.6rem;
-    padding: 0 1rem;
-    font-family: 'Montserrat';
 }
 </style>

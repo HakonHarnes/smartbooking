@@ -18,6 +18,12 @@ export const dayOfWeekMapperEng = {
     6: 'sat'
 };
 
+export const roleToNorwegian = {
+    customer: 'Kunde',
+    admin: 'Administrator',
+    user: 'Bruker'
+};
+
 export const getDateString = (date, norwegian = true) => {
     const vars = { month: date.getMonth() + 1, day: date.getDate() };
     const month = vars.month > 9 ? vars.month : `0${vars.month}`;

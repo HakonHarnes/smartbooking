@@ -40,6 +40,14 @@ class RoomService {
         return response.data;
     });
 
+    createRooms = catchAsync(async values => {
+        console.log(values);
+        const response = await axios.post('/rooms', {
+            values
+        });
+        return response.data;
+    });
+
     updateRoom = catchAsync(async ({ room_name, building_id, size, is_active, user_id, room_id }) => {
         const response = await axios.put(`/rooms/${room_id}`, {
             name: room_name,

@@ -37,7 +37,7 @@ export default {
         addUser() {
             this.validateForm();
             if (this.formValid) {
-                this.$store.dispatch('users/registerUser', {
+                this.$store.dispatch('users/register', {
                     first_name: this.first_name,
                     last_name: this.last_name,
                     email: this.email,

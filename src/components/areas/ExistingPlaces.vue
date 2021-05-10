@@ -1,21 +1,17 @@
 <template>
     <ul>
         <li class="description">
-            <div class="room">Rom</div>
-            <div>Plasser</div>
-            <div>Område</div>
+            <div class="area">Område</div>
             <div>Tilgjengelig</div>
             <div class="edit">Rediger</div>
         </li>
-        <li v-for="r in rooms" :key="r.room_id">
-            <div class="room">{{ r.room_name }}</div>
-            <div>{{ r.size }}</div>
-            <div>{{ r.building_name }}</div>
+        <li v-for="b in buildings" :key="b.building_id">
+            <div class="area">{{ b.building_name }}</div>
             <base-active-attribute
-                :active="r.is_active === 1"
+                :active="b.is_active === 1"
                 :text="{ true: 'Ja', false: 'Nei' }"
             ></base-active-attribute>
-            <div class="edit" @click="$emit('edit-room', r.room_id)">
+            <div class="edit" @click="$emit('edit-area', b.building_id)">
                 <base-icon class="icon" name="edit"></base-icon>
             </div>
         </li>
@@ -25,9 +21,9 @@
 <script>
 export default {
     props: {
-        rooms: Array
+        buildings: Array
     },
-    emits: ['edit-room']
+    emits: ['edit-area']
 };
 </script>
 
@@ -42,10 +38,11 @@ li {
     padding: 0.4rem 1rem;
     margin: 0.2rem 0;
     display: grid;
-    grid-template-columns: 1fr 0.4fr 1fr 0.5fr 0.5fr;
+    grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 0.2rem;
     align-items: center;
     justify-content: space-between;
+    justify-items: center;
     background-color: #fff;
     transition: all 0.1s;
 }
@@ -68,7 +65,7 @@ li {
     color: #0f3a52;
 }
 
-.edit {
-    justify-self: center;
+.area {
+    justify-self: start;
 }
 </style>

@@ -3,31 +3,32 @@
         <template #body><edit-user @close-modal="toggleModal" :user_id="user_id"></edit-user></template>
     </base-modal>
     <base-search @search="search"></base-search>
-    <base-card>
-        <base-spinner v-if="loading"></base-spinner>
-        <div v-else-if="!loading && !users.length">Fant ingen brukere</div>
-        <ul v-else>
-            <base-list-description :columns="columns"></base-list-description>
-            <user-list-item
-                v-for="user in filteredUsers"
-                :key="user.user_id"
-                :user_id="user.user_id"
-                :first_name="user.first_name"
-                :last_name="user.last_name"
-                :email="user.email"
-                :active="user.is_active"
-                @edit-user="editUser"
-            ></user-list-item>
-        </ul>
-    </base-card>
+    <base-spinner v-if="loading"></base-spinner>
+    <div v-else-if="!users.length">Fant ingen brukere</div>
+    <ul v-else>
+        <li class="description">
+            <div class="name">Navn</div>
+            <div>E-post</div>
+            <div>Status</div>
+            <div class="edit">Rediger</div>
+        </li>
+        <li v-for="u in users" :key="u.user_id">
+            <div class="name">{{ u.first_name }} {{ u.last_name }}</div>
+            <div>{{ u.email }}</div>
+            <base-active-attribute
+                :active="u.is_active === 1"
+                :text="{ true: 'Aktiv', false: 'Inaktiv' }"
+            ></base-active-attribute>
+            <div class="edit" @click="editUser(u.user_id)"><base-icon class="icon" name="edit"></base-icon></div>
+        </li>
+    </ul>
 </template>
 
 <script>
 import EditUser from '../../forms/users/EditUser.vue';
-import UserListItem from './UserListItem.vue';
 
 export default {
-    components: { EditUser, UserListItem },
+    components: { EditUser },
     data() {
         return {
             searchKeyword: '',
@@ -71,16 +72,43 @@ export default {
 
 <style scoped>
 ul {
-    position: relative;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-ul::before {
-    height: 1px;
-    width: 100%;
-    top: 1.5rem;
-    left: 0;
-    background-color: rgb(136, 136, 136);
-    content: ' ';
-    position: absolute;
+li {
+    padding: 0.4rem 1rem;
+    margin: 0.2rem 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 0.5fr 0.5fr;
+    grid-column-gap: 0.2rem;
+    align-items: center;
+    justify-content: space-between;
+    justify-items: start;
+    background-color: #fff;
+    transition: all 0.1s;
+}
+
+.description {
+    background-color: transparent;
+    border-bottom: 1px solid #222;
+}
+
+.description div {
+    font-weight: 500;
+}
+
+.edit {
+    justify-self: center;
+}
+
+.icon {
+    color: #386881;
+    cursor: pointer;
+}
+
+.icon:hover {
+    color: #0f3a52;
 }
 </style>

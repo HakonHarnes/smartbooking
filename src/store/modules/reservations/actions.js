@@ -3,11 +3,14 @@ import ReservationService from '../../../services/ReservationService';
 export default {
     async createReservation({ commit, rootState }, payload) {
         commit('setLoading', true, { root: true });
-        await ReservationService.createReservation({
+        const { user_id, organization_id } = rootState.auth.user;
+        const response = await ReservationService.createReservation({
             ...payload.reservation,
-            user_id: rootState.auth.user.user_id
+            user_id,
+            organization_id
         });
         commit('setLoading', false, { root: true });
+        return !response.data?.error;
     },
     async deleteReservation({ commit, dispatch }, payload) {
         commit('setLoading', true, { root: true });

@@ -26,9 +26,6 @@
                 <base-button>Gå</base-button>
             </div>
         </form>
-        <div class="error">
-            {{ error }}
-        </div>
     </base-card>
 </template>
 
@@ -101,8 +98,7 @@ export default {
 
 <style scoped>
 .card {
-    margin: 2rem 0 1rem;
-    width: min-content;
+    margin: 1.5rem 0 1rem;
 }
 
 form {
@@ -135,8 +131,14 @@ label {
     margin: 0 1rem;
 }
 
-.error {
-    margin: 0.8rem 0 0;
-    color: rgb(197, 32, 32);
+@media only screen and (max-width: 600px) {
+    form {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .form-control {
+        margin: 0.4rem 0;
+    }
 }
 </style>

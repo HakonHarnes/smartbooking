@@ -17,9 +17,13 @@ class ReservationService {
         return response.data;
     });
 
-    createReservation = catchAsync(async ({ start, end, room_id, user_id }) => {
+    createReservation = catchAsync(async ({ start, end, room_id, user_id, organization_id }) => {
         const response = await axios.post('/reservations', {
-            data: { start, end, user_id, room_id }
+            start,
+            end,
+            user_id,
+            room_id,
+            organization_id
         });
         return response.data;
     });

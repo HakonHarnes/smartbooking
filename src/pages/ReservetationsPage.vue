@@ -9,35 +9,35 @@
         </base-modal>
         <div class="root">
             <h2>Dine reservasjoner</h2>
-            <base-card>
-                <base-spinner v-if="loading"></base-spinner>
-                <div v-else-if="!loading && !reservations.length">Fant ingen reservasjoner</div>
-                <ul v-else-if="!loading && reservations.length">
-                    <base-list-description :columns="columns"></base-list-description>
-                    <reservation-list-item
-                        v-for="res in reservations"
-                        :key="res.res_id"
-                        :id="res.res_id"
-                        :room_name="res.room_name"
-                        :building="res.building_name"
-                        :date="true"
-                        :start="res.start"
-                        :end="res.end"
-                        :type="'delete'"
-                        :dateSubstringChars="[0, -3]"
-                        @handle-action="deleteReservation"
-                    ></reservation-list-item>
-                </ul>
-            </base-card>
+            <base-spinner v-if="loading"></base-spinner>
+            <div v-else-if="!loading && !reservations.length">Fant ingen reservasjoner</div>
+            <ul v-else-if="!loading && reservations.length">
+                <reservation-description action="Slett"></reservation-description>
+                <reservation-list-item
+                    v-for="res in reservations"
+                    :key="res.res_id"
+                    :id="res.res_id"
+                    :room_name="res.room_name"
+                    :building="res.building_name"
+                    :size="res.size"
+                    :date="true"
+                    :start="res.start"
+                    :end="res.end"
+                    :type="'delete'"
+                    :dateSubstringChars="[0, -3]"
+                    @handle-action="deleteReservation"
+                ></reservation-list-item>
+            </ul>
         </div>
     </div>
 </template>
 
 <script>
+import ReservationDescription from '../components/reservations/ReservationDescription';
 import ReservationListItem from '../components/reservations/ReservationListItem';
 
 export default {
-    components: { ReservationListItem },
+    components: { ReservationDescription, ReservationListItem },
     data() {
         return {
             showModal: false,
@@ -87,16 +87,8 @@ h2 {
 
 ul {
     position: relative;
-}
-
-ul::before {
-    height: 1px;
-    width: 100%;
-    top: 1.5rem;
-    left: 0;
-    background-color: rgb(136, 136, 136);
-    content: ' ';
-    position: absolute;
+    list-style: none;
+    padding: 0;
 }
 
 .modalButton {
