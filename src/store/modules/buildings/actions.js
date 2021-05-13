@@ -10,12 +10,26 @@ export default {
     async updateBuilding({ commit }, payload) {
         commit('setLoading', true, { root: true });
         const { building } = payload;
-        console.log(building);
         const response = await BuildingService.updateBuilding(building);
-        console.log(response);
+        commit('setLoading', false, { root: true });
         if (response.data) {
             commit('updateBuilding', building);
+            return true;
         }
+        return false;
+    },
+    async addBuilding({ commit, rootState }, payload) {
+        commit('setLoading', true, { root: true });
+        const newBuilding = {
+            ...payload,
+            organization_id: rootState.auth.user.organization_id
+        };
+        const response = await BuildingService.createBuilding(newBuilding);
         commit('setLoading', false, { root: true });
+        if (response.data) {
+            commit('addBuilding', { ...newBuilding, building_id: response.data.insertId, building_is_active: 1 });
+            return true;
+        }
+        return false;
     }
 };

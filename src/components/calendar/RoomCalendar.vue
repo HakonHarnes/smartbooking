@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div class="wrapper">
         <base-modal @close="closeModal" v-if="showModal" title="Reserver rom">
             <template #body
                 ><book-room-form
@@ -46,6 +46,11 @@ export default {
         buildingPolicy: Object,
         days: Array,
         perPage: Number
+    },
+    watch: {
+        perPage(val) {
+            this.currentDays = this.days.slice(0, val);
+        }
     },
     data() {
         return {
@@ -107,12 +112,9 @@ export default {
 }
 
 .calendar {
+    margin-top: 1rem;
     display: grid;
     grid-gap: 0.2rem;
     grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-}
-
-.tab {
-    background-color: lawngreen;
 }
 </style>

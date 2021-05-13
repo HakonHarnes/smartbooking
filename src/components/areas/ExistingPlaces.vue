@@ -8,7 +8,7 @@
         <li v-for="b in buildings" :key="b.building_id">
             <div class="area">{{ b.building_name }}</div>
             <base-active-attribute
-                :active="b.is_active === 1"
+                :active="b.building_is_active === 1"
                 :text="{ true: 'Ja', false: 'Nei' }"
             ></base-active-attribute>
             <div class="edit" @click="$emit('edit-area', b.building_id)">
@@ -35,8 +35,8 @@ ul {
 }
 
 li {
-    padding: 0.4rem 1rem;
-    margin: 0.2rem 0;
+    padding: 6px 12px;
+    margin: 8px 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 0.2rem;

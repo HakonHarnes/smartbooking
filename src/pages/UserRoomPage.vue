@@ -48,10 +48,6 @@ export default {
     transition: all 0.8s ease;
 }
 
-.root {
-    padding: 1.4rem;
-}
-
 @media only screen and (max-width: 600px) {
     .root {
         padding: 0.5rem;

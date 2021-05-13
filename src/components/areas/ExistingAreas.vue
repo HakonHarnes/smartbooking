@@ -79,24 +79,6 @@ export default {
 </script>
 
 <style scoped>
-ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-li {
-    padding: 0.4rem 1rem;
-    margin: 0.2rem 0;
-    display: grid;
-    grid-template-columns: 1fr 0.4fr 1fr 0.5fr 0.5fr;
-    grid-column-gap: 0.2rem;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #fff;
-    transition: all 0.1s;
-}
-
 .room {
     justify-self: start;
 }

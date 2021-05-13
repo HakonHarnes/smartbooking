@@ -10,17 +10,19 @@ export default {
             size,
             building_id,
             is_active: 1,
-            user_id: rootState.auth.user.organization_id
+            organization_id: rootState.auth.user.organization_id
         };
         const { data } = await RoomService.createRoom(newRoom);
-        if (data.affectedRows === 1) {
+        commit('setLoading', false, { root: true });
+        if (data?.affectedRows === 1) {
             commit('addRoom', {
                 ...newRoom,
                 room_id: data.insertId,
                 building_name
             });
+            return true;
         }
-        commit('setLoading', false, { root: true });
+        return false;
     },
     async addRooms({ commit }, payload) {
         commit('setLoading', true, { root: true });
@@ -66,11 +68,14 @@ export default {
         commit('setLoading', true, { root: true });
         const response = await RoomService.getRooms(rootState.auth.user.organization_id);
 
+        console.log(response);
+
         const buildings = response.data?.map((room, i, a) => {
             if (a)
                 return {
                     building_id: room.building_id,
                     building_name: room.building_name,
+                    building_is_active: room.building_is_active,
                     organization_id: room.organization_id
                 };
         });

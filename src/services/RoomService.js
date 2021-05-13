@@ -29,12 +29,12 @@ class RoomService {
         return response.data;
     });
 
-    createRoom = catchAsync(async ({ room_name, size, is_active, user_id, building_id }) => {
+    createRoom = catchAsync(async ({ room_name, size, is_active, organization_id, building_id }) => {
         const response = await axios.post('/rooms', {
             name: room_name,
             size,
             is_active,
-            user_id,
+            organization_id,
             building_id
         });
         return response.data;

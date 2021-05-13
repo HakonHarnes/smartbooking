@@ -1,4 +1,5 @@
 import ReservationService from '../../../services/ReservationService';
+import { getDateString, getTime } from '../../../components/utils';
 
 export default {
     async createReservation({ commit, rootState }, payload) {
@@ -49,5 +50,22 @@ export default {
             commit('setReservations', { reservations });
         }
         commit('setLoading', false, { root: true });
+    },
+    async getReservationsAndUsers({ commit, rootState }) {
+        commit('setLoading', true, { root: true });
+
+        const response = await ReservationService.getReservationsAndUsers(rootState.auth.user.organization_id);
+
+        const reservations = response.data?.map(res => {
+            return {
+                ...res,
+                start: getTime(new Date(res.start)),
+                end: getTime(new Date(res.end)),
+                date: getDateString(new Date(res.start))
+            };
+        });
+
+        commit('setLoading', false, { root: true });
+        return reservations;
     }
 };

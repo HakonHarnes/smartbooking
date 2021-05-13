@@ -13,7 +13,7 @@
         </div>
         <div class="control switches">
             <label class="marginBottom">{{ activeText }}</label>
-            <switches color="blue" @click="toggleActive" :value="!!building.is_active"></switches>
+            <switches color="blue" @click="toggleActive" :value="!!building.building_is_active"></switches>
         </div>
         <div class="actions">
             <base-button>Lagre</base-button>
@@ -34,18 +34,19 @@ export default {
             building: {
                 building_name: '',
                 building_id: null,
-                is_active: null
+                building_is_active: null
             }
         };
     },
     methods: {
         save() {
-            console.log(this.building);
             this.$emit('close-modal');
-            this.$store.dispatch('buildings/updateBuilding', { building: this.building });
+            if (this.$store.dispatch('buildings/updateBuilding', { building: this.building })) {
+                this.toast.success('Data ble oppdatert.');
+            }
         },
         toggleActive() {
-            this.building.is_active = this.building.is_active ? 0 : 1;
+            this.building.building_is_active = this.building.building_is_active ? 0 : 1;
         },
         async deleteBuilding() {
             if (confirm('Sikker?')) {
@@ -61,7 +62,10 @@ export default {
     },
     computed: {
         activeText() {
-            return this.building.is_active ? 'Tilgjengelig' : 'Utilgjengelig';
+            return this.building.building_is_active ? 'Tilgjengelig' : 'Utilgjengelig';
+        },
+        toast() {
+            return this.$store.getters.toast;
         }
     },
     mounted() {

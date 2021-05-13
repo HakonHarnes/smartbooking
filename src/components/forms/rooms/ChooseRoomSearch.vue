@@ -111,7 +111,7 @@ form {
 form div {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
 }
 
 select {

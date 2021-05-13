@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <customer-reservations v-if="user.role === 'customer'"></customer-reservations>
+    <div v-else>
         <base-modal @close="toggleModal" v-if="showModal" title="Slette reservasjon">
             <template #body>Er du sikker?</template>
             <template #footer>
@@ -33,11 +34,12 @@
 </template>
 
 <script>
+import CustomerReservations from '../components/customer/CustomerReservations';
 import ReservationDescription from '../components/reservations/ReservationDescription';
 import ReservationListItem from '../components/reservations/ReservationListItem';
 
 export default {
-    components: { ReservationDescription, ReservationListItem },
+    components: { ReservationDescription, ReservationListItem, CustomerReservations },
     data() {
         return {
             showModal: false,
@@ -45,14 +47,14 @@ export default {
         };
     },
     computed: {
-        columns() {
-            return ['Rom', 'Bygg', 'Dato', 'Start', 'Slutt', 'Slett'];
-        },
         loading() {
             return this.$store.getters.loading;
         },
         reservations() {
             return this.$store.getters['reservations/reservations'];
+        },
+        user() {
+            return this.$store.getters['auth/user'];
         }
     },
     methods: {
@@ -76,10 +78,6 @@ export default {
 </script>
 
 <style scoped>
-.root {
-    padding: 1.4rem;
-}
-
 h2 {
     font-weight: 400;
     font-size: 1.6rem;

@@ -13,6 +13,7 @@
 export default {
     created() {
         this.$store.dispatch('rooms/getRooms');
+        this.$store.dispatch('buildings/getBuildings');
     }
 };
 </script>
@@ -44,9 +45,5 @@ export default {
     background-color: #386881;
     content: '';
     transition: all 0.8s ease;
-}
-
-.root {
-    padding: 1.4rem;
 }
 </style>

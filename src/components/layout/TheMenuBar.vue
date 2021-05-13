@@ -33,16 +33,10 @@
                         <div v-if="!mobile">{{ roomsText }}</div>
                     </base-button>
                 </li>
-                <li v-if="user">
+                <li v-if="user || customer">
                     <base-button class="flex" link :mode="buttonMode" to="/reservasjoner">
                         <base-icon name="event_note"></base-icon>
                         <div v-if="!mobile">Reservasjoner</div>
-                    </base-button>
-                </li>
-                <li v-if="admin || customer">
-                    <base-button class="flex" link :mode="buttonMode" to="/statistikk">
-                        <base-icon name="poll"></base-icon>
-                        <div v-if="!mobile">Statistikk</div>
                     </base-button>
                 </li>
                 <li v-if="admin || customer || user">
@@ -109,6 +103,7 @@ section {
     padding: 1rem 0rem 1rem 0rem;
     width: 16em;
     background-color: #dfdfdf;
+    z-index: 10;
 }
 ul {
     display: grid;

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { computed } from 'vue';
 import TheHeader from './components/layout/TheHeader.vue';
 import TheMenuBar from './components/layout/TheMenuBar.vue';
 
@@ -41,6 +42,11 @@ export default {
     },
     data() {
         return { windowWidth: window.innerWidth };
+    },
+    provide() {
+        return {
+            isMobile: computed(() => this.isMobile)
+        };
     }
 };
 </script>
@@ -76,6 +82,10 @@ body {
     position: relative;
 }
 
+.root {
+    padding: 1.4rem;
+}
+
 .header {
     grid-area: header;
 }
@@ -85,6 +95,7 @@ body {
 }
 
 .menubar {
+    position: relative;
     grid-area: menubar;
 }
 
@@ -142,6 +153,12 @@ h4 {
     .content {
         margin-top: 80px;
         margin-bottom: 60px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .root {
+        padding: 0.5rem;
     }
 }
 </style>

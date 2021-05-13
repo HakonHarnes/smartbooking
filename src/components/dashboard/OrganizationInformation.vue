@@ -1,6 +1,6 @@
 <template>
     <h2>Organisasjonsinformasjon</h2>
-    <div class="content">
+    <div :style="{ display: 'flex' }">
         <div class="column">
             <div>
                 <h4>Navn</h4>
@@ -39,10 +39,6 @@ export default {
 <style scoped>
 .card {
     height: 100%;
-}
-
-.content {
-    display: flex;
 }
 
 .column {

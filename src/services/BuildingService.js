@@ -12,10 +12,10 @@ class BuildingsService {
         return response.data;
     });
 
-    createBuilding = catchAsync(async (buildingName, user_id) => {
+    createBuilding = catchAsync(async ({ building_name, organization_id }) => {
         const response = await axios.post('/buildings', {
-            buildingName,
-            user_id
+            buildingName: building_name,
+            organization_id
         });
         return response.data;
     });
@@ -27,9 +27,10 @@ class BuildingsService {
         return response.data;
     });
 
-    updateBuilding = catchAsync(async ({ building_name, organization_id, building_id }) => {
+    updateBuilding = catchAsync(async ({ building_name, building_is_active, organization_id, building_id }) => {
         const response = await axios.put(`/buildings/${building_id}`, {
             buildingName: building_name,
+            building_is_active,
             organization_id
         });
         return response.data;

@@ -1,29 +1,33 @@
 <template>
     <form @submit.prevent="addRoom">
-        <div>
-            <label for="name">Romnavn</label>
-            <input type="text" name="name" v-model.trim="room.room_name" />
+        <div class="type">
+            <base-button class="button" :mode="isBuilding ? null : 'outlined'" type="button" @click="isBuilding = true"
+                >Område</base-button
+            >
+            <base-button class="button" :mode="isBuilding ? 'outlined' : null" type="button" @click="isBuilding = false"
+                >Rom</base-button
+            >
         </div>
         <div>
+            <label for="name">{{ isBuilding ? 'Navn' : 'Romnavn' }}</label>
+            <input required v-if="isBuilding" type="text" name="name" v-model.trim="building_name" />
+            <input required v-else type="text" name="name" v-model.trim="room.room_name" />
+        </div>
+        <div v-if="!isBuilding">
             <label for="size">Antall plasser</label>
-            <input type="number" name="size" v-model.number="room.size" />
+            <input required type="number" name="size" v-model.number="room.size" />
         </div>
-        <div>
+        <div v-if="!isBuilding">
             <label for="building">Tilhørende bygg</label>
-            <select name="building" v-model.trim="room.building_id">
+            <select required name="building" v-model.trim="room.building_id">
                 <option :value="null">Velg bygg</option>
-                <option value="ny">Ny bygning</option>
                 <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{
                     b.building_name
                 }}</option>
             </select>
         </div>
-        <div v-if="room.building_id === 'ny'">
-            <label for="new">Navn på bygning</label>
-            <input type="text" name="new" v-model.trim="newBuilding" />
-        </div>
         <div class="actions">
-            <base-button>Legg til rom</base-button>
+            <base-button>Legg til {{ isBuilding ? 'område' : 'rom' }}</base-button>
         </div>
     </form>
 </template>
@@ -37,43 +41,58 @@ export default {
                 size: null,
                 building_id: null
             },
-            newBuilding: '',
+            isBuilding: false,
+            building_name: '',
             formIsValid: true
         };
     },
     computed: {
         buildings() {
             return this.$store.getters['buildings/buildings'];
+        },
+        toast() {
+            return this.$store.getters.toast;
         }
     },
     methods: {
-        addRoom() {
+        async addRoom() {
             this.validateForm();
-            if (this.formIsValid && this.newBuilding) {
-                this.$store.dispatch('rooms/addRoomAndBuilding', { ...this.room, building_name: this.newBuilding });
-                this.$router.replace('/rom');
+
+            if (this.isBuilding && this.formIsValid) {
+                if (await this.$store.dispatch('buildings/addBuilding', { building_name: this.building_name })) {
+                    this.toast.success('Område opprettet.');
+                    this.$router.replace('/rom');
+                }
             } else if (this.formIsValid) {
                 const building_name = this.buildings.find(b => b.building_id === this.room.building_id).building_name;
-                this.$store.dispatch('rooms/addRoom', { ...this.room, building_name });
+                if (await this.$store.dispatch('rooms/addRoom', { ...this.room, building_name })) {
+                    this.toast.success('Rom opprettet.');
+                    this.$router.replace('/rom');
+                }
                 this.$router.replace('/rom');
             }
         },
         validateForm() {
-            const { room_name, size, building_id } = this.room;
-            if (!room_name || room_name.length > 30) {
-                this.formIsValid = false;
-                alert('Ugyldig romnavn');
-            } else if (!size || size <= 0) {
-                this.formIsValid = false;
-                alert('Ugyldig romstørrelse');
-            } else if (!building_id) {
-                this.formIsValid = false;
-                alert('Velg et bygg');
-            } else if (building_id === 'ny' && (!this.newBuilding || this.newBuilding.length > 30)) {
-                this.formIsValid = false;
-                alert('Ugyldig navn på bygning');
+            if (!this.isBuilding) {
+                const { room_name, size, building_id } = this.room;
+                if (!room_name || room_name.length > 30) {
+                    this.formIsValid = false;
+                    this.toast.warning('Ugyldig romnavn');
+                } else if (!size || size <= 0) {
+                    this.formIsValid = false;
+                    this.toast.warning('Ugyldig romstørrelse');
+                } else if (!building_id) {
+                    this.formIsValid = false;
+                    this.toast.warning('Velg et bygg');
+                } else {
+                    this.formIsValid = true;
+                }
             } else {
-                this.formIsValid = true;
+                if (!this.building_name) {
+                    this.formIsValid = false;
+                } else {
+                    this.formIsValid = true;
+                }
             }
         }
     }
@@ -110,5 +129,15 @@ input[type='number'] {
 
 select {
     padding: 1px 1.4rem;
+}
+
+.type {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.button:first-of-type {
+    margin-right: 1rem;
 }
 </style>

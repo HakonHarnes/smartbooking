@@ -7,6 +7,11 @@ class ReservationService {
         return response.data;
     });
 
+    getReservationsAndUsers = catchAsync(async id => {
+        const response = await axios.get(`/reservations?organization_id=${id}`);
+        return response.data;
+    });
+
     getReservationsByUserId = catchAsync(async id => {
         const response = await axios.get(`/reservations?user_id=${id}`);
         return response.data;

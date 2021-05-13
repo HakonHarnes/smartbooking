@@ -7,7 +7,6 @@ import DashboardPage from './pages/DashboardPage.vue';
 import CustomersPage from './pages/OrganizationsPage.vue';
 import UserDataPage from './pages/UserDataPage.vue';
 import ReservationsPage from './pages/ReservetationsPage.vue';
-import StatisticsPage from './pages/StatisticsPage.vue';
 import SettingsPage from './pages/SettingsPage.vue';
 import ForgotPasswordPage from './pages/ForgotPasswordPage.vue';
 import NotAuthorizedPage from './pages/NotAuthorizedPage.vue';
@@ -108,11 +107,6 @@ const router = createRouter({
             path: '/reservasjoner',
             component: ReservationsPage,
             meta: { requiresAccessToken: true, roles: ['user', 'admin', 'customer'] }
-        },
-        {
-            path: '/statistikk',
-            component: StatisticsPage,
-            meta: { requiresAccessToken: true, roles: ['admin', 'customer'] }
         },
         {
             path: '/innstillinger',

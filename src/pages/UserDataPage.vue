@@ -46,8 +46,4 @@ export default {
     content: '';
     transition: all 0.8s ease;
 }
-
-.root {
-    padding: 1.4rem;
-}
 </style>

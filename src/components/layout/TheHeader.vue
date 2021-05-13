@@ -19,8 +19,7 @@ export default {
             return this.mobile ? 'bottombar' : 'sidebar';
         },
         title() {
-            const path = this.$route.path;
-            switch (path) {
+            switch (this.$route.path) {
                 case '/':
                     return 'Dashboard';
                 case '/kunder':
@@ -29,7 +28,18 @@ export default {
                 case '/brukere/':
                 case '/brukere/ny':
                     return 'Brukere';
+                case '/kontoer':
+                case '/kontoer/':
+                case '/kontoer/ny':
+                    return 'Kontoer';
+                case '/organisasjoner':
+                case '/organisasjoner/':
+                case '/organisasjoner/ny':
+                    return 'Organisasjoner';
                 case '/rom':
+                case '/rom/':
+                case '/rom/nytt':
+                case '/rom/innstillinger':
                     return 'Rom';
                 case '/reservasjoner':
                     return 'Reservasjoner';
@@ -67,6 +77,7 @@ header {
     align-items: center;
     background-color: #00334e;
     color: white;
+    z-index: 10;
 }
 .logo {
     height: 3.2rem;

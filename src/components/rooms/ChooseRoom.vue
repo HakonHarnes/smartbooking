@@ -6,7 +6,7 @@
         :bookableTimes="bookableTimes"
         :buildingPolicy="buildingPolicy"
         :days="currentDays"
-        :perPage="7"
+        :perPage="perPage"
         @book-room="bookRoom"
     ></room-calendar>
 </template>
@@ -18,6 +18,7 @@ import RoomCalendar from '../calendar/RoomCalendar';
 
 export default {
     components: { ChooseRoomSearch, RoomCalendar },
+    inject: ['isMobile'],
     data() {
         return {
             room_id: null,
@@ -35,6 +36,9 @@ export default {
         };
     },
     computed: {
+        perPage() {
+            return this.isMobile.value ? 1 : 7;
+        },
         buildings() {
             return this.$store.getters['buildings/buildings'];
         },

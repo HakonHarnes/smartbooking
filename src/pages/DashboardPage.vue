@@ -43,9 +43,14 @@ export default {
 }
 
 .root {
-    padding: 1.4rem;
     display: grid;
     grid-gap: 1rem;
     grid-template-rows: min-content min-content;
+}
+
+@media only screen and (max-width: 600px) {
+    .card {
+        padding: 0.5rem !important;
+    }
 }
 </style>

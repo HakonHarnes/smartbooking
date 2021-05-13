@@ -119,7 +119,7 @@ export default {
 
 form {
     display: grid;
-    grid-template-columns: 1.1fr 1fr 1fr 1fr 1fr 1fr 1.1fr;
+    grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 2.5fr;
     justify-items: center;
     align-items: center;
 }
@@ -183,7 +183,7 @@ form {
 form div {
     display: flex;
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
 }
 
 select,
