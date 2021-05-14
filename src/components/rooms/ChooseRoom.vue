@@ -1,14 +1,17 @@
 <template>
-    <choose-room-search @load-room="loadRoom" :r_id="room_id" :b_id="building_id"></choose-room-search>
-    <base-spinner v-if="loading && buildings.length"></base-spinner>
-    <room-calendar
-        v-else-if="!loading && room_id && currentDays.length"
-        :bookableTimes="bookableTimes"
-        :buildingPolicy="buildingPolicy"
-        :days="currentDays"
-        :perPage="perPage"
-        @book-room="bookRoom"
-    ></room-calendar>
+    <div class="container">
+        <choose-room-search @load-room="loadRoom" :r_id="room_id" :b_id="building_id"></choose-room-search>
+        <base-spinner v-if="loading && buildings.length"></base-spinner>
+
+        <room-calendar
+            v-if="!loading && room_id && currentDays.length"
+            :bookableTimes="bookableTimes"
+            :buildingPolicy="buildingPolicy"
+            :days="currentDays"
+            :perPage="perPage"
+            @book-room="bookRoom"
+        ></room-calendar>
+    </div>
 </template>
 
 <script>
@@ -18,7 +21,6 @@ import RoomCalendar from '../calendar/RoomCalendar';
 
 export default {
     components: { ChooseRoomSearch, RoomCalendar },
-    inject: ['isMobile'],
     data() {
         return {
             room_id: null,
@@ -32,12 +34,22 @@ export default {
                 min: null,
                 max: null
             },
-            buildingPolicy: null
+            buildingPolicy: null,
+            windowWidth: window.innerWidth
         };
+    },
+    mounted() {
+        window.addEventListener('resize', () => {
+            this.windowWidth = window.innerWidth;
+        });
     },
     computed: {
         perPage() {
-            return this.isMobile.value ? 1 : 7;
+            if (this.windowWidth <= 350) return 1;
+            if (this.windowWidth <= 450) return 2;
+            if (this.windowWidth <= 600) return 3;
+            if (this.windowWidth <= 1250) return 4;
+            return 7;
         },
         buildings() {
             return this.$store.getters['buildings/buildings'];
@@ -152,3 +164,9 @@ export default {
     }
 };
 </script>
+
+<style scoped>
+.container {
+    padding-top: 1rem;
+}
+</style>

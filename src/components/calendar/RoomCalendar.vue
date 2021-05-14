@@ -11,10 +11,10 @@
             ></template>
         </base-modal>
         <div class="actions">
-            <base-button :style="previousButton" @click="handleChangePage(-1)"
+            <base-button class="nav-button" :style="previousButton" @click="handleChangePage(-1)"
                 ><base-icon name="arrow_back" size="20px"></base-icon
             ></base-button>
-            <base-button :style="nextButton" @click="handleChangePage(1)"
+            <base-button class="nav-button" :style="nextButton" @click="handleChangePage(1)"
                 ><base-icon name="arrow_forward" size="20px"></base-icon
             ></base-button>
         </div>
@@ -105,6 +105,11 @@ export default {
 </script>
 
 <style scoped>
+.nav-button {
+    padding: 0.4rem 1.2rem;
+    width: 80px;
+}
+
 .actions {
     display: flex;
     justify-content: space-between;
@@ -112,7 +117,6 @@ export default {
 }
 
 .calendar {
-    margin-top: 1rem;
     display: grid;
     grid-gap: 0.2rem;
     grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));

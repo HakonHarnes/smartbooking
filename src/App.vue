@@ -5,7 +5,6 @@
 </template>
 
 <script>
-import { computed } from 'vue';
 import TheHeader from './components/layout/TheHeader.vue';
 import TheMenuBar from './components/layout/TheMenuBar.vue';
 
@@ -42,11 +41,6 @@ export default {
     },
     data() {
         return { windowWidth: window.innerWidth };
-    },
-    provide() {
-        return {
-            isMobile: computed(() => this.isMobile)
-        };
     }
 };
 </script>
