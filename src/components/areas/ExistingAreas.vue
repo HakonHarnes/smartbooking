@@ -17,8 +17,9 @@
         </div>
 
         <base-spinner v-if="loading"></base-spinner>
-        <div v-else-if="!rooms.length">Fant ingen rom</div>
+        <div class="empty-response" v-else-if="!rooms.length">Fant ingen rom</div>
         <existing-rooms
+            class="existing-rooms"
             v-else-if="mode === 'rooms'"
             @edit-room="editRoom"
             :rooms="filteredRooms"
@@ -92,6 +93,14 @@ export default {
 </script>
 
 <style scoped>
+.empty-response {
+    margin-top: 1rem;
+}
+
+.existing-rooms {
+    overflow: hidden;
+}
+
 .container {
     margin-top: 2rem;
 }
@@ -128,15 +137,40 @@ export default {
 @media only screen and (max-width: 750px) {
     .filters {
         grid-template-areas:
-            'search select'
-            'button button';
+            'search'
+            'select'
+            'button';
         place-items: center center;
         grid-gap: 0.5rem;
-        grid-template-columns: auto 1fr;
+        grid-template-columns: 21.8rem;
+        margin-bottom: 1.4rem;
+    }
+
+    .filters * {
+        width: 100%;
     }
 
     .button {
         grid-area: button;
+    }
+
+    .search {
+        grid-area: search;
+        max-width: none;
+    }
+
+    .select {
+        grid-area: select;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .filters {
+        grid-template-areas:
+            'search'
+            'select'
+            'button';
+        grid-template-columns: 1fr;
     }
 }
 </style>

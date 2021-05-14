@@ -6,12 +6,14 @@
             <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{ b.building_name }}</option>
         </select>
         <select name="room" :disabled="!filteredRooms.length" required v-model="room_id">
-            <option :value="null">{{ filteredRooms.length || !building_id ? 'Velg rom' : 'Fant ingen rom' }}</option>
+            <option class="empty-response" :value="null">{{
+                filteredRooms.length || !building_id ? 'Velg rom' : 'Fant ingen rom'
+            }}</option>
             <option v-for="room in filteredRooms" :key="room.room_id" :value="room.room_id">{{
                 room.room_name
             }}</option>
         </select>
-        <base-button class="go-button">Gå</base-button>
+        <base-button class="button">Gå</base-button>
     </form>
 </template>
 
@@ -83,6 +85,10 @@ export default {
 </script>
 
 <style scoped>
+.empty-response {
+    margin-top: 1rem;
+}
+
 form {
     display: grid;
     grid-template-areas: 'building room button';
@@ -91,13 +97,28 @@ form {
     max-width: 500px;
 }
 
-.go-button {
+.button {
     width: 80px;
+    grid-area: button;
 }
 
 @media only screen and (max-width: 650px) {
     form {
         max-width: 650px;
+    }
+}
+
+@media only screen and (max-width: 370px) {
+    form {
+        grid-template-areas:
+            'building   room'
+            'button     button';
+        grid-template-columns: 1fr 1fr;
+        max-width: none;
+    }
+
+    .button {
+        width: 100%;
     }
 }
 </style>

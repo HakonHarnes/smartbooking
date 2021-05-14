@@ -58,6 +58,7 @@ export default {
     background-color: #00334e;
     width: 100vw;
     height: 100vh;
+    margin: 0;
 }
 
 section {
@@ -66,7 +67,7 @@ section {
         'qr'
         'title'
         'otp-form';
-    margin: 60px;
+    margin: 10px;
     max-width: 360px;
     gap: 0.5rem;
     place-items: center center;
@@ -84,5 +85,11 @@ section {
 
 .otp-form {
     grid-area: otp-form;
+}
+
+@media only screen and (max-width: 330px) {
+    .title {
+        font-size: 1.2rem;
+    }
 }
 </style>

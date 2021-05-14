@@ -11,7 +11,7 @@
         <div class="root">
             <h2>Dine reservasjoner</h2>
             <base-spinner v-if="loading"></base-spinner>
-            <div v-else-if="!loading && !reservations.length">Fant ingen reservasjoner</div>
+            <div class="empty-response" v-else-if="!loading && !reservations.length">Fant ingen reservasjoner</div>
             <ul v-else-if="!loading && reservations.length">
                 <reservation-description action="Slett"></reservation-description>
                 <reservation-list-item
@@ -78,6 +78,10 @@ export default {
 </script>
 
 <style scoped>
+.empty-response {
+    margin-top: 1rem;
+}
+
 h2 {
     font-weight: 400;
     font-size: 1.6rem;

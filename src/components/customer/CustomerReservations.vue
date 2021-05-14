@@ -3,15 +3,15 @@
         <div class="root">
             <base-search @search="handleSearch" :keyword="searchWord"></base-search>
             <base-spinner v-if="loading"></base-spinner>
-            <div v-else-if="!loading && !reservations.length">Fant ingen reservasjoner</div>
+            <div class="empty-response" v-else-if="!loading && !reservations.length">Fant ingen reservasjoner</div>
             <ul v-else-if="!loading && reservations.length">
                 <li v-for="res in filteredReservations" :key="res.res_id">
                     <div class="room">{{ res.room_name }}</div>
-                    <div class="date">{{ res.date }}</div>
                     <div class="name">{{ res.last_name }}, {{ res.first_name }}</div>
+                    <div class="date">{{ res.date }}</div>
                     <div class="area">{{ res.building_name }}</div>
-                    <div class="time">{{ res.start }} - {{ res.end }}</div>
                     <div class="email">{{ res.email }}</div>
+                    <div class="time">{{ res.start }} - {{ res.end }}</div>
                 </li>
             </ul>
         </div>
@@ -57,6 +57,10 @@ export default {
 </script>
 
 <style scoped>
+.empty-response {
+    margin-top: 1rem;
+}
+
 h2 {
     font-weight: 400;
     font-size: 1.6rem;
@@ -75,7 +79,7 @@ li {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
     display: grid;
     grid-gap: 0.3rem;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 8rem;
     grid-template-rows: 1fr 1fr;
     background-color: #fff;
 }
@@ -89,7 +93,7 @@ li {
     font-weight: 500;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 720px) {
     li {
         grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr;
@@ -104,7 +108,7 @@ li {
     }
 }
 
-@media only screen and (max-width: 390px) {
+@media only screen and (max-width: 500px) {
     li {
         grid-template-columns: 1fr;
     }

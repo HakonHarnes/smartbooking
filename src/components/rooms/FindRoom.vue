@@ -3,29 +3,33 @@
         <template #body><reservation-preview :reservation="newReservation"></reservation-preview></template>
         <template #footer><base-button @click="bookRoom">Reserver</base-button></template>
     </base-modal>
-    <find-room-search @find-rooms="findRooms"></find-room-search>
-    <base-spinner v-if="loading && buildings.length"></base-spinner>
-    <template v-else-if="!loading && results">
-        <div v-if="!results.length">Fant ingen ledige rom</div>
-        <template v-else>
-            <reservation-description action="Reserver"></reservation-description>
-            <reservation-list-item
-                v-for="res in results"
-                :key="res.room_id"
-                :id="res.room_id"
-                :room_name="res.room_name"
-                :building="res.building_name"
-                :size="res.size"
-                :start="res.start"
-                :date="true"
-                :end="res.end"
-                :type="'add'"
-                :dateSubstringChars="[10, -3]"
-                @handle-action="previewReservation"
-            >
-            </reservation-list-item>
-        </template>
-    </template>
+    <div class="container">
+        <find-room-search class="find-rooms" @find-rooms="findRooms"></find-room-search>
+        <base-spinner v-if="loading && buildings.length"></base-spinner>
+        <div>
+            <template v-if="!loading && results">
+                <div class="empty-message" v-if="!results.length">Fant ingen ledige rom</div>
+                <template v-else>
+                    <reservation-description action="Reserver"></reservation-description>
+                    <reservation-list-item
+                        v-for="res in results"
+                        :key="res.room_id"
+                        :id="res.room_id"
+                        :room_name="res.room_name"
+                        :building="res.building_name"
+                        :size="res.size"
+                        :start="res.start"
+                        :date="true"
+                        :end="res.end"
+                        :type="'add'"
+                        :dateSubstringChars="[10, -3]"
+                        @handle-action="previewReservation"
+                    >
+                    </reservation-list-item>
+                </template>
+            </template>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -88,6 +92,8 @@ export default {
 
 <style scoped>
 .container {
-    text-align: center;
+    display: grid;
+    padding-top: 1rem;
+    grid-gap: 1rem;
 }
 </style>

@@ -1,34 +1,17 @@
 <template>
     <base-spinner v-if="!buildings.length"></base-spinner>
-    <base-card v-else class="card">
-        <form @submit.prevent="search">
-            <div></div>
-            <div class="form-control date">
-                <label>Dato</label>
-                <input type="date" :min="today" v-model="date.val" />
-            </div>
-            <div class="form-control from">
-                <label>Fra kl.</label>
-                <base-timepicker id="from" @handle-change="handleTimeChange"></base-timepicker>
-            </div>
-            <div class="form-control to">
-                <label>Til kl.</label>
-                <base-timepicker id="to" @handle-change="handleTimeChange"></base-timepicker>
-            </div>
-            <div class="form-control area">
-                <label>Bygg</label>
-                <select @change="handleBuildingChange">
-                    <option :value="null">Alle bygg</option>
-                    <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{
-                        b.building_name
-                    }}</option>
-                </select>
-            </div>
-            <div class="form-control search">
-                <base-button>Søk</base-button>
-            </div>
-        </form>
-    </base-card>
+    <form @submit.prevent="search">
+        <select class="building" @change="handleBuildingChange">
+            <option :value="null">Alle bygg</option>
+            <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{ b.building_name }}</option>
+        </select>
+
+        <input class="date" type="date" :min="today" v-model="date.val" />
+        <base-timepicker class="from-time" id="from" @handle-change="handleTimeChange"></base-timepicker>
+        <base-timepicker class="to-time" id="to" @handle-change="handleTimeChange"></base-timepicker>
+
+        <base-button class="button">Søk</base-button>
+    </form>
 </template>
 
 <script>
@@ -113,102 +96,62 @@ export default {
 </script>
 
 <style scoped>
-.card {
-    margin: 1.6rem 0 1rem;
-}
-
 form {
     display: grid;
-    grid-template-columns: 2.5fr 1fr 1fr 1fr 1fr 1fr 2.5fr;
-    justify-items: center;
-    align-items: center;
+    grid-template-areas: 'building date from-time to-time button';
+    grid-template-columns: 1fr 1fr auto auto auto;
+    grid-gap: 0.5rem;
+    max-width: 700px;
 }
 
-@media only screen and (max-width: 1150px) {
-    .card {
-        padding: 1rem !important;
-    }
+.building {
+    grid-area: building;
+}
 
+.date {
+    grid-area: date;
+}
+
+.from-time {
+    grid-area: from-time;
+}
+
+.to-time {
+    grid-area: to-time;
+}
+
+.button {
+    grid-area: button;
+}
+
+@media only screen and (max-width: 700px) {
     form {
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-        grid-template-rows: 1fr 1fr;
-        grid-gap: 0.8rem;
-        justify-items: start;
+        grid-template-areas:
+            'building   building    building    building'
+            'date       date        from-time   to-time'
+            'button     button      button      button';
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
     }
 
-    .to {
-        grid-row: 2;
-        grid-column: 3;
-    }
-
-    .area {
-        grid-row: 2;
-        grid-column: 2;
-    }
-
-    .search {
-        grid-row: span 2;
+    form * {
+        width: 100%;
     }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 450px) {
     form {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-areas:
+            'building   building'
+            'date       date'
+            'from-time   to-time'
+            'button     button';
+        grid-template-columns: 1fr 1fr;
         grid-template-rows: 1fr 1fr 1fr 1fr;
-        grid-gap: 0.6rem;
-        justify-items: center;
     }
 
-    .from {
-        grid-row: 3;
-        grid-column: 2;
+    form * {
+        width: 100%;
     }
-
-    .to {
-        grid-row: 4;
-        grid-column: 2;
-    }
-
-    .area {
-        grid-row: 2;
-        grid-column: 2;
-    }
-
-    .search {
-        grid-row: 5;
-        grid-column: 2;
-    }
-}
-
-form div {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-select,
-input[type='date'],
-input[type='time'] {
-    padding: 0.2rem 0.3rem;
-    font-family: inherit;
-    font-size: 1rem;
-}
-
-select {
-    min-width: 10rem;
-}
-
-label {
-    text-transform: uppercase;
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-}
-.form-control {
-    margin: 0 1rem;
-}
-
-input[type='time']:nth-child(3n) {
-    display: none;
 }
 </style>

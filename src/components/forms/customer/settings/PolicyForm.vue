@@ -103,4 +103,20 @@ input {
     top: 0;
     left: 5px;
 }
+
+@media only screen and (max-width: 460px) {
+    form div {
+        display: grid;
+        grid-template-areas: 'label' 'input';
+        grid-template-columns: 1fr;
+        place-items: center center;
+        grid-gap: 1rem;
+        text-align: left;
+        margin: 1rem 0;
+    }
+
+    form div * {
+        width: 100%;
+    }
+}
 </style>

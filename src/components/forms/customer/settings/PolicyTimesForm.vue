@@ -248,8 +248,13 @@ export default {
 form {
     display: grid;
     grid-gap: 1rem;
-    max-width: 300px;
+    max-width: 400px;
     width: 100%;
+}
+
+.picker {
+    width: 110px;
+    height: 2.4rem;
 }
 
 .day {
@@ -262,5 +267,25 @@ form {
 .loader {
     position: absolute;
     transform: translateX(10px);
+}
+
+@media only screen and (max-width: 510px) {
+    .day {
+        grid-template-areas:
+            'name       name'
+            'from-time  to-time';
+        grid-template-columns: 1fr 1fr;
+        grid-gap: 1rem;
+        place-items: center center;
+    }
+
+    .name {
+        grid-area: name;
+    }
+
+    .picker {
+        max-width: none;
+        width: 100%;
+    }
 }
 </style>

@@ -98,6 +98,8 @@ input[type='button'],
 input[type='number'],
 input[type='email'],
 input[type='password'],
+input[type='date'],
+input[type='time'],
 select {
     font-family: 'Montserrat';
     font-size: 1rem;

@@ -62,6 +62,7 @@ select {
     text-align-last: center;
     font-size: 1rem;
     padding: 0.2rem 0.3rem;
+    width: 100%;
 }
 
 .picker {

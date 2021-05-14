@@ -92,15 +92,15 @@ export default {
 input {
     display: inline-block;
     text-align: center;
-    font-size: 40px;
+    font-size: 2.5rem;
     font-weight: bold;
     color: white;
     background-color: #184c68;
     border: none;
     border-radius: 5px;
-    width: 50px;
+    width: 45px;
     padding: 8px;
-    margin: 5px;
+    margin: 4px;
 }
 
 input:focus {
@@ -118,5 +118,20 @@ input::-webkit-inner-spin-button {
 /* Firefox */
 input[type='number'] {
     -moz-appearance: textfield;
+}
+
+@media only screen and (max-width: 420px) {
+    input {
+        font-size: 2rem;
+        width: 2.5rem;
+    }
+}
+
+@media only screen and (max-width: 330px) {
+    input {
+        font-size: 1.5rem;
+        width: 2rem;
+        margin: 3px;
+    }
 }
 </style>

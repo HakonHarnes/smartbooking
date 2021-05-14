@@ -8,18 +8,20 @@
             </template>
         </base-modal>
         <li class="description">
+            <div class="area">Område</div>
             <div class="room">Rom</div>
-            <div>Plasser</div>
-            <div>Område</div>
-            <div>Tilgjengelig</div>
-            <div class="qr">QR-kode</div>
+            <div class="size">Plasser</div>
+            <div class="status">Ledig</div>
+            <div class="qr">QR</div>
             <div class="edit">Rediger</div>
         </li>
         <li v-for="r in rooms" :key="r.room_id">
+            <div class="area">{{ r.building_name }}</div>
             <div class="room">{{ r.room_name }}</div>
             <div>{{ r.size }}</div>
-            <div>{{ r.building_name }}</div>
+
             <base-active-attribute
+                class="status"
                 :active="r.is_active === 1"
                 :text="{ true: 'Ja', false: 'Nei' }"
             ></base-active-attribute>
@@ -78,18 +80,18 @@ ul {
     margin-top: 0.5rem;
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 li {
     padding: 6px 12px;
     margin: 0.2rem 0;
     display: grid;
-    grid-template-columns: 1fr 0.4fr 1fr 0.5fr 0.5fr 0.5fr;
+    grid-template-columns: 1fr 1fr 5rem 5rem 5rem 5rem;
     grid-column-gap: 0.2rem;
     align-items: center;
     justify-content: space-between;
     background-color: #fff;
-    transition: all 0.1s;
 }
 
 .button {
@@ -123,5 +125,50 @@ li {
 .qr-code {
     width: 26px;
     height: 26px;
+}
+
+@media only screen and (max-width: 750px) {
+    ul {
+        margin-top: -6rem;
+    }
+
+    li {
+        grid-template-areas:
+            'area   qr    edit'
+            'room   qr    edit'
+            'status qr      edit'
+            'size   qr    edit';
+        grid-template-columns: 1fr 2rem 2rem;
+    }
+
+    .area {
+        grid-area: area;
+    }
+
+    .status {
+        grid-area: status;
+    }
+
+    .qr {
+        grid-area: qr;
+        justify-self: left;
+    }
+
+    .room {
+        grid-area: room;
+    }
+
+    .size {
+        grid-area: size;
+    }
+
+    .edit {
+        grid-area: edit;
+        justify-self: left;
+    }
+
+    .description {
+        visibility: hidden;
+    }
 }
 </style>

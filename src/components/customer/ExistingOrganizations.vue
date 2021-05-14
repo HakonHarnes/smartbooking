@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <base-search @search="search"></base-search>
+        <base-search class="search" @search="search"></base-search>
         <ul>
             <template v-for="(org, idx) in filteredOrganizations" :key="org.organization_id">
                 <li @click="selectItem(idx)">
@@ -184,7 +184,6 @@ li {
     justify-content: space-between;
     cursor: pointer;
     background-color: #fff;
-    transition: all 0.1s;
 }
 
 li:hover {
@@ -263,13 +262,18 @@ form {
     }
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 500px) {
     form {
         grid-template-columns: 1fr;
     }
 
     .button {
         grid-column: span 1;
+    }
+
+    .search {
+        width: 100%;
+        max-width: none;
     }
 }
 </style>

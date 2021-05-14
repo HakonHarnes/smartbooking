@@ -46,7 +46,7 @@ section {
     grid-template-areas:
         'title'
         'input';
-    margin: 60px;
+    margin: 10px;
     gap: 0.5rem;
     place-items: center center;
     color: white;
@@ -55,5 +55,11 @@ section {
 .title {
     grid-area: title;
     font-weight: 400;
+}
+
+@media only screen and (max-width: 330px) {
+    .title {
+        font-size: 1.2rem;
+    }
 }
 </style>

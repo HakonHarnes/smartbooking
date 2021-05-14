@@ -40,18 +40,30 @@
                     </div>
                 </li>
                 <div class="expanded" v-if="selectedItem === idx">
-                    <form @submit.prevent="handleUpdate">
-                        <div>
+                    <form class="expanded-container" @submit.prevent="handleUpdate">
+                        <div class="first-name">
                             <label>Fornavn</label>
-                            <input type="text" required v-model="updateValues.first_name" minlength="2" />
+                            <input
+                                type="text"
+                                required
+                                v-model="updateValues.first_name"
+                                minlength="2"
+                                maxlength="255"
+                            />
                         </div>
-                        <div>
+                        <div class="last-name">
                             <label>Etternavn</label>
-                            <input type="text" required v-model="updateValues.last_name" minlength="2" />
+                            <input
+                                type="text"
+                                required
+                                v-model="updateValues.last_name"
+                                minlength="2"
+                                maxlength="255"
+                            />
                         </div>
-                        <div>
+                        <div class="form-email">
                             <label>E-post</label>
-                            <input type="email" required v-model="updateValues.email" />
+                            <input type="email" required v-model="updateValues.email" maxlength="255" />
                         </div>
                         <div class="form-active">
                             <input type="checkbox" @change="handleCheckbox" :checked="updateValues.is_active === 1" />
@@ -155,17 +167,20 @@ label {
     font-weight: 500;
 }
 
+input {
+    margin-top: 0.3rem;
+}
+
 li {
     margin-top: 0.5rem;
     list-style: none;
     padding: 1rem;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
     display: grid;
-    grid-template-columns: repeat(3, 1fr) 0.5fr min-content;
+    grid-template-columns: 1fr 1fr 1fr 5rem 2rem;
     align-items: center;
     cursor: pointer;
     background-color: #fff;
-    transition: all 0.1s;
 }
 
 li:hover {
@@ -232,5 +247,104 @@ form {
 
 .filters * {
     height: 100%;
+}
+
+@media only screen and (max-width: 1350px) {
+    li {
+        grid-template-columns: 1fr 5rem 2rem;
+    }
+
+    .org {
+        margin-top: -1em;
+
+        grid-column: 1;
+        grid-row: 2;
+    }
+
+    .email {
+        margin-top: -1em;
+        grid-column: 1;
+        grid-row: 3;
+    }
+
+    .active {
+        grid-row: 1/4;
+    }
+
+    .icon {
+        grid-row: 1/4;
+    }
+
+    h4 {
+        visibility: hidden;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    .expanded {
+        display: grid;
+        place-items: center center;
+    }
+    .expanded-container {
+        display: grid;
+        grid-template-areas:
+            'first-name'
+            'last-name'
+            'form-email'
+            'form-active'
+            'button';
+        grid-template-columns: 1fr;
+        max-width: 300px;
+    }
+
+    .first-name {
+        grid-area: first-name;
+    }
+
+    .last-name {
+        grid-area: last-name;
+    }
+
+    .formemail {
+        grid-area: email;
+    }
+
+    .form-active {
+        grid-area: form-active;
+    }
+
+    .button {
+        grid-area: button;
+    }
+}
+
+@media only screen and (max-width: 400px) {
+    .filters {
+        display: grid;
+        grid-template-columns: 1fr;
+    }
+
+    .filters * {
+        max-width: none;
+        width: 100%;
+    }
+
+    li {
+        grid-template-columns: 1fr;
+    }
+    .active {
+        grid-column: 1;
+        grid-row: 4;
+    }
+
+    .icon {
+        grid-column: 1;
+        grid-row: 5;
+        justify-self: center;
+    }
+
+    h4 {
+        visibility: hidden;
+    }
 }
 </style>

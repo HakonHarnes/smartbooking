@@ -2,12 +2,13 @@
     <ul>
         <li class="description">
             <div class="area">Område</div>
-            <div>Tilgjengelig</div>
+            <div class="status">Ledig</div>
             <div class="edit">Rediger</div>
         </li>
         <li v-for="b in buildings" :key="b.building_id">
             <div class="area">{{ b.building_name }}</div>
             <base-active-attribute
+                class="status"
                 :active="b.building_is_active === 1"
                 :text="{ true: 'Ja', false: 'Nei' }"
             ></base-active-attribute>
@@ -38,13 +39,12 @@ li {
     padding: 6px 12px;
     margin: 0.2rem 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 5rem 5rem;
     grid-column-gap: 0.2rem;
     align-items: center;
     justify-content: space-between;
     justify-items: center;
     background-color: #fff;
-    transition: all 0.1s;
 }
 
 .description {

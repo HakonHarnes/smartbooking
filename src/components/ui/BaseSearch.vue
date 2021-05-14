@@ -32,4 +32,11 @@ form {
 input[type='text'] {
     width: 100%;
 }
+
+@media only screen and (max-width: 400px) {
+    form {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 1fr 1fr;
+    }
+}
 </style>

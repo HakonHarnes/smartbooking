@@ -5,7 +5,7 @@
             <policy-form></policy-form>
         </base-card>
         <base-card class="area-settings">
-            <h2>Apningstider for områder</h2>
+            <h2>Åpningstider for områder</h2>
             <policy-times-form></policy-times-form>
         </base-card>
     </div>
