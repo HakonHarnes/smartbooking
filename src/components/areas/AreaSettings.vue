@@ -1,9 +1,11 @@
 <template>
-    <div class="root">
-        <base-card class="card">
+    <div class="container">
+        <base-card class="reservation-rules">
+            <h2>Reservasjonsregler</h2>
             <policy-form></policy-form>
         </base-card>
-        <base-card class="card times">
+        <base-card class="area-settings">
+            <h2>Apningstider for områder</h2>
             <policy-times-form></policy-times-form>
         </base-card>
     </div>
@@ -22,20 +24,9 @@ export default {
 </script>
 
 <style scoped>
-.root {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-evenly;
-}
-
-@media only screen and (max-width: 1000px) {
-    .root {
-        flex-direction: column;
-    }
-}
-
-.card {
-    margin: 0.4rem;
-    padding: 0;
+.container {
+    display: grid;
+    grid-template-areas: 'reservation-rules' 'area-settings';
+    grid-gap: 1rem;
 }
 </style>

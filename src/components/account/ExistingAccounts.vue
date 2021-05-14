@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <div class="search">
             <base-search @search="search"></base-search>
             <div class="filters">
@@ -149,12 +149,16 @@ export default {
 </script>
 
 <style scoped>
+.container {
+    margin-top: 2rem;
+}
+
 label {
     font-weight: 500;
 }
 
 li {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     list-style: none;
     padding: 1rem;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
@@ -224,11 +228,11 @@ form {
     align-items: center;
 }
 
-.search form {
-    align-items: center;
-}
-
 .filters {
     margin-left: 2rem;
+}
+
+.filters > select {
+    height: 43px;
 }
 </style>

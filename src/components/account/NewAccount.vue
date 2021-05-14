@@ -7,20 +7,10 @@
                 <input type="checkbox" @change="setIsAdmin" :checked="isAdmin" />
                 <label>Administrator</label>
             </div>
-            <div>
-                <label>Fornavn</label>
-                <input type="text" required v-model="first_name" minlength="2" />
-            </div>
-            <div>
-                <label>Etternavn</label>
-                <input type="text" required v-model="last_name" minlength="2" />
-            </div>
-            <div>
-                <label>E-post</label>
-                <input type="email" required v-model="email" />
-            </div>
+            <input type="text" placeholder="Fornavn" v-model="first_name" minlength="2" maxlength="255" required />
+            <input type="text" placeholder="Etternavn" required v-model="last_name" minlength="2" maxlength="255" />
+            <input type="email" placeholder="E-post" maxlength="255" required v-model="email" />
             <div class="org" v-if="!isAdmin">
-                <label>Organisasjon</label>
                 <select v-model="organization_id" required>
                     <option :value="null">Velg organisasjon</option>
                     <option v-for="org in organizations" :key="org.organization_id" :value="org.organization_id">{{
@@ -28,7 +18,7 @@
                     }}</option>
                 </select>
             </div>
-            <base-button class="button">Opprett</base-button>
+            <base-button class="button">{{ buttonText }}</base-button>
         </form>
     </base-card>
 </template>
@@ -53,6 +43,9 @@ export default {
         },
         loading() {
             return this.$store.getters.loading;
+        },
+        buttonText() {
+            return `Opprett ${this.isAdmin ? 'admin' : 'kunde'}`;
         }
     },
     methods: {
@@ -78,11 +71,16 @@ export default {
 </script>
 
 <style scoped>
-form {
-    position: relative;
+base-card {
     display: grid;
-    grid-gap: 1rem;
-    grid-template-columns: repeat(3, 1fr);
+    place-items: center center;
+}
+
+form {
+    display: grid;
+    grid-gap: 0.5rem;
+    max-width: 300px;
+    width: 100%;
 }
 
 input[type='text'],
@@ -91,22 +89,18 @@ input[type='number'],
 select {
     width: 100%;
 }
-label {
-    font-weight: 500;
-}
-.button {
-    grid-column: 2;
-}
+
 .admin {
-    grid-column: 1 / -1;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-bottom: 0.5rem;
 }
-.org {
-    grid-row: 3;
-    grid-column: 2;
+
+.button {
+    margin-top: 0.5rem;
 }
+
 .loader {
     position: absolute;
     top: 0;

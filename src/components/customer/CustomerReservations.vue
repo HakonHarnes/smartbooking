@@ -40,7 +40,6 @@ export default {
     methods: {
         async getReservations() {
             this.reservations = await this.$store.dispatch('reservations/getReservationsAndUsers');
-            console.log(this.reservations);
         },
         handleSearch(word) {
             this.searchWord = word;

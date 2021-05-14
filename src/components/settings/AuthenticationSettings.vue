@@ -3,7 +3,7 @@
         <h2>Autentisering</h2>
         <form @submit.prevent="handleSave">
             <div class="control">
-                <label>To-faktor autentisering</label>
+                <label>To-Faktor Autentisering</label>
                 <div class="option">
                     <div>
                         <label>Av</label>
@@ -28,7 +28,7 @@
                     </div>
                 </div>
             </div>
-            <base-button>Lagre</base-button>
+            <base-button>Oppdater</base-button>
         </form>
     </div>
 </template>

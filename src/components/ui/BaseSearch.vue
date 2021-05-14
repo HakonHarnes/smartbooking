@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="search">
-        <input type="text" v-model="keyword" placeholder="Søkeord" />
+        <input type="text" v-model="keyword" placeholder="Søkeord" maxlength="255" />
         <base-button>Søk</base-button>
     </form>
 </template>
@@ -23,10 +23,9 @@ export default {
 <style scoped>
 form {
     display: flex;
-    margin: 1.4rem 0;
 }
 
 input[type='text'] {
-    margin-right: 0.6rem;
+    margin-right: 0.5rem;
 }
 </style>

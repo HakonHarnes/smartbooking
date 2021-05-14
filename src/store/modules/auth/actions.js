@@ -65,7 +65,6 @@ export default {
         const response = await AuthService.updatePassword(oldPassword, newPassword);
         if (!response.data.error) {
             const { accessToken } = response.data;
-            console.log(accessToken);
             commit('setAccessToken', { accessToken });
         }
 

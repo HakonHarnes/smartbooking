@@ -1,23 +1,24 @@
 <template>
-<div class="container">
     <section>
         <h2>Endre passord</h2>
-        <update-password-form @submit-form="updatePassword" button-text="Sett passord" :user="user"></update-password-form>
+        <update-password-form
+            @submit-form="updatePassword"
+            button-text="Sett passord"
+            :user="user"
+        ></update-password-form>
     </section>
-</div>
-
 </template>
 
 <script>
 import UpdatePasswordForm from '../forms/password/UpdatePasswordForm';
 export default {
-    components: { UpdatePasswordForm }, 
+    components: { UpdatePasswordForm },
     computed: {
         toast() {
             return this.$store.getters.toast;
         },
-        user(){
-            return this.$store.getters['auth/user']
+        user() {
+            return this.$store.getters['auth/user'];
         }
     },
     data() {
@@ -30,12 +31,11 @@ export default {
     methods: {
         async updatePassword(data) {
             const response = await this.$store.dispatch('auth/updatePassword', {
-                oldPassword: data.oldPassword, 
+                oldPassword: data.oldPassword,
                 newPassword: data.newPassword
             });
 
-            if (response.status == '200') 
-                this.toast.success('Passordet ble endret!');
+            if (response.status == '200') this.toast.success('Passordet ble endret!');
         }
     }
 };
@@ -44,6 +44,7 @@ export default {
 <style scoped>
 section {
     display: grid;
-    place-items: center center;
+    max-width: 300px;
+    width: 100%;
 }
 </style>

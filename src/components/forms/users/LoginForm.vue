@@ -1,8 +1,8 @@
 <template>
     <form @submit.prevent="submitForm">
         <section class="inputs">
-            <input type="email" placeholder="E-post" v-model="email" required />
-            <input type="password" placeholder="Passord" v-model="password" required />
+            <input type="email" placeholder="E-post" v-model="email" maxlength="255" required />
+            <input type="password" placeholder="Passord" v-model="password" maxlength="255" required />
         </section>
         <base-button>Logg inn</base-button>
         <p>Glemt passord? Tilbakestill <router-link to="/glemt-passord">her</router-link></p>
@@ -42,7 +42,6 @@ form {
     text-align: center;
     gap: 1rem;
     width: 100%;
-    font-size: 1.1rem;
 }
 
 form * {
@@ -55,9 +54,7 @@ a {
 }
 
 input {
-    border: none;
-    padding: 0.5rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 .inputs {

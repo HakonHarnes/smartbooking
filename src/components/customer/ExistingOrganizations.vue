@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="container">
         <base-search @search="search"></base-search>
         <ul>
             <template v-for="(org, idx) in filteredOrganizations" :key="org.organization_id">
@@ -126,12 +126,16 @@ export default {
         },
         search(word) {
             this.searchWord = word;
-        }
+    }
     }
 };
 </script>
 
 <style scoped>
+.container {
+    margin-top: 2rem;
+}
+
 .button {
     grid-column: 2 / 2;
 }
@@ -162,7 +166,7 @@ label {
 }
 
 li {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     list-style: none;
     padding: 1rem;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);

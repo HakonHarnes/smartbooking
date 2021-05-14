@@ -27,7 +27,6 @@ export default {
         commit('setLoading', true, { root: true });
         const { organization } = payload;
         const response = await OrganizationService.updateOrganization(organization);
-        console.log(response);
         commit('setLoading', false, { root: true });
         if (response.data?.changedRows === 1) {
             commit('updateOrganization', organization);

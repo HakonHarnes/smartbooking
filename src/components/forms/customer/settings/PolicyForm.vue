@@ -1,9 +1,20 @@
 <template>
     <form @submit.prevent="updatePolicy">
-        <div>Regler for reservasjoner</div>
         <div>
             <base-loading class="loader" v-if="loading"></base-loading>
-            <label>Maks antall timer per reservasjon</label>
+            <label>Antall reservasjoner per uke:</label>
+            <input
+                :disabled="loading"
+                required
+                type="number"
+                max="100"
+                v-model.number="newPolicy.reservations_per_period"
+            />
+        </div>
+
+        <div>
+            <base-loading class="loader" v-if="loading"></base-loading>
+            <label>Maks antall timer per reservasjon:</label>
             <input
                 :disabled="loading"
                 required
@@ -13,19 +24,15 @@
                 v-model.number="newPolicy.max_time_per_reservation"
             />
         </div>
+
         <div>
             <base-loading class="loader" v-if="loading"></base-loading>
-            <label>Antall reservasjoner per uke</label>
-            <input :disabled="loading" required type="number" v-model.number="newPolicy.reservations_per_period" />
-        </div>
-        <div>
-            <base-loading class="loader" v-if="loading"></base-loading>
-            <label>Dager fram i tid man kan reservere</label>
+            <label>Dager fram i tid man kan reservere:</label>
             <input
                 :disabled="loading"
                 required
                 type="number"
-                min="7"
+                min="3"
                 max="30"
                 v-model.number="newPolicy.max_days_lookup"
             />
@@ -78,25 +85,22 @@ export default {
 
 <style scoped>
 form div {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-areas: 'label input';
+    grid-template-columns: 1fr auto;
+    place-items: center left;
+    grid-gap: 1rem;
+    text-align: left;
     margin: 1rem 0;
-    position: relative;
 }
 
-input[type='number'] {
-    font-family: inherit;
-    font-size: 1.2rem;
-    text-align: center;
+input {
+    width: 4rem;
 }
 
 .loader {
     position: absolute;
     top: 0;
     left: 5px;
-}
-
-form {
-    padding: 1rem;
 }
 </style>

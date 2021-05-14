@@ -1,7 +1,8 @@
 <template>
     <form class="csvUpload" @submit.prevent="handleSave">
         <div class="file">
-            <h3>Last opp CSV fil</h3>
+            <label class="csv-label" for="csv">Velg fil</label>
+            <p class="filename">{{ filename }}</p>
             <input id="csv" type="file" @change="readFileAsString" />
         </div>
         <div class="message" v-if="lines > 0">
@@ -29,7 +30,8 @@ export default {
         return {
             list: [],
             errorList: [],
-            lines: 0
+            lines: 0,
+            filename: ''
         };
     },
     computed: {
@@ -55,21 +57,22 @@ export default {
             }
         },
         readFileAsString(event) {
-            const buildingNames = this.buildings.map(b => b.building_name);
-            console.log(buildingNames);
+            this.filename = '';
 
+            const buildingNames = this.buildings.map(b => b.building_name);
             const files = event.target.files;
             if (files.length === 0) {
-                alert('No file is selected');
-                return;
+                return this.toast.error('Vennligst velg en fil');
             }
             let fileName = files[0].name.split('.');
             if (fileName[fileName.length - 1] !== 'csv') {
-                alert('Need to be CSV file');
-                return;
+                return this.toast.error('Filen må være en CSV-fil');
             }
-            let csvString;
+
+            // Reads the CSV-file
+            this.filename = files[0].name;
             const reader = new FileReader();
+            let csvString;
             reader.onload = event => {
                 csvString = event.target.result;
                 const lines = csvString.split('\r\n');
@@ -79,16 +82,14 @@ export default {
                 const headers = lines[0].split(';');
                 //Dårlig sjekk her. EVT sett delimiter her til ,
                 if (headers.length <= 1) {
-                    alert('Needs to be semicolon delimited');
+                    this.toast.error('Filen må bruke semicolon (;) som adskiller');
                 }
                 let faulty = false;
-
                 for (let i = 1; i < lines.length; i++) {
                     if (!lines[i]) continue;
                     const obj = {};
                     const currentline = lines[i].split(';');
                     faulty = false;
-
                     for (let j = 0; j < headers.length; j++) {
                         if (currentline[j] === '') {
                             faulty = true;
@@ -107,8 +108,6 @@ export default {
                         faultyLines.push(obj);
                     }
                 }
-
-                console.log(JSON.stringify(result)); //JSON
                 this.list = result;
                 this.errorList = faultyLines;
             };
@@ -119,9 +118,21 @@ export default {
 </script>
 
 <style scoped>
-#csv {
-    width: 140px;
-    margin: 1rem 0;
+input[type='file'] {
+    display: none;
+}
+
+.filename {
+    font-weight: 500;
+}
+
+.csv-label {
+    font-family: 'Montserrat';
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 0px;
+    padding: 0.5rem;
+    cursor: pointer;
 }
 
 .actions {

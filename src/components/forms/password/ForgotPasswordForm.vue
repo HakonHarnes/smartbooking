@@ -1,7 +1,7 @@
 <template>
     <form @submit.prevent="submitForm">
         <section class="inputs">
-            <input type="email" placeholder="E-post" v-model="email" required />
+            <input type="email" placeholder="E-post" v-model="email" maxlength="255" required />
         </section>
         <base-button>Be om nytt passord</base-button>
         <p>Gå tilbake til <router-link to="/login">innlogging</router-link></p>
@@ -19,14 +19,7 @@ export default {
     },
     methods: {
         submitForm() {
-            if (!this.validateInput()) {
-                return this.toast.error('Input er for langt.');
-            }
-
             this.$emit('submit-form', { email: this.email });
-        },
-        validateInput() {
-            return this.email.length <= 100;
         }
     }
 };
@@ -39,7 +32,6 @@ form {
     text-align: center;
     gap: 1rem;
     width: 100%;
-    font-size: 1.1rem;
 }
 
 form * {
@@ -52,8 +44,6 @@ a {
 }
 
 input {
-    border: none;
-    padding: 0.5rem;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 </style>

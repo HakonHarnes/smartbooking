@@ -24,8 +24,7 @@ class RoomService {
 
     getRoomsInBuilding = catchAsync(async id => {
         //const response = await axios.get(`/rooms?building_id=${id}`);
-        console.log(id);
-        const response = { data: ROOMS };
+        const response = { data: ROOMS, id };
         return response.data;
     });
 
@@ -41,7 +40,6 @@ class RoomService {
     });
 
     createRooms = catchAsync(async values => {
-        console.log(values);
         const response = await axios.post('/rooms', {
             values
         });

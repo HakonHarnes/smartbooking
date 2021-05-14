@@ -103,16 +103,32 @@ input[type='text'],
 input[type='button'],
 input[type='number'],
 input[type='email'],
+input[type='password'],
 select {
     font-family: 'Montserrat';
     font-size: 1rem;
-    padding: 0.3rem 0.5rem;
+    padding: 0.5rem;
+    background-color: white;
+    border: 1px solid gray;
+    border-radius: 0px;
+}
+
+input[type='password'] {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+input[type='password']::placeholder {
+    font-family: 'Montserrat';
 }
 
 input[type='checkbox'] {
     height: 20px;
     width: 20px;
     margin-right: 0.6rem;
+}
+
+select {
+    height: 2.4rem;
 }
 
 h2 {

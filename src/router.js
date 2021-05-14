@@ -18,13 +18,13 @@ import NewCustomer from './components/customer/NewOrganization.vue';
 import ExistingAccounts from './components/account/ExistingAccounts.vue';
 import NewAccount from './components/account/NewAccount.vue';
 import NewUser from './components/user/UserData/NewUser.vue';
-import NewRoom from './components/rooms/NewRoom.vue';
+import NewArea from './components/areas/NewArea.vue';
 import UserRoomPage from './pages/UserRoomPage.vue';
 import CustomerRoomPage from './pages/CustomerRoomPage.vue';
 import ChooseRoom from './components/rooms/ChooseRoom.vue';
 import FindRoom from './components/rooms/FindRoom.vue';
 import ResetPasswordPage from './pages/ResetPasswordPage.vue';
-import RoomSettings from './components/rooms/RoomSettings.vue';
+import AreaSettings from './components/areas/AreaSettings.vue';
 import SetPasswordPage from './pages/SetPasswordPage.vue';
 import VerificationPage from './pages/VerificationPage.vue';
 import InitTwoFactorPage from './pages/InitTwoFactorPage.vue';
@@ -90,8 +90,8 @@ const router = createRouter({
             meta: { requiresAccessToken: true, roles: ['customer'] },
             children: [
                 { path: '', component: ExistingRooms },
-                { path: 'nytt', component: NewRoom },
-                { path: 'innstillinger', component: RoomSettings }
+                { path: 'nytt', component: NewArea },
+                { path: 'innstillinger', component: AreaSettings }
             ]
         },
         {

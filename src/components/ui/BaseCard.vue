@@ -6,7 +6,8 @@
 
 <style scoped>
 .base-card {
-    position: relative;
+    display: grid;
+    justify-items: center;
     text-align: center;
     padding: 1rem 2rem;
     box-shadow: 0 4px 6px 0 rgba(0, 0, 0, 0.2);

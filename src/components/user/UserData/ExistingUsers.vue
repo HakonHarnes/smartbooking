@@ -1,27 +1,29 @@
 <template>
-    <base-modal v-if="showModal" @close="toggleModal">
-        <template #body><edit-user @close-modal="toggleModal" :user_id="user_id"></edit-user></template>
-    </base-modal>
-    <base-search @search="search"></base-search>
-    <base-spinner v-if="loading"></base-spinner>
-    <div v-else-if="!users.length">Fant ingen brukere</div>
-    <ul v-else>
-        <li class="description">
-            <div class="name">Navn</div>
-            <div>E-post</div>
-            <div>Status</div>
-            <div class="edit">Rediger</div>
-        </li>
-        <li v-for="u in users" :key="u.user_id">
-            <div class="name">{{ u.first_name }} {{ u.last_name }}</div>
-            <div>{{ u.email }}</div>
-            <base-active-attribute
-                :active="u.is_active === 1"
-                :text="{ true: 'Aktiv', false: 'Inaktiv' }"
-            ></base-active-attribute>
-            <div class="edit" @click="editUser(u.user_id)"><base-icon class="icon" name="edit"></base-icon></div>
-        </li>
-    </ul>
+    <div class="container">
+        <base-modal v-if="showModal" @close="toggleModal">
+            <template #body><edit-user @close-modal="toggleModal" :user_id="user_id"></edit-user></template>
+        </base-modal>
+        <base-search @search="search"></base-search>
+        <base-spinner v-if="loading"></base-spinner>
+        <div v-else-if="!users.length">Fant ingen brukere</div>
+        <ul v-else>
+            <li class="description">
+                <div class="name">Navn</div>
+                <div>E-post</div>
+                <div>Status</div>
+                <div class="edit">Rediger</div>
+            </li>
+            <li v-for="u in users" :key="u.user_id">
+                <div class="name">{{ u.first_name }} {{ u.last_name }}</div>
+                <div>{{ u.email }}</div>
+                <base-active-attribute
+                    :active="u.is_active === 1"
+                    :text="{ true: 'Aktiv', false: 'Inaktiv' }"
+                ></base-active-attribute>
+                <div class="edit" @click="editUser(u.user_id)"><base-icon class="icon" name="edit"></base-icon></div>
+            </li>
+        </ul>
+    </div>
 </template>
 
 <script>
@@ -71,6 +73,10 @@ export default {
 </script>
 
 <style scoped>
+.container {
+    margin-top: 2rem;
+}
+
 ul {
     list-style: none;
     padding: 0;

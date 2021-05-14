@@ -27,8 +27,7 @@ export default {
     async addRooms({ commit }, payload) {
         commit('setLoading', true, { root: true });
         const { rooms } = payload;
-        const response = await RoomService.createRooms(rooms);
-        console.log(response);
+        await RoomService.createRooms(rooms);
         commit('setLoading', false, { root: true });
     },
     async addRoomAndBuilding({ commit, dispatch, rootState }, payload) {
@@ -48,7 +47,6 @@ export default {
             `${date}T${end}:00.000Z`,
             building_id
         );
-        console.log(response);
         const dateObj = new Date(date);
         const availableRooms = response.data.map(room => {
             return {
@@ -68,8 +66,6 @@ export default {
         commit('setLoading', true, { root: true });
         const response = await RoomService.getRooms(rootState.auth.user.organization_id);
 
-        console.log(response);
-
         const buildings = response.data?.map((room, i, a) => {
             if (a)
                 return {
@@ -80,8 +76,6 @@ export default {
                 };
         });
         const uniqueBuildings = [...new Map(buildings.map(b => [b['building_id'], b])).values()];
-
-        console.log(uniqueBuildings);
 
         commit('setLoading', false, { root: true });
         commit('buildings/setBuildings', { buildings: uniqueBuildings }, { root: true });
@@ -110,7 +104,6 @@ export default {
         commit('setLoading', true, { root: true });
         const { room_id } = payload;
         const response = await RoomService.getRoom(room_id);
-        console.log(response);
 
         commit('setLoading', false, { root: true });
         return response.data;

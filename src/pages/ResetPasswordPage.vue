@@ -17,13 +17,16 @@ export default {
         PasswordForm
     },
     mounted() {
-        if (!this.user) this.$router.push('/login');
+        if (!this.user) {
+            this.toast.error('Ugyldig reset-link. Vennligst be om nytt passord på nytt.');
+            this.$router.push('/login');
+        }
     },
     computed: {
         user() {
             const resetToken = this.$route.params.token;
             try {
-                return jwt_decode(resetToken).user;
+                return jwt_decode(resetToken);
             } catch (error) {
                 return null;
             }

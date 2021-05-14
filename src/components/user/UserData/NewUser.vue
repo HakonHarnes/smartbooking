@@ -1,14 +1,15 @@
 <template>
-    <div class="switch">
-        <div>Manuelt</div>
-        <switches color="blue" @click="toggleTab" :value="enabled"></switches>
-        <div>Importer fra fil</div>
+    <div class="container">
+        <base-card>
+            <h2>Ny bruker</h2>
+            <new-user-form />
+        </base-card>
+
+        <base-card>
+            <h2>Ny bruker</h2>
+            <import-users />
+        </base-card>
     </div>
-    <base-card>
-        <keep-alive>
-            <component :is="currentTab"></component>
-        </keep-alive>
-    </base-card>
 </template>
 
 <script>
@@ -17,6 +18,14 @@ import ImportUsers from './ImportUsers.vue';
 
 export default {
     components: { ImportUsers, NewUserForm },
+    computed: {
+        title() {
+            return this.enabled ? 'Importer fra fil' : 'Ny bruker';
+        },
+        currentTab() {
+            return this.enabled ? ImportUsers : NewUserForm;
+        }
+    },
     data() {
         return {
             enabled: false
@@ -26,23 +35,13 @@ export default {
         toggleTab() {
             this.enabled = !this.enabled;
         }
-    },
-    computed: {
-        currentTab() {
-            return this.enabled ? ImportUsers : NewUserForm;
-        }
     }
 };
 </script>
 
 <style scoped>
-.switch {
-    display: flex;
-    margin: 1.4rem 0;
-}
-
-.switch div {
-    font-size: 0.9rem;
-    margin: 0 1rem;
+.container {
+    display: grid;
+    grid-gap: 1rem;
 }
 </style>

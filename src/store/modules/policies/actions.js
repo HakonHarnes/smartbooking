@@ -26,7 +26,6 @@ export default {
         //commit('setLoading', true, { root: true });
         const { building_id } = payload;
         const response = await BuildingService.getBuildingPolicy(building_id);
-        console.log(response);
         if (response.data) {
             return response.data;
         }

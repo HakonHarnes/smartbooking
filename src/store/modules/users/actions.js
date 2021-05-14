@@ -41,7 +41,6 @@ export default {
     async getAccounts({ commit }) {
         commit('setLoading', true, { root: true });
         const response = await UserService.getAccounts();
-        console.log(response);
         if (response.data) {
             commit('setUsers', response.data);
         }

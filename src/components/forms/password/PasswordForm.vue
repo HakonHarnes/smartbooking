@@ -8,6 +8,8 @@
                     @blur="validatePassword(false)"
                     @input="validatePassword(true)"
                     placeholder="Nytt passord"
+                    maxlength="255"
+                    required
                 />
                 <password-meter :style="passwordMeterStyle" :password="password" />
             </div>
@@ -19,6 +21,8 @@
                 @input="checkEquality(true)"
                 :style="confirmPasswordStyle"
                 placeholder="Gjenta nytt passord"
+                maxlength="255"
+                required
             />
         </section>
         <base-button>{{ buttonText }}</base-button>
@@ -64,8 +68,9 @@ export default {
 
             // Checks if password is long enough
             if (this.password.length < minPasswordLength) {
-                if (!silent && this.password.length > 0)
+                if (!silent && this.password.length > 0) {
                     this.toast.error(`Passordet ditt må være minimum ${minPasswordLength} tegn langt.`);
+                }
                 return (this.validPassword = false);
             }
             // Checks if password contains first name, last name or email

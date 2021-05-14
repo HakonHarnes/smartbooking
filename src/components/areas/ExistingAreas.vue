@@ -1,28 +1,32 @@
 <template>
-    <base-modal v-if="showModal" @close="toggleModal">
-        <template #body>
-            <edit-room v-if="mode === 'rooms'" @close-modal="toggleModal" :room_id="room_id"></edit-room>
-            <edit-area v-else @close-modal="toggleModal" :building_id="building_id"></edit-area>
-        </template>
-    </base-modal>
-    <div class="filters">
-        <base-search @search="search"></base-search>
-        <select v-model="mode">
-            <option value="rooms">Rom</option>
-            <option value="areas">Områder</option>
-        </select>
+    <div class="container">
+        <base-modal v-if="showModal" @close="toggleModal">
+            <template #body>
+                <edit-room v-if="mode === 'rooms'" @close-modal="toggleModal" :room_id="room_id"></edit-room>
+                <edit-area v-else @close-modal="toggleModal" :building_id="building_id"></edit-area>
+            </template>
+        </base-modal>
+
+        <div class="filters">
+            <base-search @search="search"></base-search>
+            <select v-model="mode">
+                <option value="rooms">Rom</option>
+                <option value="areas">Områder</option>
+            </select>
+        </div>
+
+        <base-spinner v-if="loading"></base-spinner>
+        <div v-else-if="!rooms.length">Fant ingen rom</div>
+        <existing-rooms v-else-if="mode === 'rooms'" @edit-room="editRoom" :rooms="filteredRooms"></existing-rooms>
+        <existing-places v-else @edit-area="editArea" :buildings="filteredBuildings"></existing-places>
     </div>
-    <base-spinner v-if="loading"></base-spinner>
-    <div v-else-if="!rooms.length">Fant ingen rom</div>
-    <existing-rooms v-else-if="mode === 'rooms'" @edit-room="editRoom" :rooms="filteredRooms"></existing-rooms>
-    <existing-places v-else @edit-area="editArea" :buildings="filteredBuildings"></existing-places>
 </template>
 
 <script>
 import EditArea from '../forms/areas/EditArea';
 import EditRoom from '../forms/rooms/EditRoom';
 import ExistingRooms from '../rooms/ExistingRooms';
-import ExistingPlaces from './ExistingPlaces';
+import ExistingPlaces from '../places/ExistingPlaces';
 
 export default {
     components: { EditArea, EditRoom, ExistingRooms, ExistingPlaces },
@@ -79,6 +83,10 @@ export default {
 </script>
 
 <style scoped>
+.container {
+    margin-top: 2rem;
+}
+
 .room {
     justify-self: start;
 }

@@ -1,6 +1,5 @@
 <template>
     <form @submit.prevent="handleUpdatePolicy">
-        <div class="title">Åpningstider for områder</div>
         <select @change="handleBuildingChange">
             <option :value="null">Velg område</option>
             <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{ b.building_name }}</option>
@@ -23,7 +22,6 @@
                     id="end_mon"
                 ></base-timepicker>
             </div>
-            <!-- <input :disabled="!building_id || timesLoading" type="text" v-model="times.start_mon" /> -->
         </div>
         <div class="day">
             <div class="name">Tirsdag</div>
@@ -248,57 +246,21 @@ export default {
 
 <style scoped>
 form {
-    padding: 1rem;
+    display: grid;
+    grid-gap: 1rem;
+    max-width: 300px;
+    width: 100%;
 }
 
 .day {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    margin: 1.6rem 0;
-    position: relative;
-}
-
-.name {
-    width: 28%;
-}
-
-.title {
-    margin: 1rem 0;
-}
-
-input[type='text'] {
-    font-family: inherit;
-    font-size: 1.2rem;
-    margin: 0 1rem;
-    text-align: center;
-    width: 36%;
-}
-
-.input {
-    font-family: inherit;
-    font-size: 1.2rem;
-    margin: 0 1rem;
-    text-align: center;
-    width: 36%;
-}
-
-select {
-    font-size: 1rem;
-    padding: 0.2rem 0.6rem;
-}
-
-.actions {
-    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    place-items: center left;
+    grid-gap: 2rem;
 }
 
 .loader {
     position: absolute;
     transform: translateX(10px);
-}
-
-.picker {
-    margin: 0 1rem;
-    width: 36%;
 }
 </style>

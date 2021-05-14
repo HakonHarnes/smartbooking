@@ -1,20 +1,9 @@
 <template>
     <form @submit.prevent="addUser">
-        <div>
-            <label for="firstname">Fornavn</label>
-            <input required type="text" name="firstname" v-model.trim="first_name" />
-        </div>
-        <div>
-            <label for="lastname">Etternavn</label>
-            <input required type="text" name="lastname" v-model.trim="last_name" />
-        </div>
-        <div>
-            <label for="email">E-post</label>
-            <input required type="email" name="email" v-model.trim="email" />
-        </div>
-        <div class="actions">
-            <base-button>Registrer bruker</base-button>
-        </div>
+        <input required type="text" name="firstname" placeholder="Fornavn" maxlength="255" v-model.trim="first_name" />
+        <input required type="text" name="lastname" placeholder="Etternavn" maxlength="255" v-model.trim="last_name" />
+        <input required type="email" name="email" placeholder="E-post" maxlength="255" v-model.trim="email" />
+        <base-button class="button">Registrer bruker</base-button>
     </form>
 </template>
 
@@ -63,24 +52,14 @@ export default {
 </script>
 
 <style scoped>
-input {
-    font-family: inherit;
-    font-size: 1rem;
+form {
+    display: grid;
+    grid-gap: 0.5rem;
+    max-width: 300px;
+    width: 100%;
 }
 
-form div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1rem;
-    text-align: start;
-}
-
-label {
-    margin-bottom: 0.2rem;
-}
-
-.actions {
-    margin-top: 2rem;
+.button {
+    margin-top: 1rem;
 }
 </style>

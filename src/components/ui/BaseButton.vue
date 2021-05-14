@@ -42,6 +42,7 @@ button,
 a {
     text-decoration: none;
     padding: 0.7rem 1.5rem;
+    font-size: 1rem;
     border: 0px;
     font: inherit;
     background-color: #386881;

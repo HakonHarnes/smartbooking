@@ -71,14 +71,11 @@ export default {
         },
         findTimespan() {
             if (this.buildingPolicy) {
-                console.log(this.buildingPolicy);
                 const numbers = Object.values(this.buildingPolicy)
                     .filter(num => typeof num === 'string')
                     .map(num => parseInt(num.replace(':', '')));
-                console.log(numbers);
                 const minNum = ('0' + Math.min(...numbers)).slice(-4);
                 const maxNum = ('0' + Math.max(...numbers)).slice(-4);
-                console.log(minNum);
                 const min = `${minNum.substring(0, 2)}:${minNum.substring(2, 4)}`;
                 const max = `${maxNum.substring(0, 2)}:${maxNum.substring(2, 4)}`;
                 this.bookableTimes = {
@@ -143,10 +140,7 @@ export default {
         async loadRoomFromQuery(room_id) {
             const room = await this.$store.dispatch('rooms/getRoom', { room_id });
             if (!room) return this.toast.error('Ugyldig rom');
-            console.log(room);
-            console.log(room_id);
             //const building = this.$store.getters['rooms/buildingByRoom'];
-            //console.log(building);
             this.loadRoom(room_id, room.building_id);
         }
     },

@@ -1,11 +1,7 @@
 <template>
     <form @submit.prevent="submitForm">
         <section class="inputs">
-            <input
-                    v-model="oldPassword"
-                    type="password"
-                    placeholder="Nåværende passord"
-                />
+            <input v-model="oldPassword" type="password" placeholder="Nåværende passord" maxlength="255" required />
             <div>
                 <input
                     v-model="newPassword"
@@ -13,6 +9,8 @@
                     @blur="validatePassword(false)"
                     @input="validatePassword(true)"
                     placeholder="Nytt passord"
+                    maxlength="255"
+                    required
                 />
                 <password-meter :style="passwordMeterStyle" :password="newPassword" />
             </div>
@@ -24,6 +22,8 @@
                 @input="checkEquality(true)"
                 :style="confirmPasswordStyle"
                 placeholder="Gjenta nytt passord"
+                maxlength="255"
+                required
             />
         </section>
         <base-button>Endre passord</base-button>
@@ -98,7 +98,13 @@ export default {
             this.checkEquality();
             if (this.equalPassword && this.validPassword) {
                 this.$emit('submit-form', { oldPassword: this.oldPassword, newPassword: this.newPassword });
+                this.clearInputs();
             }
+        },
+        clearInputs() {
+            this.oldPassword = '';
+            this.newPassword = '';
+            this.confirmNewPassword = '';
         }
     }
 };
@@ -110,7 +116,6 @@ form {
     place-items: center center;
     text-align: center;
     gap: 1rem;
-    max-width: 300px;
     width: 100%;
 }
 
@@ -121,13 +126,6 @@ form * {
 a {
     color: white;
     font-weight: 600;
-}
-
-input {
-    border: 1px solid grey;
-    padding: 0.5rem;
-    margin: 0;
-    font-size: 1.1rem;
 }
 
 input:focus {
