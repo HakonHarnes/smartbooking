@@ -22,10 +22,14 @@ export default {
 
 <style scoped>
 form {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 0.5rem;
+    max-width: 350px;
+    width: 100%;
 }
 
 input[type='text'] {
-    margin-right: 0.5rem;
+    width: 100%;
 }
 </style>

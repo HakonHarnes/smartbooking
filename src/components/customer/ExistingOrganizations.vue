@@ -25,19 +25,25 @@
                     <form @submit.prevent="handleUpdate">
                         <div>
                             <label>Navn</label>
-                            <input type="text" required v-model="updateValues.organization_name" />
+                            <input type="text" maxlength="255" required v-model="updateValues.organization_name" />
                         </div>
                         <div>
                             <label>Organisasjonsnummer</label>
-                            <input type="number" required v-model.number="updateValues.organization_number" />
+                            <input
+                                type="text"
+                                minlength="9"
+                                maxlength="9"
+                                required
+                                v-model.number="updateValues.organization_number"
+                            />
                         </div>
                         <div>
                             <label>Kontaktperson</label>
-                            <input type="text" required v-model="updateValues.contact_name" />
+                            <input type="text" maxlength="255" required v-model="updateValues.contact_name" />
                         </div>
                         <div>
                             <label>Adresse</label>
-                            <input type="text" required v-model="updateValues.organization_address" />
+                            <input type="text" maxlength="255" required v-model="updateValues.organization_address" />
                         </div>
                         <div>
                             <label>Postkode</label>
@@ -52,7 +58,7 @@
                         </div>
                         <div>
                             <label>Poststed</label>
-                            <input type="text" required v-model="updateValues.postal_zone" />
+                            <input type="text" maxlength="255" required v-model="updateValues.postal_zone" />
                         </div>
                         <base-button class="button">Oppdater</base-button>
                     </form>
@@ -126,7 +132,7 @@ export default {
         },
         search(word) {
             this.searchWord = word;
-    }
+        }
     }
 };
 </script>
@@ -142,15 +148,13 @@ export default {
 
 .expanded {
     padding: 1rem;
-    margin: 0;
     background-color: #fff;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
 }
 
 .name {
-    font-size: 1.2rem;
     font-weight: 500;
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.5rem;
 }
 
 .org_number {
@@ -163,6 +167,10 @@ export default {
 
 label {
     font-weight: 500;
+}
+
+input {
+    margin-top: 0.3rem;
 }
 
 li {

@@ -8,16 +8,22 @@
         </base-modal>
 
         <div class="filters">
-            <base-search @search="search"></base-search>
-            <select v-model="mode">
+            <base-search class="search" @search="search"></base-search>
+            <select class="select" v-model="mode">
                 <option value="rooms">Rom</option>
                 <option value="areas">Områder</option>
             </select>
+            <base-button class="button" @click="saveQrs">Last ned QR-koder</base-button>
         </div>
 
         <base-spinner v-if="loading"></base-spinner>
         <div v-else-if="!rooms.length">Fant ingen rom</div>
-        <existing-rooms v-else-if="mode === 'rooms'" @edit-room="editRoom" :rooms="filteredRooms"></existing-rooms>
+        <existing-rooms
+            v-else-if="mode === 'rooms'"
+            @edit-room="editRoom"
+            :rooms="filteredRooms"
+            ref="existingRooms"
+        ></existing-rooms>
         <existing-places v-else @edit-area="editArea" :buildings="filteredBuildings"></existing-places>
     </div>
 </template>
@@ -77,6 +83,9 @@ export default {
         },
         toggleModal() {
             this.showModal = !this.showModal;
+        },
+        saveQrs() {
+            this.$refs.existingRooms.saveQrs();
         }
     }
 };
@@ -105,11 +114,29 @@ export default {
 }
 
 .filters {
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: minmax(auto, 350px) auto 1fr;
+    grid-template-areas: 'search select button';
+    grid-gap: 0.5rem;
+    place-items: center right;
 }
 
-select {
-    margin-left: 2rem;
+.filters * {
+    height: 100%;
+}
+
+@media only screen and (max-width: 750px) {
+    .filters {
+        grid-template-areas:
+            'search select'
+            'button button';
+        place-items: center center;
+        grid-gap: 0.5rem;
+        grid-template-columns: auto 1fr;
+    }
+
+    .button {
+        grid-area: button;
+    }
 }
 </style>

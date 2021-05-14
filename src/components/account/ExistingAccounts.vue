@@ -1,14 +1,12 @@
 <template>
     <div class="container">
-        <div class="search">
+        <div class="filters">
             <base-search @search="search"></base-search>
-            <div class="filters">
-                <select v-model="accountType">
-                    <option :value="''">Alle kontotyper</option>
-                    <option value="admin">Administrator</option>
-                    <option value="customer">Kunde</option>
-                </select>
-            </div>
+            <select class="select" v-model="accountType">
+                <option :value="''">Alle kontotyper</option>
+                <option value="admin">Administratorer</option>
+                <option value="customer">Kunder</option>
+            </select>
         </div>
         <base-spinner v-if="loading"></base-spinner>
         <ul v-else>
@@ -92,7 +90,7 @@ export default {
             return this.$store.getters['users/users'];
         },
         filteredAccounts() {
-            return this.accounts?.filter(acc => this.filterAccounts(acc));
+            return this.accounts ? this.accounts.filter(acc => this.filterAccounts(acc)) : {};
         },
         loading() {
             return this.$store.getters.loading;
@@ -189,7 +187,6 @@ input[type='email'] {
 }
 
 .name {
-    font-size: 1.2rem;
     font-weight: 500;
     margin-bottom: 0.4rem;
 }
@@ -223,16 +220,17 @@ form {
     grid-row: 3;
 }
 
-.search {
-    display: flex;
-    align-items: center;
-}
-
 .filters {
-    margin-left: 2rem;
+    display: grid;
+    grid-gap: 0.5rem;
+    grid-template-columns: minmax(auto, 350px) auto;
 }
 
-.filters > select {
-    height: 43px;
+.select {
+    max-width: 200px;
+}
+
+.filters * {
+    height: 100%;
 }
 </style>

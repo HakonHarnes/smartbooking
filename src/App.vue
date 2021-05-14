@@ -127,10 +127,6 @@ input[type='checkbox'] {
     margin-right: 0.6rem;
 }
 
-select {
-    height: 2.4rem;
-}
-
 h2 {
     font-weight: 400;
     margin: 0;

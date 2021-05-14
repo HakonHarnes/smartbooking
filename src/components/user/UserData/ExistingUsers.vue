@@ -78,9 +78,9 @@ export default {
 }
 
 ul {
+    margin-top: 0.5rem;
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 li {

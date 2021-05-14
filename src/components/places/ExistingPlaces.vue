@@ -29,14 +29,14 @@ export default {
 
 <style scoped>
 ul {
+    margin-top: 0.5rem;
     list-style: none;
     padding: 0;
-    margin: 0;
 }
 
 li {
     padding: 6px 12px;
-    margin: 8px 0;
+    margin: 0.2rem 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-column-gap: 0.2rem;
