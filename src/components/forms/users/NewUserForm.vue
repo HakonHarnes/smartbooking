@@ -1,10 +1,26 @@
 <template>
-    <form @submit.prevent="addUser">
-        <input required type="text" name="firstname" placeholder="Fornavn" maxlength="255" v-model.trim="first_name" />
-        <input required type="text" name="lastname" placeholder="Etternavn" maxlength="255" v-model.trim="last_name" />
-        <input required type="email" name="email" placeholder="E-post" maxlength="255" v-model.trim="email" />
-        <base-button class="button">Registrer bruker</base-button>
-    </form>
+    <div>
+        <form @submit.prevent="addUser">
+            <input
+                required
+                type="text"
+                name="firstname"
+                placeholder="Fornavn"
+                maxlength="255"
+                v-model.trim="first_name"
+            />
+            <input
+                required
+                type="text"
+                name="lastname"
+                placeholder="Etternavn"
+                maxlength="255"
+                v-model.trim="last_name"
+            />
+            <input required type="email" name="email" placeholder="E-post" maxlength="255" v-model.trim="email" />
+            <base-button class="button">Registrer bruker</base-button>
+        </form>
+    </div>
 </template>
 
 <script>
@@ -52,10 +68,17 @@ export default {
 </script>
 
 <style scoped>
+div {
+    max-width: 350px;
+    width: 100%;
+}
 form {
     display: grid;
     grid-gap: 0.5rem;
-    max-width: 300px;
+    width: 100%;
+}
+
+form * {
     width: 100%;
 }
 

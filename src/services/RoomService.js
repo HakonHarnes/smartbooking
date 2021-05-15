@@ -39,9 +39,9 @@ class RoomService {
         return response.data;
     });
 
-    createRooms = catchAsync(async values => {
+    createRooms = catchAsync(async rooms => {
         const response = await axios.post('/rooms', {
-            values
+            rooms
         });
         return response.data;
     });

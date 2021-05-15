@@ -88,6 +88,16 @@ class UserService {
         return response.data;
     });
 
+    registerUsers = catchAsync(async users => {
+        const response = await axios.post('/register-user', {
+            data: {
+                users
+            }
+        });
+
+        return response.data;
+    });
+
     forgotPassword = catchAsync(async email => {
         const response = await axios.post('/forgotPassword', {
             data: { email }

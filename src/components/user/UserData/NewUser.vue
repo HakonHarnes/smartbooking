@@ -6,34 +6,36 @@
         </base-card>
 
         <base-card>
-            <h2>Ny bruker</h2>
-            <import-users />
+            <h2>Importer brukere</h2>
+            <import-users @server-response="setServerResponse" />
         </base-card>
+
+        <server-response :data="errors" type="error" title="Feilmeldinger" />
+        <server-response :data="warnings" type="warning" title="Advarsler" />
+        <server-response :data="users" type="success" title="Registrerte brukere" />
     </div>
 </template>
 
 <script>
 import NewUserForm from '../../forms/users/NewUserForm.vue';
+import BaseCard from '../../ui/BaseCard.vue';
 import ImportUsers from './ImportUsers.vue';
+import ServerResponse from '../../../components/server/ServerResponse';
 
 export default {
-    components: { ImportUsers, NewUserForm },
-    computed: {
-        title() {
-            return this.enabled ? 'Importer fra fil' : 'Ny bruker';
-        },
-        currentTab() {
-            return this.enabled ? ImportUsers : NewUserForm;
-        }
-    },
+    components: { ImportUsers, NewUserForm, BaseCard, ServerResponse },
     data() {
         return {
-            enabled: false
+            users: [],
+            errors: [],
+            warnings: []
         };
     },
     methods: {
-        toggleTab() {
-            this.enabled = !this.enabled;
+        setServerResponse(payload) {
+            this.users = payload.users;
+            this.errors = payload.errors;
+            this.warnings = payload.warnings;
         }
     }
 };
@@ -43,5 +45,11 @@ export default {
 .container {
     display: grid;
     grid-gap: 1rem;
+}
+
+@media only screen and (max-width: 780px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
 }
 </style>

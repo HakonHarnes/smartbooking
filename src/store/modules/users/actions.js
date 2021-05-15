@@ -13,6 +13,17 @@ export default {
         }
         return false;
     },
+    async registerUsers({ commit }, payload) {
+        commit('setLoading', true, { root: true });
+        const response = await UserService.registerUsers(payload.users);
+        commit('setLoading', false, { root: true });
+        // if (response.data) {
+        //     commit('addUser', { ...newUser, id: response.data.insertId, is_active: 1 });
+        //     return true;
+        // }
+        // return false;
+        return response;
+    },
     async deleteUser({ commit }, payload) {
         commit('setLoading', true, { root: true });
         const { user_id } = payload;

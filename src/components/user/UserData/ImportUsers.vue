@@ -1,103 +1,158 @@
 <template>
     <form class="csvUpload" @submit.prevent="handleSave">
         <div class="file">
-            <label class="csv-label" for="csv">Velg fil</label>
+            <label class="csv-label" for="csv">Velg CSV-fil</label>
             <p class="filename">{{ filename }}</p>
-            <input id="csv" type="file" @change="readFileAsString" />
+            <input id="csv" type="file" @change="handleFileUpload" />
         </div>
-        <div class="message" v-if="lines > 0">
-            <p>Got {{ lines }} lines</p>
-            <p>Found {{ errorList.length }} error</p>
+
+        <img class="image" v-if="showImage" src="../../../assets/csv-user.png" alt="" />
+        <div class="info" v-if="showInfo">
+            <p class="total-users-label">Antall brukere:</p>
+            <p class="total-users">{{ userLength }}</p>
+
+            <p class="total-errors-label">Antall feil i filen:</p>
+            <p class="total-errors">{{ errors.length }}</p>
         </div>
-        <div class v-if="lines > 0">
-            <div class="wrapper" v-if="errorList.length > 0">
-                <p class="listHeader">Faulty Lines</p>
-                <div class="listItem" v-for="item in errorList" :key="item.email">{{ item }}</div>
-            </div>
-            <div class="wrapper">
-                <p class="listHeader">Successful Lines</p>
-                <div class="listItem" v-for="item in list" :key="item.email">{{ item }}</div>
-            </div>
+
+        <div class="error" v-if="showError">
+            Feil i CSV-filen på:
+            <ul>
+                <li v-for="(error, index) in errors" :key="index">Linje {{ error.line }}</li>
+            </ul>
         </div>
-        <div class="actions"><base-button :disabled="!list.length">Lagre</base-button></div>
+
+        <div class="actions">
+            <base-button :disabled="disableButton">Registrer brukere</base-button>
+        </div>
     </form>
 </template>
 
 <script>
 export default {
+    emits: ['server-response'],
     data() {
         return {
-            list: [],
-            errorList: [],
-            lines: 0
+            users: [],
+            errors: [],
+            filename: ''
         };
     },
+    computed: {
+        userLength() {
+            return this.users.length + this.errors.length;
+        },
+        showImage() {
+            return this.filename === '' || this.errors.length > 0;
+        },
+        showInfo() {
+            return this.filename !== '';
+        },
+        showError() {
+            return this.errors.length > 0;
+        },
+        disableButton() {
+            return !(this.users.length > 0 && this.errors.length === 0);
+        },
+        user() {
+            return this.$store.getters['auth/user'];
+        },
+        toast() {
+            return this.$store.getters.toast;
+        }
+    },
     methods: {
-        readFileAsString(event) {
+        resetState() {
             this.filename = '';
+            this.users = [];
+            this.errors = [];
+        },
+        async handleSave() {
+            const response = await this.$store.dispatch('users/registerUsers', { users: this.users });
 
+            console.log(response);
+
+            const users = this.users.filter(
+                user => !response.errors.includes(user.email) && !response.warnings.includes(user.email)
+            );
+            const errors = this.users.filter(user => response.errors.includes(user.email));
+            const warnings = this.users.filter(user => response.warnings.includes(user.email));
+
+            this.$emit('server-response', { users, errors, warnings });
+        },
+        handleFileUpload(event) {
+            this.resetState();
+
+            // Makes sure a file is chosen
             const files = event.target.files;
-            if (files.length === 0) {
-                return this.toast.error('Vennligst velg en fil');
-            }
+            if (files.length === 0) return this.toast.error('Vennligst velg en fil');
+            if (files.length > 1) return this.toast.error('Du kan kun velge en fil');
 
-            let fileName = files[0].name.split('.');
-            if (fileName[fileName.length - 1] !== 'csv') {
-                return this.toast.error('Filen må være en CSV-fil');
-            }
+            // Checks if file is a .csv file
+            const file = files[0];
+            if (!file.name.includes('.csv')) return this.toast.error('Filen må være en CSV-fil');
 
-            // Reads the CSV-file
-            this.filename = files[0].name;
+            // Sets the filename
+            this.filename = file.name;
+
+            // Reads the file
             const reader = new FileReader();
-            let csvString;
-            reader.onload = event => {
-                csvString = event.target.result;
-                const lines = csvString.split('\r\n');
-                this.lines = lines.length - 1;
-                const result = [];
-                const faultyLines = [];
-                const headers = lines[0].split(';');
-                //Dårlig sjekk her. EVT sett delimiter her til ,
-                if (headers.length <= 1) {
-                    this.toast.error('Filen må bruke semicolon (;) som adskiller');
-                }
-                let faulty = false;
+            reader.onload = this.readFile();
+            reader.readAsText(file);
+        },
 
-                for (let i = 1; i < lines.length; i++) {
-                    if (!lines[i]) continue;
-                    const obj = {};
-                    const currentline = lines[i].split(';');
-                    faulty = false;
+        readFile() {
+            return event => {
+                // Checks if file uses accepted deliminators
+                if (!event.target.result.includes(';') && !event.target.result.includes(','))
+                    return this.toast.error('CSV-filen må bruke ; eller , som adskiller');
 
-                    for (let j = 0; j < headers.length; j++) {
-                        if (currentline[j] === '' || (headers[j] === 'email' && !currentline[j].includes('@'))) {
-                            faulty = true;
-                        }
-                        obj[headers[j]] = currentline[j];
-                    }
-                    if (!faulty) {
-                        result.push(obj);
-                    } else {
-                        faultyLines.push(obj);
-                    }
-                }
+                // Loops through each line in the file
+                const lines = event.target.result.split('\n');
+                lines.forEach((line, index) => {
+                    // Ignores empty lines
+                    if (line === '') return;
 
-                this.list = result;
-                this.errorList = faultyLines;
+                    // Removes newlines and carret returns
+                    line = line.replace('/n', '').replace('/r', '');
+
+                    // Creates a user object
+                    let props = line.split(/;|,/);
+
+                    // Checks that all props are provided
+                    props = props.filter(prop => prop.length > 0);
+                    if (props.length < 3) return this.errors.push({ line: ++index });
+                    if (!props[2].includes('@')) return this.errors.push({ line: ++index });
+
+                    const user = {
+                        firstName: props[0],
+                        lastName: props[1],
+                        email: props[2],
+                        organization_id: this.user.organization_id
+                    };
+
+                    return this.users.push(user);
+                });
             };
-            reader.readAsText(files[0]);
         }
     }
 };
 </script>
 
 <style scoped>
-input[type='file'] {
-    display: none;
+form {
+    display: grid;
+    max-width: 350px;
+    grid-gap: 1rem;
+    width: 100%;
 }
 
-.filename {
-    font-weight: 500;
+form * {
+    width: 100%;
+}
+
+input[type='file'] {
+    display: none;
 }
 
 .csv-label {
@@ -109,14 +164,40 @@ input[type='file'] {
     cursor: pointer;
 }
 
-.actions {
-    margin: 1.4rem 0 0;
+.csv-label:hover {
+    background-color: rgb(241, 241, 241);
+}
+
+.info {
+    display: grid;
+    grid-template-areas:
+        'total-users-label  total-users'
+        'total-errors-label total-errors';
+    text-align: left;
+    padding: 0.8rem;
+    background-color: #dfdfdf;
+}
+
+.image {
+    border: 1px solid gray;
 }
 
 .error {
-    font-weight: 500;
-    margin: 2rem 0 0.6rem;
-    font-size: 1.2rem;
-    color: rgb(200, 0, 0);
+    width: 100%;
+    text-align: left;
+    padding: 0.8rem;
+    background-color: rgb(255, 86, 86);
+}
+
+.error * {
+    margin: 0.2rem;
+}
+
+.success * {
+    margin: 0.2rem;
+}
+
+.info * {
+    margin: 0;
 }
 </style>

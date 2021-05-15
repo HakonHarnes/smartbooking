@@ -12,8 +12,12 @@
 
         <base-card class="import-room">
             <h2>Importer rom</h2>
-            <import-rooms />
+            <import-rooms @server-response="setServerResponse" />
         </base-card>
+
+        <server-response :data="errors" type="error" title="Feilmeldinger" />
+        <server-response :data="warnings" type="warning" title="Advarsler" />
+        <server-response :data="rooms" type="success" title="Registrerte rom" />
     </div>
 </template>
 
@@ -21,11 +25,26 @@
 import NewRoomForm from '../forms/rooms/NewRoomForm.vue';
 import NewAreaForm from '../forms/areas/NewAreaForm';
 import ImportRooms from '../rooms/ImportRooms';
+import ServerResponse from '../../components/server/ServerResponse';
 
 export default {
-    components: { ImportRooms, NewRoomForm, NewAreaForm },
+    components: { ImportRooms, NewRoomForm, NewAreaForm, ServerResponse },
     mounted() {
         this.$store.dispatch('buildings/getBuildings');
+    },
+    data() {
+        return {
+            rooms: [],
+            errors: [],
+            warnings: []
+        };
+    },
+    methods: {
+        setServerResponse(payload) {
+            this.rooms = payload.rooms;
+            this.errors = payload.errors;
+            this.warnings = payload.warnings;
+        }
     }
 };
 </script>
