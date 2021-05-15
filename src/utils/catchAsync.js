@@ -6,7 +6,7 @@ export default fn => {
         try {
             return await fn.apply(this, arguments);
         } catch (error) {
-            if (!error.response) toast.error("Can't connect to the server");
+            if (!error.response) toast.error(error);
             else if (error.response.data.error) toast.error(error.response.data.error);
             return error.response;
         }
