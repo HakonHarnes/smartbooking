@@ -15,9 +15,27 @@
             <import-rooms @server-response="setServerResponse" />
         </base-card>
 
-        <server-response :data="errors" type="error" title="Feilmeldinger" />
-        <server-response :data="warnings" type="warning" title="Advarsler" />
-        <server-response :data="rooms" type="success" title="Registrerte rom" />
+        <server-response
+            class="server-response"
+            :data="errors"
+            type="error"
+            title="Feilmeldinger"
+            subtitle="Rom ikke registrert"
+        />
+        <server-response
+            class="server-response"
+            :data="warnings"
+            type="warning"
+            title="Advarsler"
+            subtitle="Rom finnes allerede"
+        />
+        <server-response
+            class="server-response"
+            :data="rooms"
+            type="success"
+            title="Registrerte rom"
+            subtitle="Rom registrert"
+        />
     </div>
 </template>
 
@@ -60,6 +78,10 @@ export default {
 
 .import-room {
     grid-area: import-room;
+}
+
+.server-response {
+    grid-column: 1/3;
 }
 
 @media only screen and (max-width: 700px) {

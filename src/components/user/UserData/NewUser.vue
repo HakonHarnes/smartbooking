@@ -10,9 +10,9 @@
             <import-users @server-response="setServerResponse" />
         </base-card>
 
-        <server-response :data="errors" type="error" title="Feilmeldinger" />
-        <server-response :data="warnings" type="warning" title="Advarsler" />
-        <server-response :data="users" type="success" title="Registrerte brukere" />
+        <server-response :data="errors" type="error" title="Feilmeldinger" subtitle="Bruker ikke registrert" />
+        <server-response :data="warnings" type="warning" title="Advarsler" subtitle="Bruker finnes allerede" />
+        <server-response :data="users" type="success" title="Registrerte brukere" subtitle="Bruker registrert" />
     </div>
 </template>
 
@@ -33,6 +33,7 @@ export default {
     },
     methods: {
         setServerResponse(payload) {
+            console.log(payload);
             this.users = payload.users;
             this.errors = payload.errors;
             this.warnings = payload.warnings;

@@ -56,6 +56,9 @@ export default {
         },
         toast() {
             return this.$store.getters.toast;
+        },
+        buildings() {
+            return this.$store.getters['buildings/buildings'];
         }
     },
     methods: {
@@ -65,17 +68,29 @@ export default {
             this.errors = [];
         },
         async handleSave() {
+            this.rooms = this.rooms.map(room => {
+                const { building_id } = this.buildings.find(
+                    building => building.building_name === room.building.trim()
+                );
+                return {
+                    name: room.room_name,
+                    building: room.building,
+                    size: room.size,
+                    is_active: 1,
+                    building_id,
+                    organization_id: this.user.organization_id
+                };
+            });
+
             const response = await this.$store.dispatch('rooms/addRooms', { rooms: this.rooms });
 
-            console.log(response);
+            const rooms = this.rooms.filter(
+                room => !response.errors.includes(room.name) && !response.warnings.includes(room.name)
+            );
+            const errors = this.rooms.filter(room => response.errors.includes(room.name));
+            const warnings = this.rooms.filter(room => response.warnings.includes(room.name));
 
-            // const users = this.users.filter(
-            //     user => !response.errors.includes(user.email) && !response.warnings.includes(user.email)
-            // );
-            // const errors = this.users.filter(user => response.errors.includes(user.email));
-            // const warnings = this.users.filter(user => response.warnings.includes(user.email));
-
-            // this.$emit('server-response', { users, errors, warnings });
+            this.$emit('server-response', { rooms, errors, warnings });
         },
         handleFileUpload(event) {
             this.resetState();
@@ -119,7 +134,9 @@ export default {
                     if (props.length < 3) return this.errors.push({ line: ++index });
 
                     const room = {
-                        ...props
+                        room_name: props[0],
+                        size: props[1],
+                        building: props[2]
                     };
 
                     return this.rooms.push(room);

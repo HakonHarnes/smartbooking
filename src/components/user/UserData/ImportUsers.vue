@@ -70,8 +70,6 @@ export default {
         async handleSave() {
             const response = await this.$store.dispatch('users/registerUsers', { users: this.users });
 
-            console.log(response);
-
             const users = this.users.filter(
                 user => !response.errors.includes(user.email) && !response.warnings.includes(user.email)
             );

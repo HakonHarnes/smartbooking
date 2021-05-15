@@ -2,10 +2,12 @@
     <base-card v-if="data.length > 0">
         <h2>{{ title }}</h2>
         <ul>
-            <li :class="type" v-for="(user, index) in data" :key="index">
-                <p>Bruker finnes allerede</p>
-                <div>{{ user.firstName }} {{ user.lastName }}</div>
-                <div>{{ user.email }}</div>
+            <li :class="type" v-for="(user, i) in data" :key="i">
+                <p>{{ subtitle }}</p>
+
+                <div class="prop">{{ Object.values(user)[0] }}</div>
+                <div class="prop">{{ Object.values(user)[1] }}</div>
+                <div class="prop">{{ Object.values(user)[2] }}</div>
             </li>
         </ul>
     </base-card>
@@ -13,7 +15,7 @@
 
 <script>
 export default {
-    props: ['data', 'type', 'title']
+    props: ['data', 'type', 'title', 'subtitle']
 };
 </script>
 
@@ -30,7 +32,7 @@ ul {
 li {
     display: grid;
     grid-template-rows: auto 1fr;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     place-items: center center;
     padding: 0.5rem 1rem;
     width: 100%;
@@ -41,11 +43,11 @@ li {
 li p {
     font-weight: 500;
     grid-row: 1;
-    grid-column: 1/3;
+    grid-column: 1/4;
     margin: 0;
 }
 
-li div {
+.prop {
     grid-row: 2;
 }
 .error {
@@ -62,14 +64,17 @@ li div {
 
 @media only screen and (max-width: 500px) {
     li {
-        grid-template-rows: 1fr 1fr 1fr;
+        grid-template-rows: repeat(4, 1fr);
         grid-template-columns: 1fr;
         place-items: center left;
-        height: 4.5rem;
+        height: 6rem;
     }
 
-    li div:last-child {
+    .prop:nth-last-child(2) {
         grid-row: 3;
+    }
+    .prop:nth-last-child(1) {
+        grid-row: 4;
     }
 }
 </style>

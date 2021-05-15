@@ -27,8 +27,9 @@ export default {
     async addRooms({ commit }, payload) {
         commit('setLoading', true, { root: true });
         const { rooms } = payload;
-        await RoomService.createRooms(rooms);
+        const response = await RoomService.createRooms(rooms);
         commit('setLoading', false, { root: true });
+        return response;
     },
     async addRoomAndBuilding({ commit, dispatch, rootState }, payload) {
         commit('setLoading', true, { root: true });
