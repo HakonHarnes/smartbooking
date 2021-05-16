@@ -2,17 +2,17 @@
     <base-modal v-if="showModal">
         <template #body>Er du sikker?</template>
     </base-modal>
-    <div class="header">
-        <h3>Rediger område</h3>
+    <div class="modal-header">
         <base-button class="delete" @click="deleteBuilding" mode="delete" type="button">Slett</base-button>
+        <h2 class="title">Rediger område</h2>
     </div>
     <form @submit.prevent="save">
         <div class="control">
             <label>Navn</label>
             <input required type="text" v-model.trim="building.building_name" />
         </div>
-        <div class="control switches">
-            <label class="marginBottom">{{ activeText }}</label>
+        <div class="switch">
+            <label>{{ activeText }}</label>
             <switches color="blue" @click="toggleActive" :value="!!building.building_is_active"></switches>
         </div>
         <div class="actions">
@@ -79,42 +79,42 @@ form {
     padding: 1rem 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
+}
+
+label {
+    font-weight: 500;
 }
 
 .actions {
-    margin-top: 1rem;
-}
-
-.actions > * {
-    margin: 0 0.2rem;
+    margin-top: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.5rem;
 }
 
 .control {
-    display: flex;
-    flex-direction: column;
+    text-align: left;
+    display: grid;
+    grid-gap: 0.2rem;
     margin: 0.6rem 0;
 }
 
-.marginBottom {
-    margin-bottom: 0.6rem;
-}
-
-input {
-    font-family: inherit;
-    font-size: 1rem;
-    padding: 0.2rem;
-}
-
-.switches {
-    align-items: center;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: #386881;
+.modal-header {
+    display: grid;
+    grid-template-rows: 1.6rem 1fr;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.title {
+    margin: 0;
+}
+
+.switch {
+    background-color: red;
+}
+
+.delete {
+    justify-self: right;
 }
 </style>

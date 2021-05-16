@@ -137,10 +137,14 @@ export default {
             this.searchWord = word;
         },
         filterAccounts(acc) {
-            return (
-                acc.role.includes(this.accountType) &&
-                `${acc.first_name} ${acc.last_name} ${acc.email}`.toLowerCase().includes(this.searchWord)
-            );
+            if (acc.role) {
+                return (
+                    acc.role.includes(this.accountType) &&
+                    `${acc.first_name} ${acc.last_name} ${acc.email}`.toLowerCase().includes(this.searchWord)
+                );
+            }
+
+            return `${acc.first_name} ${acc.last_name} ${acc.email}`.toLowerCase().includes(this.searchWord);
         },
         getRole(role) {
             return roleToNorwegian[role];

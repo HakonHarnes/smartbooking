@@ -57,9 +57,8 @@ export default {
         search() {
             this.error = null;
             this.validateForm();
-            if (this.formValid) {
+            if (this.formValid)
                 this.$emit('find-rooms', this.date.val, this.times.from, this.times.to, this.building_id);
-            }
         },
         validateDate() {
             const now = new Date().setHours(0, 0, 0);

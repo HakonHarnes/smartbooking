@@ -2,7 +2,7 @@
     <ul>
         <li class="description">
             <div class="area">Område</div>
-            <div class="status">Ledig</div>
+            <div class="status">Status</div>
             <div class="edit">Rediger</div>
         </li>
         <li v-for="b in buildings" :key="b.building_id">
@@ -10,7 +10,7 @@
             <base-active-attribute
                 class="status"
                 :active="b.building_is_active === 1"
-                :text="{ true: 'Ja', false: 'Nei' }"
+                :text="{ true: 'Aktiv', false: 'Inaktiv' }"
             ></base-active-attribute>
             <div class="edit" @click="$emit('edit-area', b.building_id)">
                 <base-icon class="icon" name="edit"></base-icon>

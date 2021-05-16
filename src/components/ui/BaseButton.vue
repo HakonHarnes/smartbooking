@@ -114,7 +114,6 @@ a {
     background-color: rgb(207, 63, 63);
     font-size: 0.7rem;
     padding: 0.3rem 0.7rem;
-    box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.2);
 }
 
 .delete:hover:enabled {

@@ -52,6 +52,7 @@ form {
     flex-direction: column;
     align-items: center;
     text-align: center;
+    width: 100%;
 }
 
 .actions {
@@ -60,23 +61,27 @@ form {
 }
 
 .button {
-    margin: 1.6rem 0 0.4rem;
+    margin-top: 1.4rem;
+    width: 100%;
+}
+
+.button * {
+    width: 100%;
 }
 
 .value {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 
 .description {
-    margin-top: 0.4rem;
-    font-weight: 600;
-    color: #555;
+    margin: 1rem 0rem 0.2rem 0rem;
+    font-weight: 500;
     font-size: 0.8rem;
 }
 
 select {
-    width: 8rem;
-    font-size: 1.4rem;
+    width: 6rem;
+    font-size: 1.2rem;
     font-family: inherit;
 }
 </style>

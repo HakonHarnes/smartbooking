@@ -2,10 +2,12 @@
     <customer-reservations v-if="user.role === 'customer'"></customer-reservations>
     <div v-else>
         <base-modal @close="toggleModal" v-if="showModal" title="Slette reservasjon">
-            <template #body>Er du sikker?</template>
+            <template #body> <p>Er du sikker?</p></template>
             <template #footer>
-                <base-button @click="confirmDelete" class="modalButton">Ja</base-button>
-                <base-button @click="toggleModal" mode="outlined">Avbryt</base-button>
+                <div class="modal-buttons">
+                    <base-button @click="confirmDelete">Ja</base-button>
+                    <base-button @click="toggleModal" mode="outlined">Avbryt</base-button>
+                </div>
             </template>
         </base-modal>
         <div class="root">
@@ -93,8 +95,9 @@ ul {
     padding: 0;
 }
 
-.modalButton {
-    margin: 1rem 0;
-    margin-right: 0.5rem;
+.modal-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.5rem;
 }
 </style>

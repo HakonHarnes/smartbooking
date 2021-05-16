@@ -10,6 +10,7 @@
                 ></book-room-form
             ></template>
         </base-modal>
+
         <div class="actions">
             <base-button class="nav-button" :style="previousButton" @click="handleChangePage(-1)"
                 ><base-icon name="arrow_back" size="20px"></base-icon
@@ -18,6 +19,7 @@
                 ><base-icon name="arrow_forward" size="20px"></base-icon
             ></base-button>
         </div>
+
         <div class="calendar">
             <day-item
                 v-for="day in currentDays"
@@ -90,6 +92,7 @@ export default {
                 from,
                 availableTo
             };
+
             this.showModal = true;
         },
         bookRoom(date, from, to) {

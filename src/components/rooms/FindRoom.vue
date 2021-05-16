@@ -1,10 +1,11 @@
 <template>
     <base-modal title="Reserver rom" v-if="showModal" @close="closeModal">
         <template #body><reservation-preview :reservation="newReservation"></reservation-preview></template>
-        <template #footer><base-button @click="bookRoom">Reserver</base-button></template>
+        <template #footer><base-button class="modal-button" @click="bookRoom">Reserver</base-button></template>
     </base-modal>
+
     <div class="container">
-        <find-room-search class="find-rooms" @find-rooms="findRooms"></find-room-search>
+        <find-room-search @find-rooms="findRooms"></find-room-search>
         <base-spinner v-if="loading && buildings.length"></base-spinner>
         <div>
             <template v-if="!loading && results">
@@ -95,5 +96,9 @@ export default {
     display: grid;
     padding-top: 1rem;
     grid-gap: 1rem;
+}
+
+.modal-button {
+    width: 100%;
 }
 </style>

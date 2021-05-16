@@ -11,7 +11,7 @@
             <div class="area">Område</div>
             <div class="room">Rom</div>
             <div class="size">Plasser</div>
-            <div class="status">Ledig</div>
+            <div class="status">Status</div>
             <div class="qr">QR</div>
             <div class="edit">Rediger</div>
         </li>
@@ -23,7 +23,7 @@
             <base-active-attribute
                 class="status"
                 :active="r.is_active === 1"
-                :text="{ true: 'Ja', false: 'Nei' }"
+                :text="{ true: 'Aktiv', false: 'Inaktiv' }"
             ></base-active-attribute>
             <div class="qr" @click="showQr(r)">
                 <img src="../../assets/qr.png" alt="QR-code" class="qr-code" />
