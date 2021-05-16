@@ -28,9 +28,9 @@
 export default {
     props: {
         organization_name: String,
-        organization_number: Number,
+        organization_number: String,
         organization_address: String,
-        postal_code: Number,
+        postal_code: String,
         postal_zone: String
     }
 };

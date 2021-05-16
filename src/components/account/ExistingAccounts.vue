@@ -139,7 +139,7 @@ export default {
         filterAccounts(acc) {
             return (
                 acc.role.includes(this.accountType) &&
-                (acc.first_name.includes(this.searchWord) || acc.last_name.includes(this.searchWord))
+                `${acc.first_name} ${acc.last_name} ${acc.email}`.toLowerCase().includes(this.searchWord)
             );
         },
         getRole(role) {

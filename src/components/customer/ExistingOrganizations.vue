@@ -34,7 +34,7 @@
                                 minlength="9"
                                 maxlength="9"
                                 required
-                                v-model.number="updateValues.organization_number"
+                                v-model="updateValues.organization_number"
                             />
                         </div>
                         <div>
@@ -50,7 +50,7 @@
                             <input
                                 type="text"
                                 required
-                                v-model.number="updateValues.postal_code"
+                                v-model="updateValues.postal_code"
                                 minlength="4"
                                 maxlength="4"
                                 pattern="^[0-9]{4}$"
@@ -90,7 +90,11 @@ export default {
             return this.$store.getters['organizations/organizations'];
         },
         filteredOrganizations() {
-            return this.organizations?.filter(org => org.organization_name.toLowerCase().includes(this.searchWord));
+            return this.organizations?.filter(org =>
+                `${org.organization_name} ${org.contact_name} ${org.organization_address}`
+                    .toLowerCase()
+                    .includes(this.searchWord)
+            );
         },
         toast() {
             return this.$store.getters.toast;

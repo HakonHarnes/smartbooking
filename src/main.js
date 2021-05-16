@@ -3,19 +3,19 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import router from './router.js';
 import store from './store/index.js';
-import Toast, { POSITION } from 'vue-toastification';
 import 'vue-toastification/dist/index.css';
+import Toast, { POSITION } from 'vue-toastification';
 
 import BaseActiveAttribute from './components/ui/BaseActiveAttribute.vue';
+import BaseListDescription from './components/ui/BaseListDescription.vue';
+import BaseTimepicker from './components/ui/BaseTimepicker.vue';
+import BaseSpinner from './components/ui/BaseSpinner.vue';
+import BaseLoading from './components/ui/BaseLoading.vue';
+import BaseSearch from './components/ui/BaseSearch.vue';
 import BaseButton from './components/ui/BaseButton.vue';
+import BaseModal from './components/ui/BaseModal.vue';
 import BaseCard from './components/ui/BaseCard.vue';
 import BaseIcon from './components/ui/BaseIcon.vue';
-import BaseListDescription from './components/ui/BaseListDescription.vue';
-import BaseLoading from './components/ui/BaseLoading.vue';
-import BaseModal from './components/ui/BaseModal.vue';
-import BaseSearch from './components/ui/BaseSearch.vue';
-import BaseSpinner from './components/ui/BaseSpinner.vue';
-import BaseTimepicker from './components/ui/BaseTimepicker.vue';
 import Switches from 'vue-switches';
 
 (async () => {

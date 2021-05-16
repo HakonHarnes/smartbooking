@@ -55,7 +55,10 @@ export default {
         },
         filteredRooms() {
             return this.rooms.filter(room => {
-                return room.room_name.toLowerCase().includes(this.searchKeyword);
+                return (
+                    room.room_name.toLowerCase().includes(this.searchKeyword) ||
+                    room.building_name.toLowerCase().includes(this.searchKeyword)
+                );
             });
         },
         filteredBuildings() {

@@ -2,6 +2,36 @@ import BuildingService from '../../../services/BuildingService';
 import RoomService from '../../../services/RoomService';
 
 export default {
+    async getRoom({ commit }, payload) {
+        commit('setLoading', true, { root: true });
+        const { room_id } = payload;
+        const response = await RoomService.getRoom(room_id);
+
+        commit('setLoading', false, { root: true });
+        return response.data;
+    },
+
+    async getRooms({ commit, rootState }) {
+        commit('setLoading', true, { root: true });
+        const response = await RoomService.getRooms(rootState.auth.user.organization_id);
+
+        const buildings = response.data?.map((room, i, a) => {
+            if (a)
+                return {
+                    building_id: room.building_id,
+                    building_name: room.building_name,
+                    building_is_active: room.building_is_active,
+                    organization_id: room.organization_id
+                };
+        });
+        const uniqueBuildings = [...new Map(buildings.map(b => [b['building_id'], b])).values()];
+
+        commit('setLoading', false, { root: true });
+        commit('buildings/setBuildings', { buildings: uniqueBuildings }, { root: true });
+        commit('setRooms', { rooms: response.data });
+        return response.data;
+    },
+
     async addRoom({ commit, rootState }, payload) {
         commit('setLoading', true, { root: true });
         const { room_name, size, building_id, building_name } = payload;
@@ -24,6 +54,7 @@ export default {
         }
         return false;
     },
+
     async addRooms({ commit }, payload) {
         commit('setLoading', true, { root: true });
         const { rooms } = payload;
@@ -31,6 +62,7 @@ export default {
         commit('setLoading', false, { root: true });
         return response;
     },
+
     async addRoomAndBuilding({ commit, dispatch, rootState }, payload) {
         commit('setLoading', true, { root: true });
         const { room_name, size, building_name } = payload;
@@ -39,6 +71,7 @@ export default {
             dispatch('addRoom', { room_name, size, building_id: data.insertId, building_name });
         }
     },
+
     async findAvailableRooms({ commit, rootState }, payload) {
         commit('setLoading', true, { root: true });
         const { building_id, date, start, end } = payload;
@@ -59,30 +92,7 @@ export default {
         commit('setLoading', false, { root: true });
         return availableRooms;
     },
-    async getRoomsInBuilding(_, payload) {
-        const rooms = RoomService.getRoomsInBuilding(payload);
-        return rooms;
-    },
-    async getRooms({ commit, rootState }) {
-        commit('setLoading', true, { root: true });
-        const response = await RoomService.getRooms(rootState.auth.user.organization_id);
 
-        const buildings = response.data?.map((room, i, a) => {
-            if (a)
-                return {
-                    building_id: room.building_id,
-                    building_name: room.building_name,
-                    building_is_active: room.building_is_active,
-                    organization_id: room.organization_id
-                };
-        });
-        const uniqueBuildings = [...new Map(buildings.map(b => [b['building_id'], b])).values()];
-
-        commit('setLoading', false, { root: true });
-        commit('buildings/setBuildings', { buildings: uniqueBuildings }, { root: true });
-        commit('setRooms', { rooms: response.data });
-        return response.data;
-    },
     async updateRoom({ commit }, payload) {
         commit('setLoading', true, { root: true });
         const { room } = payload;
@@ -92,6 +102,7 @@ export default {
         }
         commit('setLoading', false, { root: true });
     },
+
     async deleteRoom({ commit }, payload) {
         commit('setLoading', true, { root: true });
         const { room_id } = payload;
@@ -100,13 +111,5 @@ export default {
             commit('deleteRoom', room_id);
         }
         commit('setLoading', false, { root: true });
-    },
-    async getRoom({ commit }, payload) {
-        commit('setLoading', true, { root: true });
-        const { room_id } = payload;
-        const response = await RoomService.getRoom(room_id);
-
-        commit('setLoading', false, { root: true });
-        return response.data;
     }
 };

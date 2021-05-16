@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="search">
-        <input type="text" v-model="keyword" placeholder="Søkeord" maxlength="255" />
+        <input type="text" v-model.trim="keyword" placeholder="Søkeord" maxlength="255" />
         <base-button>Søk</base-button>
     </form>
 </template>
@@ -14,7 +14,7 @@ export default {
     },
     methods: {
         search() {
-            this.$emit('search', this.keyword);
+            this.$emit('search', this.keyword.toLowerCase());
         }
     }
 };

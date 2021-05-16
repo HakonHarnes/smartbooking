@@ -13,7 +13,7 @@
                 <div class="status">Status</div>
                 <div class="edit">Rediger</div>
             </li>
-            <li class="content" v-for="u in users" :key="u.user_id">
+            <li class="content" v-for="u in filteredUsers" :key="u.user_id">
                 <div class="name">{{ u.first_name }} {{ u.last_name }}</div>
                 <div class="email">{{ u.email }}</div>
                 <base-active-attribute
@@ -45,7 +45,7 @@ export default {
         },
         filteredUsers() {
             return this.users?.filter(user => {
-                return `${user.first_name} ${user.last_name}`.toLowerCase().includes(this.searchKeyword);
+                return `${user.first_name} ${user.last_name} ${user.email}`.toLowerCase().includes(this.searchKeyword);
             });
         },
         columns() {
