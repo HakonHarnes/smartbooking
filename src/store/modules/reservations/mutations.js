@@ -9,6 +9,5 @@ export default {
     },
     setReservations(state, { reservations }) {
         state.reservations = reservations;
-        console.log(state.reservations);
     }
 };

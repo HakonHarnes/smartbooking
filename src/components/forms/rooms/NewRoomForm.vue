@@ -1,30 +1,14 @@
 <template>
-    <form @submit.prevent="addRoom">
-        <div>
-            <label for="name">Romnavn</label>
-            <input type="text" name="name" v-model.trim="room.room_name" />
-        </div>
-        <div>
-            <label for="size">Antall plasser</label>
-            <input type="number" name="size" v-model.number="room.size" />
-        </div>
-        <div>
-            <label for="building">Tilhørende bygg</label>
-            <select name="building" v-model.trim="room.building_id">
-                <option :value="null">Velg bygg</option>
-                <option value="ny">Ny bygning</option>
-                <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{
-                    b.building_name
-                }}</option>
-            </select>
-        </div>
-        <div v-if="room.building_id === 'ny'">
-            <label for="new">Navn på bygning</label>
-            <input type="text" name="new" v-model.trim="newBuilding" />
-        </div>
-        <div class="actions">
-            <base-button>Legg til rom</base-button>
-        </div>
+    <form @submit.prevent="submitForm">
+        <input type="text" placeholder="Navn" maxlength="255" v-model.trim="room.room_name" required />
+        <input type="number" placeholder="Antall plasser" max="1000" v-model.trim="room.size" required />
+        <select required name="building" v-model.trim="room.building_id">
+            <option :value="null">Velg bygg</option>
+            <option v-for="building in buildings" :key="building.building_id" :value="building.building_id">{{
+                building.building_name
+            }}</option>
+        </select>
+        <base-button class="button">Legg til rom</base-button>
     </form>
 </template>
 
@@ -37,41 +21,41 @@ export default {
                 size: null,
                 building_id: null
             },
-            newBuilding: '',
+            isBuilding: false,
+            building_name: '',
             formIsValid: true
         };
     },
     computed: {
         buildings() {
             return this.$store.getters['buildings/buildings'];
+        },
+        toast() {
+            return this.$store.getters.toast;
         }
     },
     methods: {
-        addRoom() {
+        async submitForm() {
             this.validateForm();
-            if (this.formIsValid && this.newBuilding) {
-                this.$store.dispatch('rooms/addRoomAndBuilding', { ...this.room, building_name: this.newBuilding });
-                this.$router.replace('/rom');
-            } else if (this.formIsValid) {
-                const building_name = this.buildings.find(b => b.building_id === this.room.building_id).building_name;
-                this.$store.dispatch('rooms/addRoom', { ...this.room, building_name });
+
+            const building_name = this.buildings.find(b => b.building_id === this.room.building_id).building_name;
+            if (await this.$store.dispatch('rooms/addRoom', { ...this.room, building_name })) {
+                this.toast.success('Rom opprettet.');
                 this.$router.replace('/rom');
             }
+            this.$router.replace('/rom');
         },
         validateForm() {
             const { room_name, size, building_id } = this.room;
             if (!room_name || room_name.length > 30) {
                 this.formIsValid = false;
-                alert('Ugyldig romnavn');
+                this.toast.warning('Ugyldig romnavn');
             } else if (!size || size <= 0) {
                 this.formIsValid = false;
-                alert('Ugyldig romstørrelse');
+                this.toast.warning('Ugyldig romstørrelse');
             } else if (!building_id) {
                 this.formIsValid = false;
-                alert('Velg et bygg');
-            } else if (building_id === 'ny' && (!this.newBuilding || this.newBuilding.length > 30)) {
-                this.formIsValid = false;
-                alert('Ugyldig navn på bygning');
+                this.toast.warning('Velg et bygg');
             } else {
                 this.formIsValid = true;
             }
@@ -81,34 +65,14 @@ export default {
 </script>
 
 <style scoped>
-input,
-select {
-    font-family: inherit;
-    font-size: 1rem;
+form {
+    display: grid;
+    grid-gap: 0.5rem;
+    max-width: 300px;
+    width: 100%;
 }
 
-form div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1rem;
-    text-align: start;
-}
-
-label {
-    margin-bottom: 0.2rem;
-}
-
-.actions {
-    margin-top: 2rem;
-}
-
-input[type='text'],
-input[type='number'] {
-    text-align: center;
-}
-
-select {
-    padding: 1px 1.4rem;
+.button {
+    margin-top: 0.5rem;
 }
 </style>

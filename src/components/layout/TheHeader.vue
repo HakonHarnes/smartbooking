@@ -1,18 +1,25 @@
 <template>
     <header>
         <nav>
-            <img class="logo" src="../../assets/logo.png" alt="" @click="redirectHome" />
+            <base-logo class="logo" alt="" @click="redirectHome" />
         </nav>
-        <h1 class="title">{{ title }}</h1>
+        <h1 v-if="!mobile" class="title">{{ title }}</h1>
+        <div v-if="!mobile && user" class="user">{{ user.first_name }} {{ user.last_name }}</div>
     </header>
 </template>
 
 <script>
+import BaseLogo from '../ui/BaseLogo';
+
 export default {
+    props: ['mobile'],
+    components: { BaseLogo },
     computed: {
+        buttonMode() {
+            return this.mobile ? 'bottombar' : 'sidebar';
+        },
         title() {
-            const path = this.$route.path;
-            switch (path) {
+            switch (this.$route.path) {
                 case '/':
                     return 'Dashboard';
                 case '/kunder':
@@ -21,7 +28,20 @@ export default {
                 case '/brukere/':
                 case '/brukere/ny':
                     return 'Brukere';
+                case '/kontoer':
+                case '/kontoer/':
+                case '/kontoer/ny':
+                    return 'Kontoer';
+                case '/organisasjoner':
+                case '/organisasjoner/':
+                case '/organisasjoner/ny':
+                    return 'Organisasjoner';
+                case '/finn-rom':
+                case '/finn-rom/velg':
                 case '/rom':
+                case '/rom/':
+                case '/rom/nytt':
+                case '/rom/innstillinger':
                     return 'Rom';
                 case '/reservasjoner':
                     return 'Reservasjoner';
@@ -37,8 +57,8 @@ export default {
                     return 'Dashboard';
             }
         },
-        role() {
-            return this.$store.getters.role;
+        user() {
+            return this.$store.getters['auth/user'];
         }
     },
     methods: {
@@ -52,26 +72,42 @@ export default {
 <style scoped>
 header {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 16em 1fr;
     padding: 0px 2rem;
     width: 100%;
-    height: 5rem;
+    height: 80px;
     align-items: center;
     background-color: #00334e;
     color: white;
+    z-index: 10;
 }
-
 .logo {
     height: 3.2rem;
 }
-
 .logo:hover {
     cursor: pointer;
 }
-
 .title {
     justify-self: center;
     font-size: 1.8rem;
     font-weight: 500;
+}
+
+.user {
+    position: absolute;
+    right: 20px;
+    top: 40px;
+    transform: translateY(-50%);
+}
+
+@media only screen and (max-width: 1000px) {
+    header {
+        grid-template-columns: 1fr;
+        justify-items: center;
+    }
+
+    .logo {
+        transform: translateX(-10px);
+    }
 }
 </style>

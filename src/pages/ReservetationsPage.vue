@@ -1,24 +1,28 @@
 <template>
-    <base-modal @close="toggleModal" v-if="showModal" title="Slette reservasjon">
-        <template #body>Er du sikker?</template>
-        <template #footer>
-            <base-button @click="confirmDelete" class="modalButton">Ja</base-button>
-            <base-button @click="toggleModal" mode="outlined">Avbryt</base-button>
-        </template>
-    </base-modal>
-    <div class="root">
-        <h2>Dine reservasjoner</h2>
-        <base-card>
+    <customer-reservations v-if="user.role === 'customer'"></customer-reservations>
+    <div v-else>
+        <base-modal @close="toggleModal" v-if="showModal" title="Slette reservasjon">
+            <template #body> <p>Er du sikker?</p></template>
+            <template #footer>
+                <div class="modal-buttons">
+                    <base-button @click="confirmDelete">Ja</base-button>
+                    <base-button @click="toggleModal" mode="outlined">Avbryt</base-button>
+                </div>
+            </template>
+        </base-modal>
+        <div class="root">
+            <h2>Dine reservasjoner</h2>
             <base-spinner v-if="loading"></base-spinner>
-            <div v-else-if="!loading && !reservations.length">Fant ingen reservasjoner</div>
+            <div class="empty-response" v-else-if="!loading && !reservations.length">Fant ingen reservasjoner</div>
             <ul v-else-if="!loading && reservations.length">
-                <base-list-description :columns="columns"></base-list-description>
+                <reservation-description action="Slett"></reservation-description>
                 <reservation-list-item
                     v-for="res in reservations"
                     :key="res.res_id"
                     :id="res.res_id"
                     :room_name="res.room_name"
                     :building="res.building_name"
+                    :size="res.size"
                     :date="true"
                     :start="res.start"
                     :end="res.end"
@@ -27,15 +31,17 @@
                     @handle-action="deleteReservation"
                 ></reservation-list-item>
             </ul>
-        </base-card>
+        </div>
     </div>
 </template>
 
 <script>
+import CustomerReservations from '../components/customer/CustomerReservations';
+import ReservationDescription from '../components/reservations/ReservationDescription';
 import ReservationListItem from '../components/reservations/ReservationListItem';
 
 export default {
-    components: { ReservationListItem },
+    components: { ReservationDescription, ReservationListItem, CustomerReservations },
     data() {
         return {
             showModal: false,
@@ -43,20 +49,19 @@ export default {
         };
     },
     computed: {
-        columns() {
-            return ['Rom', 'Bygg', 'Dato', 'Start', 'Slutt', 'Slett'];
-        },
         loading() {
             return this.$store.getters.loading;
         },
         reservations() {
             return this.$store.getters['reservations/reservations'];
+        },
+        user() {
+            return this.$store.getters['auth/user'];
         }
     },
     methods: {
         toggleModal() {
             this.showModal = !this.showModal;
-            console.log(this.reservations);
         },
         deleteReservation(resId) {
             this.resId = resId;
@@ -75,8 +80,8 @@ export default {
 </script>
 
 <style scoped>
-.root {
-    padding: 1.4rem;
+.empty-response {
+    margin-top: 1rem;
 }
 
 h2 {
@@ -86,20 +91,13 @@ h2 {
 
 ul {
     position: relative;
+    list-style: none;
+    padding: 0;
 }
 
-ul::before {
-    height: 1px;
-    width: 100%;
-    top: 1.5rem;
-    left: 0;
-    background-color: rgb(136, 136, 136);
-    content: ' ';
-    position: absolute;
-}
-
-.modalButton {
-    margin: 1rem 0;
-    margin-right: 0.5rem;
+.modal-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.5rem;
 }
 </style>

@@ -1,34 +1,17 @@
 <template>
     <base-spinner v-if="!buildings.length"></base-spinner>
-    <base-card v-else class="card">
-        <form @submit.prevent="search">
-            <div class="form-control">
-                <label>Dato</label>
-                <input type="date" :min="today" v-model="date.val" />
-            </div>
-            <div class="form-control">
-                <label>Fra kl.</label>
-                <input type="time" required v-model="times.from" />
-            </div>
-            <div class="form-control">
-                <label>Til kl.</label>
-                <input type="time" required v-model="times.to" />
-            </div>
-            <div class="form-control">
-                <label>Bygg</label>
-                <select @change="handleBuildingChange">
-                    <option :value="null">Alle bygg</option>
-                    <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{
-                        b.building_name
-                    }}</option>
-                </select>
-            </div>
-            <div class="form-control">
-                <base-button>Søk</base-button>
-            </div>
-        </form>
-        <div class="error">{{ error }}</div>
-    </base-card>
+    <form @submit.prevent="search">
+        <select class="building" @change="handleBuildingChange">
+            <option :value="null">Alle bygg</option>
+            <option v-for="b in buildings" :key="b.building_id" :value="b.building_id">{{ b.building_name }}</option>
+        </select>
+
+        <input class="date" type="date" :min="today" v-model="date.val" />
+        <base-timepicker class="from-time" id="from" @handle-change="handleTimeChange"></base-timepicker>
+        <base-timepicker class="to-time" id="to" @handle-change="handleTimeChange"></base-timepicker>
+
+        <base-button class="button">Søk</base-button>
+    </form>
 </template>
 
 <script>
@@ -56,18 +39,26 @@ export default {
         },
         today() {
             return new Date().toISOString().slice(0, 10);
+        },
+        toast() {
+            return this.$store.getters.toast;
         }
     },
     methods: {
-        handleBuildingChange(e) {
-            this.building_id = e.target.value;
+        handleTimeChange(id, time) {
+            this.times[id] = time;
+        },
+        handleBuildingChange({ target }) {
+            this.building_id = target.value;
+        },
+        async getBuildingPolicy(building_id) {
+            await this.$store.dispatch('policies/getBuildingPolicy', { building_id });
         },
         search() {
             this.error = null;
             this.validateForm();
-            if (this.formValid) {
+            if (this.formValid)
                 this.$emit('find-rooms', this.date.val, this.times.from, this.times.to, this.building_id);
-            }
         },
         validateDate() {
             const now = new Date().setHours(0, 0, 0);
@@ -81,8 +72,11 @@ export default {
             const replaceDot = time => time.replace(':', '');
             const from = replaceDot(this.times.from);
             const to = replaceDot(this.times.to);
-            if (to - from <= 0) {
-                this.error = '"FRA KL." må være før "TIL KL."';
+            if (!from || !to) {
+                this.toast.warning('Vennligst sjekk at tidene er utfylt.');
+                return (this.times.valid = false);
+            } else if (to - from <= 0) {
+                this.toast.warning('Fra kl. må være før til kl.');
                 return (this.times.valid = false);
             }
             this.times.valid = true;
@@ -101,53 +95,62 @@ export default {
 </script>
 
 <style scoped>
-.card {
-    margin: 2rem 0 1rem;
-    width: min-content;
-}
-
-.error {
-    margin-top: 1rem;
-    font-size: 0.9rem;
-    font-weight: 600;
-    color: rgba(182, 23, 23, 0.933);
-}
-
 form {
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    display: grid;
+    grid-template-areas: 'building date from-time to-time button';
+    grid-template-columns: 1fr 1fr auto auto auto;
+    grid-gap: 0.5rem;
+    max-width: 700px;
 }
 
-form div {
-    display: flex;
-    flex-direction: column;
-    align-items: start;
+.building {
+    grid-area: building;
 }
 
-select,
-input[type='date'],
-input[type='time'] {
-    padding: 0.3rem 0.2rem;
-    font-family: inherit;
-    font-size: 0.9rem;
+.date {
+    grid-area: date;
 }
 
-select {
-    min-width: 10rem;
+.from-time {
+    grid-area: from-time;
 }
 
-label {
-    text-transform: uppercase;
-    font-size: 1rem;
-    font-weight: 500;
-    margin-bottom: 0.3rem;
-}
-.form-control {
-    margin: 0 1rem;
+.to-time {
+    grid-area: to-time;
 }
 
-input[type='time']:nth-child(3n) {
-    display: none;
+.button {
+    grid-area: button;
+}
+
+@media only screen and (max-width: 700px) {
+    form {
+        grid-template-areas:
+            'building   building    building    building'
+            'date       date        from-time   to-time'
+            'button     button      button      button';
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr;
+    }
+
+    form * {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 450px) {
+    form {
+        grid-template-areas:
+            'building   building'
+            'date       date'
+            'from-time   to-time'
+            'button     button';
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr 1fr 1fr;
+    }
+
+    form * {
+        width: 100%;
+    }
 }
 </style>

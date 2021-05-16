@@ -1,48 +1,55 @@
 <template>
-    <div class="switch">
-        <div>Manuelt</div>
-        <switches color="blue" @click="toggleTab" :value="enabled"></switches>
-        <div>Importer fra fil</div>
+    <div class="container">
+        <base-card>
+            <h2>Ny bruker</h2>
+            <new-user-form />
+        </base-card>
+
+        <base-card>
+            <h2>Importer brukere</h2>
+            <import-users @server-response="setServerResponse" />
+        </base-card>
+
+        <server-response :data="errors" type="error" title="Feilmeldinger" subtitle="Bruker ikke registrert" />
+        <server-response :data="warnings" type="warning" title="Advarsler" subtitle="Bruker finnes allerede" />
+        <server-response :data="users" type="success" title="Registrerte brukere" subtitle="Bruker registrert" />
     </div>
-    <base-card>
-        <keep-alive>
-            <component :is="currentTab"></component>
-        </keep-alive>
-    </base-card>
 </template>
 
 <script>
 import NewUserForm from '../../forms/users/NewUserForm.vue';
+import BaseCard from '../../ui/BaseCard.vue';
 import ImportUsers from './ImportUsers.vue';
+import ServerResponse from '../../../components/server/ServerResponse';
 
 export default {
-    components: { ImportUsers, NewUserForm },
+    components: { ImportUsers, NewUserForm, BaseCard, ServerResponse },
     data() {
         return {
-            enabled: false
+            users: [],
+            errors: [],
+            warnings: []
         };
     },
     methods: {
-        toggleTab() {
-            this.enabled = !this.enabled;
-        }
-    },
-    computed: {
-        currentTab() {
-            return this.enabled ? ImportUsers : NewUserForm;
+        setServerResponse(payload) {
+            this.users = payload.users;
+            this.errors = payload.errors;
+            this.warnings = payload.warnings;
         }
     }
 };
 </script>
 
 <style scoped>
-.switch {
-    display: flex;
-    margin: 1.4rem 0;
+.container {
+    display: grid;
+    grid-gap: 1rem;
 }
 
-.switch div {
-    font-size: 0.9rem;
-    margin: 0 1rem;
+@media only screen and (max-width: 780px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
 }
 </style>

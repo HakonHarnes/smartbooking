@@ -1,6 +1,6 @@
 <template>
     <form @submit.prevent="search">
-        <input type="text" v-model="keyword" placeholder="Søkeord" />
+        <input type="text" v-model.trim="keyword" placeholder="Søkeord" maxlength="255" />
         <base-button>Søk</base-button>
     </form>
 </template>
@@ -14,7 +14,7 @@ export default {
     },
     methods: {
         search() {
-            this.$emit('search', this.keyword);
+            this.$emit('search', this.keyword.toLowerCase());
         }
     }
 };
@@ -22,13 +22,21 @@ export default {
 
 <style scoped>
 form {
-    display: flex;
-    margin: 2rem 0 1.4rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-gap: 0.5rem;
+    max-width: 350px;
+    width: 100%;
 }
 
 input[type='text'] {
-    margin-right: 0.6rem;
-    padding: 0 1rem;
-    font-family: 'Montserrat';
+    width: 100%;
+}
+
+@media only screen and (max-width: 400px) {
+    form {
+        grid-template-columns: 1fr;
+        grid-auto-rows: 1fr 1fr;
+    }
 }
 </style>

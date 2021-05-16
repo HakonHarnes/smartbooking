@@ -1,13 +1,17 @@
 import ReservationService from '../../../services/ReservationService';
+import { getDateString, getTime } from '../../../components/utils';
 
 export default {
     async createReservation({ commit, rootState }, payload) {
         commit('setLoading', true, { root: true });
-        await ReservationService.createReservation({
+        const { user_id, organization_id } = rootState.auth.user;
+        const response = await ReservationService.createReservation({
             ...payload.reservation,
-            user_id: rootState.authentication.user_id
+            user_id,
+            organization_id
         });
         commit('setLoading', false, { root: true });
+        return !response.data?.error;
     },
     async deleteReservation({ commit, dispatch }, payload) {
         commit('setLoading', true, { root: true });
@@ -16,11 +20,8 @@ export default {
     },
     async getReservationsByRoom({ commit }, payload) {
         commit('setLoading', true, { root: true });
-        const response = await ReservationService.getReservationsByRoomAndTime(
-            payload.room_id,
-            '2021-04-10T08:00:00.000Z',
-            '2021-04-17T08:00:00.000Z'
-        );
+        const { room_id, from, to } = payload;
+        const response = await ReservationService.getReservationsByRoomAndTime(room_id, from, to);
         const reservations = response.data?.map(res => {
             return {
                 ...res,
@@ -33,7 +34,8 @@ export default {
     },
     async getMyReservations({ commit, rootState }) {
         commit('setLoading', true, { root: true });
-        const { user_id } = rootState.authentication;
+
+        const { user_id } = rootState.auth.user;
         const response = await ReservationService.getReservationsByUserId(user_id);
 
         const reservations = response.data?.map(res => {
@@ -43,9 +45,27 @@ export default {
                 end: new Date(res.end)
             };
         });
+
         if (reservations) {
             commit('setReservations', { reservations });
         }
         commit('setLoading', false, { root: true });
+    },
+    async getReservationsAndUsers({ commit, rootState }) {
+        commit('setLoading', true, { root: true });
+
+        const response = await ReservationService.getReservationsAndUsers(rootState.auth.user.organization_id);
+
+        const reservations = response.data?.map(res => {
+            return {
+                ...res,
+                start: getTime(new Date(res.start)),
+                end: getTime(new Date(res.end)),
+                date: getDateString(new Date(res.start))
+            };
+        });
+
+        commit('setLoading', false, { root: true });
+        return reservations;
     }
 };

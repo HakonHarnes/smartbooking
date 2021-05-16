@@ -3,54 +3,53 @@
         <section>
             <img src="../assets/logo.png" alt="" class="logo" />
             <h1 class="title">Sett passord</h1>
-            <password-form @submit-form="setPassword" button-text="Sett passord" :user="user"></password-form>
+            <password-form @submit-form="resetPassword" button-text="Sett passord" :user="user"></password-form>
         </section>
     </div>
 </template>
 
 <script>
-import PasswordForm from '../components/forms/users/PasswordForm.vue';
-import userService from '../services/UserService';
+import PasswordForm from '../components/forms/password/PasswordForm.vue';
+import jwt_decode from 'jwt-decode';
 
 export default {
     components: {
         PasswordForm
     },
+    mounted() {
+        if (!this.user) {
+            this.toast.error('Ugyldig reset-link. Vennligst be om nytt passord på nytt.');
+            this.$router.push('/login');
+        }
+    },
+    computed: {
+        user() {
+            const resetToken = this.$route.params.token;
+            try {
+                return jwt_decode(resetToken);
+            } catch (error) {
+                return null;
+            }
+        }
+    },
     data() {
         return {
-            user: '',
             toast: this.$store.getters.toast
         };
     },
     methods: {
-        async setPassword(data) {
-            const token = this.$route.params.token;
-            const response = await userService.resetPassword(data.password, token);
-
-            // Displays error if there is one
-            if (response.error) {
-                return this.toast.error(response.error);
-            }
-
-            this.toast.success('Passordet ble endret!');
-            this.$router.push('/login');
-        }
-    },
-
-    // Gets user from token
-    async beforeCreate() {
-        const token = this.$route.params.token;
-        console.log('running');
-
-        const response = await userService.getUserFromResetToken(token);
-        if (!response.data) {
-            this.toast.error('Tilbakestillingslenken er ugyldig. Vennligst be om nytt passord og prøv på nytt.', {
-                timeout: false
+        async resetPassword(data) {
+            const resetToken = this.$route.params.token;
+            const response = await this.$store.dispatch('auth/resetPassword', {
+                newPassword: data.password,
+                resetToken
             });
-            return this.$router.push('/glemt-passord');
-        }
 
-        this.user = response.data.data;
+            if (response.status == '200') {
+                this.toast.success('Passordet ble endret!');
+                this.$router.push('/login');
+            }
+        }
     }
 };
 </script>
@@ -62,6 +61,7 @@ export default {
     background-color: #00334e;
     width: 100vw;
     height: 100vh;
+    margin: 0;
 }
 
 a {

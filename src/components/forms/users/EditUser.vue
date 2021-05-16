@@ -2,25 +2,26 @@
     <base-modal v-if="showModal">
         <template #body>Er du sikker?</template>
     </base-modal>
-    <div class="header">
-        <h3>Rediger bruker</h3>
+
+    <div class="modal-header">
         <base-button class="delete" @click="deleteUser" mode="delete" type="button">Slett</base-button>
+        <h2 class="title">Rediger bruker</h2>
     </div>
     <form @submit.prevent="save">
         <div class="control">
             <label>Fornavn</label>
-            <input type="text" v-model.trim="user.first_name" />
+            <input type="text" v-model.trim="user.first_name" maxlength="255" />
         </div>
         <div class="control">
             <label>Etternavn</label>
-            <input type="text" v-model.trim="user.last_name" />
+            <input type="text" v-model.trim="user.last_name" maxlength="255" />
         </div>
         <div class="control">
             <label>E-post</label>
-            <input type="email" v-model.trim="user.email" />
+            <input type="email" v-model.trim="user.email" maxlength="255" />
         </div>
-        <div class="control">
-            <label class="marginBottom">{{ activeText }}</label>
+        <div class="switch">
+            <label>{{ activeText }}</label>
             <switches color="blue" @click="toggleActive" :value="!!user.is_active"></switches>
         </div>
         <div class="actions">
@@ -53,7 +54,6 @@ export default {
             this.$store.dispatch('users/updateUser', { user: { user_id: this.user_id, ...this.user } });
         },
         toggleActive() {
-            console.log(this.user.is_active);
             this.user.is_active = this.user.is_active ? 0 : 1;
         },
         async deleteUser() {
@@ -84,38 +84,46 @@ form {
     padding: 1rem 0;
     display: flex;
     flex-direction: column;
-    align-items: center;
+}
+
+label {
+    font-weight: 500;
 }
 
 .actions {
-    margin-top: 1rem;
-}
-
-.actions > * {
-    margin: 0 0.2rem;
+    margin-top: 0.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.5rem;
 }
 
 .control {
-    display: flex;
-    flex-direction: column;
+    text-align: left;
+    display: grid;
+    grid-gap: 0.2rem;
     margin: 0.6rem 0;
 }
 
-.marginBottom {
-    margin-bottom: 0.6rem;
-}
-
-input {
-    font-family: inherit;
-    font-size: 1rem;
-    padding: 0.2rem;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    color: #386881;
+.modal-header {
+    display: grid;
+    grid-template-rows: 1.6rem 1fr;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding-bottom: 0.5rem;
+}
+
+.title {
+    margin: 0;
+}
+
+.switch {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 1rem;
+    place-items: center left;
+    margin: 0.6rem 0;
+}
+
+.delete {
+    justify-self: right;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-    <div class="root">
+    <div class="wrapper">
         <base-modal @close="closeModal" v-if="showModal" title="Reserver rom">
             <template #body
                 ><book-room-form
@@ -10,19 +10,23 @@
                 ></book-room-form
             ></template>
         </base-modal>
+
         <div class="actions">
-            <base-button :style="previousButton" @click="handleChangePage(-1)"
+            <base-button class="nav-button" :style="previousButton" @click="handleChangePage(-1)"
                 ><base-icon name="arrow_back" size="20px"></base-icon
             ></base-button>
-            <base-button :style="nextButton" @click="handleChangePage(1)"
+            <base-button class="nav-button" :style="nextButton" @click="handleChangePage(1)"
                 ><base-icon name="arrow_forward" size="20px"></base-icon
             ></base-button>
         </div>
+
         <div class="calendar">
             <day-item
                 v-for="day in currentDays"
                 :key="day"
                 :date="day.date"
+                :opens="buildingPolicy[`start_${day.weekday}`]"
+                :closes="buildingPolicy[`end_${day.weekday}`]"
                 :reservations="day.reservations"
                 :start-time="startTime"
                 :end-time="endTime"
@@ -40,8 +44,15 @@ export default {
     components: { BookRoomForm, DayItem },
     emits: ['book-room'],
     props: {
+        bookableTimes: Object,
+        buildingPolicy: Object,
         days: Array,
         perPage: Number
+    },
+    watch: {
+        perPage(val) {
+            this.currentDays = this.days.slice(0, val);
+        }
     },
     data() {
         return {
@@ -53,8 +64,8 @@ export default {
                 from: null,
                 availableTo: null
             },
-            startTime: new Date('2021-04-17T06:00:00.000Z'),
-            endTime: new Date('2021-04-17T14:00:00.000Z')
+            startTime: new Date(new Date(`2021-04-17T${this.bookableTimes.min}:00.000Z`) - 7.2e6),
+            endTime: new Date(new Date(`2021-04-17T${this.bookableTimes.max}:00.000Z`) - 7.2e6)
         };
     },
     computed: {
@@ -81,6 +92,7 @@ export default {
                 from,
                 availableTo
             };
+
             this.showModal = true;
         },
         bookRoom(date, from, to) {
@@ -91,14 +103,16 @@ export default {
             this.newBooking = { date: null, from: null, to: null };
             this.showModal = false;
         }
-    },
-    created() {
-        console.log(this.days.slice(0, this.perPage));
     }
 };
 </script>
 
 <style scoped>
+.nav-button {
+    padding: 0.4rem 1.2rem;
+    width: 80px;
+}
+
 .actions {
     display: flex;
     justify-content: space-between;
@@ -109,9 +123,5 @@ export default {
     display: grid;
     grid-gap: 0.2rem;
     grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
-}
-
-.tab {
-    background-color: lawngreen;
 }
 </style>

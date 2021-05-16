@@ -2,35 +2,30 @@
     <div class="container">
         <section>
             <h1 class="title">Bekreftelseskode</h1>
-            <input @input="checkInput" class="input" type="number" v-model="token" />
+            <one-time-password-form :length="6" @submit-form="verifyToken"></one-time-password-form>
         </section>
     </div>
 </template>
 
 <script>
-import userService from '../services/UserService';
+import oneTimePasswordForm from '../components/forms/password/OneTimePasswordForm';
 
 export default {
+    components: {
+        oneTimePasswordForm
+    },
     data() {
         return {
-            token: null,
             toast: this.$store.getters.toast
         };
     },
     methods: {
-        async checkInput() {
-            if (this.token.length === 6) {
-                const response = await userService.verifyVerificationToken(this.token);
+        async verifyToken(data) {
+            // Verifies the verification code
+            await this.$store.dispatch('auth/verify', data);
 
-                if (response.error) {
-                    return this.toast.error(response.error);
-                }
-
-                // Forwards the user to the home page
-                this.$store.dispatch('login', { role: response.data.data.role });
-                this.toast.clear();
-                this.$router.push('/');
-            }
+            // Redirects the user
+            if (this.$store.getters['auth/accessToken']) return this.$router.push('/');
         }
     }
 };
@@ -43,6 +38,7 @@ export default {
     background-color: #00334e;
     width: 100vw;
     height: 100vh;
+    margin: 0;
 }
 
 section {
@@ -50,8 +46,7 @@ section {
     grid-template-areas:
         'title'
         'input';
-    max-width: 300px;
-    margin: 60px;
+    margin: 10px;
     gap: 0.5rem;
     place-items: center center;
     color: white;
@@ -62,9 +57,9 @@ section {
     font-weight: 400;
 }
 
-.input {
-    grid-area: input;
-    text-align: center;
-    font-size: 2rem;
+@media only screen and (max-width: 330px) {
+    .title {
+        font-size: 1.2rem;
+    }
 }
 </style>

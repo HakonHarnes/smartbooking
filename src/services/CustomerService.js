@@ -2,8 +2,8 @@ import axios from './axios';
 import catchAsync from '../utils/catchAsync';
 
 class CustomerService {
-    getById = catchAsync(async id => {
-        const response = await axios.get('/customers/' + id);
+    getCustomer = catchAsync(async id => {
+        const response = await axios.get(`/customers/${id}`);
         return response.data;
     });
 

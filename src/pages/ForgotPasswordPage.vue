@@ -1,7 +1,7 @@
 <template>
     <div class="container">
         <section>
-            <img src="../assets/logo.png" alt="" class="logo" />
+            <base-logo class="logo" />
             <h1 class="title">Glemt passord</h1>
             <forgot-password-form @submit-form="forgotPassword"></forgot-password-form>
         </section>
@@ -9,37 +9,26 @@
 </template>
 
 <script>
-import ForgotPasswordForm from '../components/forms/users/ForgotPasswordForm.vue';
-import userService from '../services/UserService';
+import ForgotPasswordForm from '../components/forms/password/ForgotPasswordForm.vue';
+import BaseLogo from '../components/ui/BaseLogo';
 
 export default {
     components: {
-        ForgotPasswordForm
+        ForgotPasswordForm,
+        BaseLogo
     },
     computed: {
-        role() {
-            return this.$store.getters.role;
+        toast() {
+            return this.$store.getters.toast;
         }
     },
-    data() {
-        return {
-            toast: this.$store.getters.toast
-        };
-    },
     methods: {
-        forgotPassword(data) {
-            this.toast.clear();
+        async forgotPassword(data) {
             this.toast.info('Dersom det er en konto knyttet til denne epost-adressen, er tilbakestillingslenke sendt.');
+            this.$store.dispatch('auth/forgotPassword', data);
 
-            // Attempts to log in the user
-            const response = userService.forgotPassword(data.email);
-
-            // Displays error if there is one
-            if (response.error) {
-                return this.toast.error(response.error);
-            }
-
-            // Forwards the user to the login page
+            // Redirects to the login page
+            await new Promise(r => setTimeout(r, 5000));
             this.$router.push('/login');
         }
     }
@@ -53,10 +42,11 @@ export default {
     background-color: #00334e;
     width: 100vw;
     height: 100vh;
+    margin: 0;
 }
 
-img {
-    width: 100%;
+.logo {
+    width: 95%;
 }
 
 a {

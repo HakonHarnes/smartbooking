@@ -1,8 +1,9 @@
 <template>
     <div class="root">
         <div class="actions">
-            <base-button link to="/rom/">Eksisterende rom</base-button>
-            <base-button link to="/rom/nytt">Nytt rom</base-button>
+            <base-button link to="/rom/">Eksisterende arealer</base-button>
+            <base-button link to="/rom/nytt">Nytt areal</base-button>
+            <base-button link to="/rom/innstillinger">Innstillinger</base-button>
         </div>
         <router-view></router-view>
     </div>
@@ -12,6 +13,7 @@
 export default {
     created() {
         this.$store.dispatch('rooms/getRooms');
+        this.$store.dispatch('buildings/getBuildings');
     }
 };
 </script>
@@ -24,12 +26,10 @@ export default {
 .actions a {
     margin-right: 0.6rem;
     position: relative;
-    transition: all 0.3s;
     background-color: rgb(156, 156, 156);
 }
 
 .router-link-exact-active {
-    transition: all 0.8s ease;
     background-color: #386881 !important;
 }
 
@@ -42,10 +42,16 @@ export default {
     width: 100%;
     background-color: #386881;
     content: '';
-    transition: all 0.8s ease;
 }
 
-.root {
-    padding: 1.4rem;
+@media only screen and (max-width: 550px) {
+    .actions {
+        display: grid;
+        grid-gap: 0.6rem;
+    }
+
+    .actions a {
+        margin: 0;
+    }
 }
 </style>

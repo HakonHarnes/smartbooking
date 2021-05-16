@@ -55,33 +55,51 @@ class UserService {
         return response.data;
     });
 
-    getUsersByCustomer = catchAsync(async id => {
-        const response = await axios.get(`/users?customer_id=${id}`);
+    getAccounts = catchAsync(async () => {
+        const response = await axios.get('/users');
         return response.data;
     });
 
-    updateUser = catchAsync(async user => {
-        const response = await axios.put(`/users/${user.user_id}`, {
-            firstName: user.first_name,
-            lastName: user.last_name,
-            email: user.email,
-            isActive: user.is_active
+    getUsersByOrganization = catchAsync(async id => {
+        const response = await axios.get(`/users?organization_id=${id}`);
+        return response.data;
+    });
+
+    updateUser = catchAsync(async ({ first_name, last_name, email, is_active, user_id }) => {
+        const response = await axios.put(`/users/${user_id}`, {
+            firstName: first_name,
+            lastName: last_name,
+            email,
+            isActive: is_active
         });
         return response.data;
     });
 
-    register = catchAsync(async (email, password, firstName, lastName, isActive, role) => {
-        const user = { email, password, firstName, lastName, isActive, role };
-
-        const response = await axios.post('/users', {
-            data: user
+    register = catchAsync(async ({ first_name, last_name, email, role = 'user', organization_id }) => {
+        const response = await axios.post(`/register-${role}`, {
+            data: {
+                firstName: first_name,
+                lastName: last_name,
+                email,
+                organization_id
+            }
         });
 
-        return response;
+        return response.data;
+    });
+
+    registerUsers = catchAsync(async users => {
+        const response = await axios.post('/register-user', {
+            data: {
+                users
+            }
+        });
+
+        return response.data;
     });
 
     forgotPassword = catchAsync(async email => {
-        const response = await axios.post('/users/forgotPassword', {
+        const response = await axios.post('/forgotPassword', {
             data: { email }
         });
 
@@ -89,7 +107,7 @@ class UserService {
     });
 
     resetPassword = catchAsync(async (password, token) => {
-        const response = await axios.patch(`/users/resetPassword/${token}`, {
+        const response = await axios.patch(`/resetPassword/${token}`, {
             data: { password }
         });
 

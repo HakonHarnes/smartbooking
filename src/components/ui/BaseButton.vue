@@ -1,5 +1,5 @@
 <template>
-    <button v-if="!link" :class="mode" :type="type">
+    <button :disabled="disabled" v-if="!link" :class="mode" :type="type">
         <slot></slot>
     </button>
     <router-link v-else :to="to" :class="mode">
@@ -28,6 +28,10 @@ export default {
         type: {
             type: String,
             required: false
+        },
+        disabled: {
+            type: Boolean,
+            required: false
         }
     }
 };
@@ -38,6 +42,7 @@ button,
 a {
     text-decoration: none;
     padding: 0.7rem 1.5rem;
+    font-size: 1rem;
     border: 0px;
     font: inherit;
     background-color: #386881;
@@ -48,9 +53,14 @@ a {
     border: 1px solid transparent;
 }
 
+button:disabled {
+    background-color: #bbb;
+    cursor: not-allowed;
+}
+
 a:hover,
 a:active,
-button:hover,
+button:hover:enabled,
 button:active {
     background-color: #5588a3;
     color: white;
@@ -76,13 +86,27 @@ a {
     color: white;
 }
 
+.bottombar {
+    display: grid;
+    justify-content: center;
+    background-color: transparent;
+    width: 100%;
+    color: black;
+}
+
+.bottombar:active,
+.bottombar.router-link-active {
+    background-color: #386881;
+    color: white;
+}
+
 .outlined {
     background-color: transparent;
     border: 1px solid #386881;
     color: #222;
 }
 
-.outlined:hover {
+.outlined:hover:enabled {
     background-color: #222;
 }
 
@@ -90,10 +114,9 @@ a {
     background-color: rgb(207, 63, 63);
     font-size: 0.7rem;
     padding: 0.3rem 0.7rem;
-    box-shadow: 1px 3px 4px rgba(0, 0, 0, 0.2);
 }
 
-.delete:hover {
+.delete:hover:enabled {
     background-color: rgb(155, 22, 22);
 }
 </style>

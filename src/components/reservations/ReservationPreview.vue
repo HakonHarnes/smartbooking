@@ -46,17 +46,16 @@ export default {
 }
 
 .item {
-    margin: 1rem 0;
+    margin: 1.2rem 0;
 }
 
 .attribute {
     text-transform: uppercase;
-    font-weight: 500;
-    color: #777;
-    font-size: 0.9rem;
+    font-size: 0.8rem;
+    margin-bottom: 0.2rem;
 }
 
 .value {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
 }
 </style>

@@ -3,7 +3,7 @@
         <div class="modal">
             <header v-if="title">
                 <slot name="header">
-                    <h3>{{ title }}</h3>
+                    <h2>{{ title }}</h2>
                 </slot>
             </header>
             <section>
@@ -36,7 +36,7 @@ export default {
     top: 0;
     left: 0;
     background-color: rgba(0, 0, 0, 0.3);
-    z-index: 2;
+    z-index: 11;
     width: 100%;
     height: 100vh;
     display: flex;
@@ -45,29 +45,36 @@ export default {
 }
 
 .modal {
-    padding: 0.2rem 1.6rem 1rem;
     overflow: hidden;
     box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
     background-color: #fff;
     display: flex;
     flex-direction: column;
+    max-width: 350px;
+    width: 100%;
+    margin: 0.5rem;
+    padding: 1rem;
 }
 
 header {
+    display: grid;
+    place-items: center center;
     border-bottom: 1px solid #eeeeee;
-    color: #386881;
-    justify-content: space-between;
+    padding-bottom: 1rem;
+}
+
+h2 {
+    margin: 0;
 }
 
 footer {
     border-top: 1px solid #eeeeee;
-    justify-content: flex-end;
-    align-self: center;
+    place-items: center center;
+    width: 100%;
 }
 
 section {
-    position: relative;
-    padding: 10px;
+    text-align: center;
 }
 
 .close {
