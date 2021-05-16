@@ -33,7 +33,6 @@ export default {
     },
     methods: {
         setServerResponse(payload) {
-            console.log(payload);
             this.users = payload.users;
             this.errors = payload.errors;
             this.warnings = payload.warnings;
