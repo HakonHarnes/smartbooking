@@ -13,7 +13,7 @@
                 room.room_name
             }}</option>
         </select>
-        <base-button class="button">Gå</base-button>
+        <base-button class="button">Søk</base-button>
     </form>
 </template>
 

@@ -20,7 +20,7 @@
             <label>E-post</label>
             <input type="email" v-model.trim="user.email" maxlength="255" />
         </div>
-        <div class="control">
+        <div class="switch">
             <label>{{ activeText }}</label>
             <switches color="blue" @click="toggleActive" :value="!!user.is_active"></switches>
         </div>
@@ -113,6 +113,14 @@ label {
 
 .title {
     margin: 0;
+}
+
+.switch {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 1rem;
+    place-items: center left;
+    margin: 0.6rem 0;
 }
 
 .delete {

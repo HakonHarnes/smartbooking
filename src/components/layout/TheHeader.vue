@@ -36,6 +36,8 @@ export default {
                 case '/organisasjoner/':
                 case '/organisasjoner/ny':
                     return 'Organisasjoner';
+                case '/finn-rom':
+                case '/finn-rom/velg':
                 case '/rom':
                 case '/rom/':
                 case '/rom/nytt':

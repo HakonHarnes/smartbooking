@@ -55,9 +55,6 @@ export default {
         loading() {
             return this.$store.getters.loading;
         },
-        columns() {
-            return ['Rom', 'Bygg', 'Plasser', 'Start', 'Slutt', 'Reserver'];
-        },
         reservations() {
             return this.$store.getters['reservations/reservations'];
         },
