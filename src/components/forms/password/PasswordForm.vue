@@ -111,7 +111,6 @@ form {
     text-align: center;
     gap: 1rem;
     width: 100%;
-    font-size: 1.1rem;
 }
 
 form * {
@@ -127,7 +126,6 @@ input {
     border: none;
     padding: 0.5rem;
     margin: 0;
-    font-size: 1.2rem;
 }
 
 input:focus {
