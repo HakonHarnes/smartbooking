@@ -9,13 +9,13 @@
     <form @submit.prevent="save">
         <div class="control">
             <label>Romnavn</label>
-            <input type="text" v-model.trim="room.room_name" />
+            <input type="text" v-model.trim="room.room_name" maxlength="255" />
         </div>
         <div class="control">
             <label>Plasser</label>
-            <input type="number" v-model.number="room.size" />
+            <input type="number" v-model.number="room.size" max="1000" />
         </div>
-        <div class="control switches">
+        <div class="switch">
             <label>{{ activeText }}</label>
             <switches color="blue" @click="toggleActive" :value="!!room.is_active"></switches>
         </div>
@@ -113,6 +113,14 @@ label {
 
 .title {
     margin: 0;
+}
+
+.switch {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 1rem;
+    place-items: center left;
+    margin: 0.6rem 0;
 }
 
 .delete {

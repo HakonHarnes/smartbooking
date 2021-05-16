@@ -9,7 +9,7 @@
     <form @submit.prevent="save">
         <div class="control">
             <label>Navn</label>
-            <input required type="text" v-model.trim="building.building_name" />
+            <input required type="text" v-model.trim="building.building_name" maxlength="255" />
         </div>
         <div class="switch">
             <label>{{ activeText }}</label>
@@ -111,7 +111,11 @@ label {
 }
 
 .switch {
-    background-color: red;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-gap: 1rem;
+    place-items: center left;
+    margin: 0.6rem 0;
 }
 
 .delete {

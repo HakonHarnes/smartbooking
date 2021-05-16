@@ -10,15 +10,15 @@
     <form @submit.prevent="save">
         <div class="control">
             <label>Fornavn</label>
-            <input type="text" v-model.trim="user.first_name" />
+            <input type="text" v-model.trim="user.first_name" maxlength="255" />
         </div>
         <div class="control">
             <label>Etternavn</label>
-            <input type="text" v-model.trim="user.last_name" />
+            <input type="text" v-model.trim="user.last_name" maxlength="255" />
         </div>
         <div class="control">
             <label>E-post</label>
-            <input type="email" v-model.trim="user.email" />
+            <input type="email" v-model.trim="user.email" maxlength="255" />
         </div>
         <div class="control">
             <label>{{ activeText }}</label>
