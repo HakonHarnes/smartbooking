@@ -4,8 +4,8 @@ import store from '../store';
 
 import router from '../router';
 
-// const url = 'https://smartbooking-api.herokuapp.com';
-const url = 'http://localhost:3000';
+const url = 'https://smartbooking-api.herokuapp.com';
+// const url = 'http://localhost:3000';
 const api = '/api';
 
 const axiosInstance = axios.create({
