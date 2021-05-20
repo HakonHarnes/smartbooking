@@ -31,5 +31,17 @@ export default {
             return true;
         }
         return false;
+    },
+    async deleteBuilding({ commit }, payload) {
+        commit('setLoading', true, { root: true });
+        const { building_id } = payload;
+        const response = await BuildingService.deleteBuilding(building_id);
+        commit('setLoading', false, { root: true });
+        console.log(response);
+        if (response.data) {
+            commit('deleteBuilding', building_id);
+            return true;
+        }
+        return false;
     }
 };

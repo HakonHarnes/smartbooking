@@ -56,7 +56,7 @@ export default {
     },
     methods: {
         showQr(room) {
-            this.qrUrl = `https://localhost:8080/finn-rom/velg?rom=${room.room_id}`;
+            this.qrUrl = `${process.env.VUE_APP_LINK}/finn-rom/velg?rom=${room.room_id}`;
             this.room = { ...room };
             this.showModal = true;
         },

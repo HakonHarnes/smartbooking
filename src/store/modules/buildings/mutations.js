@@ -8,5 +8,9 @@ export default {
     },
     addBuilding(state, building) {
         state.buildings.push(building);
+    },
+    deleteBuilding(state, id) {
+        const index = state.buildings.map(({ building_id }) => building_id).indexOf(id);
+        state.buildings.splice(index, 1);
     }
 };

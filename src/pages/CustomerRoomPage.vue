@@ -11,9 +11,14 @@
 
 <script>
 export default {
+    methods: {
+        async getData() {
+            await this.$store.dispatch('rooms/getRooms');
+            this.$store.dispatch('buildings/getBuildings');
+        }
+    },
     created() {
-        this.$store.dispatch('rooms/getRooms');
-        this.$store.dispatch('buildings/getBuildings');
+        this.getData();
     }
 };
 </script>

@@ -38,34 +38,36 @@ export default {
             }
         };
     },
-    methods: {
-        save() {
-            this.$emit('close-modal');
-            if (this.$store.dispatch('buildings/updateBuilding', { building: this.building })) {
-                this.toast.success('Data ble oppdatert.');
-            }
-        },
-        toggleActive() {
-            this.building.building_is_active = this.building.building_is_active ? 0 : 1;
-        },
-        async deleteBuilding() {
-            if (confirm('Sikker?')) {
-                this.$emit('close-modal');
-                await this.$store.dispatch('buildings/deleteBuilding', { building_id: this.building_id });
-            }
-        },
-        getSelectedBuilding() {
-            if (this.building_id) {
-                this.building = { ...this.$store.getters['buildings/building'](this.building_id) };
-            }
-        }
-    },
     computed: {
         activeText() {
             return this.building.building_is_active ? 'Tilgjengelig' : 'Utilgjengelig';
         },
         toast() {
             return this.$store.getters.toast;
+        }
+    },
+    methods: {
+        async save() {
+            if (await this.$store.dispatch('buildings/updateBuilding', { building: this.building })) {
+                this.toast.success('Data ble oppdatert.');
+            }
+            this.$emit('close-modal');
+        },
+        toggleActive() {
+            this.building.building_is_active = this.building.building_is_active ? 0 : 1;
+        },
+        async deleteBuilding() {
+            if (confirm('Sikker?')) {
+                if (await this.$store.dispatch('buildings/deleteBuilding', { building_id: this.building_id })) {
+                    this.toast.success('Område slettet.');
+                }
+                this.$emit('close-modal');
+            }
+        },
+        getSelectedBuilding() {
+            if (this.building_id) {
+                this.building = { ...this.$store.getters['buildings/building'](this.building_id) };
+            }
         }
     },
     mounted() {

@@ -59,7 +59,9 @@ export const saveQrToPdf = async rooms => {
     p.style.textAlign = 'center';
 
     await rooms.forEach(async room => {
-        const url = await QRcode.toDataURL(`https://localhost:8080/finn-rom/velg?rom=${room.room_id}`, { width: 520 });
+        const url = await QRcode.toDataURL(`${process.env.VUE_APP_LINK}/finn-rom/velg?rom=${room.room_id}`, {
+            width: 520
+        });
         img.src = url;
         p.innerHTML = room.room_name;
         div.appendChild(p);

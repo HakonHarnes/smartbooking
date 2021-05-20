@@ -36,8 +36,8 @@ class BuildingsService {
         return response.data;
     });
 
-    delete = catchAsync(async id => {
-        const response = await axios.delete('/buildings/' + id);
+    deleteBuilding = catchAsync(async id => {
+        const response = await axios.delete(`/buildings/${id}`);
         return response.data;
     });
 }
