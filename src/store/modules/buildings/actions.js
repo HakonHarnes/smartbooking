@@ -37,7 +37,6 @@ export default {
         const { building_id } = payload;
         const response = await BuildingService.deleteBuilding(building_id);
         commit('setLoading', false, { root: true });
-        console.log(response);
         if (response.data) {
             commit('deleteBuilding', building_id);
             commit('rooms/deleteRoomsInBuilding', building_id, { root: true });
