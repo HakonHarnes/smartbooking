@@ -40,6 +40,7 @@ export default {
         console.log(response);
         if (response.data) {
             commit('deleteBuilding', building_id);
+            commit('rooms/deleteRoomsInBuilding', building_id, { root: true });
             return true;
         }
         return false;

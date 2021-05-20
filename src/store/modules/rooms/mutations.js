@@ -12,5 +12,9 @@ export default {
     updateRoom(state, room) {
         const index = state.rooms.map(({ room_id }) => room_id).indexOf(room.room_id);
         state.rooms[index] = { ...room };
+    },
+    deleteRoomsInBuilding(state, id) {
+        const updatedRooms = state.rooms.filter(({ building_id }) => building_id !== id);
+        state.rooms = updatedRooms;
     }
 };
