@@ -64,6 +64,7 @@ export default {
     },
     methods: {
         validatePassword(silent) {
+            console.log(this.user);
             const minPasswordLength = this.user.role === 'user' ? 8 : 12;
 
             // Checks if password is long enough
