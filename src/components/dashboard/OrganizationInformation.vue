@@ -42,7 +42,7 @@ export default {
 }
 
 .column {
-    width: 0 2rem;
+    margin: 0 2rem;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
